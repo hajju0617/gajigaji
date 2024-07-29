@@ -20,6 +20,7 @@ import static com.green.gajigaji.budget.exception.ConstMessage.*;
 @Service
 @RequiredArgsConstructor
 public class BudgetService {
+    private int i;
     private final BudgetMapper mapper;
     private final CustomFileUtils customFileUtils;
     private final CheckMapper checkMapper;
