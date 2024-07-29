@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image with Buttons</title>
+    <style>
+      .container {
+        position: relative;
+        display: inline-block;
+      }
+      .image {
+        display: block;
+        width: 100%;
+        transition: filter 0.3s;
+      }
+      .image.blur {
+        filter: blur(5px);
+      }
+      .buttons {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: none;
+        gap: 10px;
+      }
+      .container:hover .image {
+        filter: blur(5px);
+      }
+      .container:hover .buttons {
+        display: flex;
+      }
+      .button {
+        padding: 10px 20px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <img
+        id="myImage"
+        class="image"
+        src="path/to/your/image.jpg"
+        alt="Example Image"
+      />
+      <div class="buttons">
+        <button class="button" id="button1">Button 1</button>
+        <button class="button" id="button2">Button 2</button>
+      </div>
+    </div>
+  </body>
+</html>

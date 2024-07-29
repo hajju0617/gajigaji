@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.gajigaji.board.BoardMapper">
+
+    <insert id="postBoard" useGeneratedKeys="true" keyProperty="boardSeq">
+        INSERT INTO party_board_master
+        (board_party_seq, board_member_seq, board_title, board_contents)
+        VALUES
+        (#{boardPartySeq}, #{boardMemberSeq}, #{boardTitle}, #{boardContents})
+    </insert>
+
+    <insert id="postBoardPics">
+        INSERT INTO party_board_pic (board_pic_board_seq, board_pic_file, input_dt)
+        VALUES
+        <foreach collection="fileNames" item="fileName" separator=",">
+            (#{boardSeq}, #{fileName}, current_timestamp())
+        </foreach>
+    </insert>
+
+    <update id="patchBoard">
+        UPDATE party_board_master
+        SET board_title = #{boardTitle},
+        board_contents = #{boardContents}
+        WHERE board_seq = #{boardSeq}
+    </update>
+
+    <select id="getFileNamesByBoardSeq">
+        SELECT board_pic_file AS fileName FROM party_board_pic
+        WHERE board_pic_board_seq = #{boardSeq}
+    </select>
+
+    <delete id="deleteBoard">
+        DELETE FROM party_board_master WHERE board_seq = #{boardSeq}
+        AND board_member_seq = #{boardMemberSeq}
+        AND board_party_seq = #{boardPartySeq}
+    </delete>
+
+    <delete id="deleteBoardPics">
+        DELETE FROM party_board_pic WHERE board_pic_board_seq = #{boardSeq}
+        AND board_pic_file = #{fileName}
+    </delete>
+
+    <update id="incrementBoardHit">
+        UPDATE party_board_master
+        SET board_hit = board_hit + 1
+        WHERE board_seq = #{boardSeq}
+        AND board_party_seq = #{boardPartySeq}
+        AND board_member_seq = #{boardMemberSeq}
+    </update>
+
+    <select id="getBoardDetail">
+        SELECT
+        A.board_seq AS boardSeq,
+        A.board_party_seq AS boardPartySeq,
+        A.board_member_seq AS boardMemberSeq,
+        C.user_name AS userName,
+        A.board_title AS boardTitle,
+        A.board_contents AS boardContents,
+        A.board_hit AS boardHit,
+        A.input_dt AS inputDt,
+        A.update_dt AS updateDt
+        FROM party_board_master A
+        INNER JOIN party_member B
+        ON A.board_member_seq = B.member_seq
+        INNER JOIN user_master C
+        ON B.member_user_seq = C.user_seq
+        <where>
+            board_party_seq = #{boardPartySeq}
+        </where>
+        ORDER BY board_seq DESC
+        LIMIT #{startIdx}, #{size}
+    </select>
+
+    <select id="getTotalCount">
+        SELECT COUNT(*) FROM party_board_master
+    </select>
+
+    <select id="getBoard">
+        SELECT
+        A.board_seq AS boardSeq,
+        A.board_party_seq AS boardPartySeq,
+        A.board_member_seq AS boardMemberSeq,
+        C.user_name AS userName,
+        A.board_title AS boardTitle,
+        A.board_contents AS boardContents,
+        A.board_hit AS boardHit,
+        A.input_dt AS inputDt,
+        A.update_dt AS updateDt
+        FROM party_board_master A
+        INNER JOIN party_member B
+        ON A.board_member_seq = B.member_seq
+        INNER JOIN user_master C
+        ON B.member_user_seq = C.user_seq
+        WHERE board_seq = #{boardSeq}
+        AND board_party_seq = #{boardPartySeq}
+        AND board_member_seq = #{boardMemberSeq}
+        ORDER BY board_seq DESC
+    </select>
+
+</mapper>

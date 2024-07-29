@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/header.css" />
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/footer.css" />
+    <style>
+      .metting-inner {
+        width: 100%;
+        display: flex;
+        height: 1000px;
+      }
+      .metting-sidebar-inner {
+        background-color: blue;
+        width: 15%;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        padding: 30px;
+        height: 100%;
+      }
+      .caption-area {
+        background-color: red;
+        width: 85%;
+        height: 100%;
+        padding: 20px;
+        overflow: hidden;
+      }
+      .img-wrap {
+        display: flex;
+        gap: 30px;
+        flex-wrap: wrap;
+        padding-top: 30px;
+        padding-left: 20px;
+      }
+      .img-container {
+        width: 30%;
+        margin-bottom: 25px;
+      }
+      .caption-img {
+        display: block;
+      }
+      .img-text-area {
+        padding: 5px;
+        background-color: white;
+        line-height: 2;
+        /* css 조금 깨져있음  */
+        width: 100%;
+        height: 100%;
+        margin-top: -2px;
+      }
+      .font-size30 {
+        font-size: 30px;
+      }
+      .cut-text {
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .container {
+        position: relative;
+        display: inline-block;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+      }
+      .caption-img {
+        display: block;
+        width: 100%;
+        transition: filter 0.3s;
+      }
+      .caption-img.blur {
+        filter: blur(5px);
+      }
+      .buttons {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: none;
+        gap: 10px;
+      }
+      .container:hover .caption-img {
+        filter: blur(5px);
+      }
+      .container:hover .buttons {
+        display: flex;
+      }
+      .button {
+        padding: 10px 20px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border: none;
+        cursor: pointer;
+      }
+      .button-style {
+        width: 50px;
+        height: 50px;
+      }
+      .buttons-inner{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="header"></header>
+      <main class="main">
+        <div class="main-inner">
+          <div class="metting-inner">
+            <div class="metting-sidebar-inner">
+              <div>
+                <a>내가 속한 모임</a>
+              </div>
+              <div>
+                <a>내가 만든 모임</a>
+              </div>
+            </div>
+            <div class="caption-area">
+              <h1 class="font-size30">모임 리스트</h1>
+              <!-- 스와이퍼 들어올수도 있음. -->
+              <!-- 버튼 관련된건 media쪽에서 줄여야할듯. -->
+              <div class="img-wrap">
+                <div class="img-container">
+                  <div>
+                    <div class="container">
+                      <!-- 얘 맵돌릴때 url 바꿔야함 -->
+                      <img src="../images/meetinga.png"
+                        class="caption-img"
+                      ></img>
+                      <div class="buttons">
+                        <div class="buttons-inner">
+                            <button class="button-style"></button>
+                            <button class="button-style"></button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="img-text-area">
+                        <!-- 얘 맵돌릴때 아이콘 바꿔야함 -->
+                        <div class="cut-text">
+                          🚗(아이콘으로변경)최서윤 님의 모임
+                        </div>
+                        <div class="cut-text">신나는 모임 어쩌구</div>
+                        <div class="cut-text">
+                          7월 7일(일) 18:00 홍대 플레이스오션
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="img-container">
+                  <div>
+                    <div class="container">
+                      <!-- 얘 맵돌릴때 url 바꿔야함 -->
+                      <img src="../images/meetinga.png"
+                        class="caption-img"
+                      ></img>
+                      <div class="buttons">
+                        <div class="buttons-inner">
+                            <button class="button-style"></button>
+                            <button class="button-style"></button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="img-text-area">
+                        <!-- 얘 맵돌릴때 아이콘 바꿔야함 -->
+                        <div class="cut-text">
+                          🚗(아이콘으로변경)최서윤 님의 모임
+                        </div>
+                        <div class="cut-text">신나는 모임 어쩌구</div>
+                        <div class="cut-text">
+                          7월 7일(일) 18:00 홍대 플레이스오션
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="img-container">
+                  <div>
+                    <div class="container">
+                      <!-- 얘 맵돌릴때 url 바꿔야함 -->
+                      <img src="../images/meetinga.png"
+                        class="caption-img"
+                      ></img>
+                      <div class="buttons">
+                        <div class="buttons-inner">
+                            <button class="button-style"></button>
+                            <button class="button-style"></button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="img-text-area">
+                        <!-- 얘 맵돌릴때 아이콘 바꿔야함 -->
+                        <div class="cut-text">
+                          🚗(아이콘으로변경)최서윤 님의 모임
+                        </div>
+                        <div class="cut-text">신나는 모임 어쩌구</div>
+                        <div class="cut-text">
+                          7월 7일(일) 18:00 홍대 플레이스오션
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="img-container">
+                  <div>
+                    <div class="container">
+                      <!-- 얘 맵돌릴때 url 바꿔야함 -->
+                      <img src="../images/meetinga.png"
+                        class="caption-img"
+                      ></img>
+                      <div class="buttons">
+                        <div class="buttons-inner">
+                            <button class="button-style"></button>
+                            <button class="button-style"></button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="img-text-area">
+                        <!-- 얘 맵돌릴때 아이콘 바꿔야함 -->
+                        <div class="cut-text">
+                          🚗(아이콘으로변경)최서윤 님의 모임
+                        </div>
+                        <div class="cut-text">신나는 모임 어쩌구</div>
+                        <div class="cut-text">
+                          7월 7일(일) 18:00 홍대 플레이스오션
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="img-container">
+                  <div>
+                    <div class="container">
+                      <!-- 얘 맵돌릴때 url 바꿔야함 -->
+                      <img src="../images/meetinga.png"
+                        class="caption-img"
+                      ></img>
+                      <div class="buttons">
+                        <div class="buttons-inner">
+                            <button class="button-style"></button>
+                            <button class="button-style"></button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="img-text-area">
+                        <!-- 얘 맵돌릴때 아이콘 바꿔야함 -->
+                        <div class="cut-text">
+                          🚗(아이콘으로변경)최서윤 님의 모임
+                        </div>
+                        <div class="cut-text">신나는 모임 어쩌구</div>
+                        <div class="cut-text">
+                          7월 7일(일) 18:00 홍대 플레이스오션
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="img-container">
+                  <div>
+                    <div class="container">
+                      <!-- 얘 맵돌릴때 url 바꿔야함 -->
+                      <img src="../images/meetinga.png"
+                        class="caption-img"
+                      ></img>
+                      <div class="buttons">
+                        <div class="buttons-inner">
+                            <button class="button-style"></button>
+                            <button class="button-style"></button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="img-text-area">
+                        <!-- 얘 맵돌릴때 아이콘 바꿔야함 -->
+                        <div class="cut-text">
+                          🚗(아이콘으로변경)최서윤 님의 모임
+                        </div>
+                        <div class="cut-text">신나는 모임 어쩌구</div>
+                        <div class="cut-text">
+                          7월 7일(일) 18:00 홍대 플레이스오션
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="img-container">
+                  <div>
+                    <div class="container">
+                      <!-- 얘 맵돌릴때 url 바꿔야함 -->
+                      <img src="../images/meetinga.png"
+                        class="caption-img"
+                      ></img>
+                      <div class="buttons">
+                        <div class="buttons-inner">
+                            <button class="button-style"></button>
+                            <button class="button-style"></button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="img-text-area">
+                        <!-- 얘 맵돌릴때 아이콘 바꿔야함 -->
+                        <div class="cut-text">
+                          🚗(아이콘으로변경)최서윤 님의 모임
+                        </div>
+                        <div class="cut-text">신나는 모임 어쩌구</div>
+                        <div class="cut-text">
+                          7월 7일(일) 18:00 홍대 플레이스오션
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="img-container">
+                  <div>
+                    <div class="container">
+                      <!-- 얘 맵돌릴때 url 바꿔야함 -->
+                      <img src="../images/meetinga.png"
+                        class="caption-img"
+                      ></img>
+                      <div class="buttons">
+                        <div class="buttons-inner">
+                            <button class="button-style"></button>
+                            <button class="button-style"></button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="img-text-area">
+                        <!-- 얘 맵돌릴때 아이콘 바꿔야함 -->
+                        <div class="cut-text">
+                          🚗(아이콘으로변경)최서윤 님의 모임
+                        </div>
+                        <div class="cut-text">신나는 모임 어쩌구</div>
+                        <div class="cut-text">
+                          7월 7일(일) 18:00 홍대 플레이스오션
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="img-container">
+                  <div>
+                    <div class="container">
+                      <!-- 얘 맵돌릴때 url 바꿔야함 -->
+                      <img src="../images/meetinga.png"
+                        class="caption-img"
+                      ></img>
+                      <div class="buttons">
+                        <div class="buttons-inner">
+                            <button class="button-style"></button>
+                            <button class="button-style"></button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="img-text-area">
+                        <!-- 얘 맵돌릴때 아이콘 바꿔야함 -->
+                        <div class="cut-text">
+                          🚗(아이콘으로변경)최서윤 님의 모임
+                        </div>
+                        <div class="cut-text">신나는 모임 어쩌구</div>
+                        <div class="cut-text">
+                          7월 7일(일) 18:00 홍대 플레이스오션
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="img-container">
+                  <div>
+                    <div class="container">
+                      <!-- 얘 맵돌릴때 url 바꿔야함 -->
+                      <img src="../images/meetinga.png"
+                        class="caption-img"
+                      ></img>
+                      <div class="buttons">
+                        <div class="buttons-inner">
+                            <button class="button-style"></button>
+                            <button class="button-style"></button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="img-text-area">
+                        <!-- 얘 맵돌릴때 아이콘 바꿔야함 -->
+                        <div class="cut-text">
+                          🚗(아이콘으로변경)최서윤 님의 모임
+                        </div>
+                        <div class="cut-text">신나는 모임 어쩌구</div>
+                        <div class="cut-text">
+                          7월 7일(일) 18:00 홍대 플레이스오션
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <!-- 이이상은 못불러오는데 아래로 내리면 .... -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <footer class="footer">
+        <div class="footer-inner">
+          <div class="footer-menu">
+            <ul class="footer-menu-list">
+              <li><a href="#">About</a></li>
+              <li><a href="#">소개</a></li>
+              <li><a href="#">등록</a></li>
+              <li><a href="#">추가</a></li>
+            </ul>
+          </div>
+          <div class="footer-description">
+            가까운 지역 가까운 지인, 가지가지
+          </div>
+          <div>ⓒ gazigazi all rights reserved.</div>
+          <p>가지가지 로고</p>
+        </div>
+      </footer>
+    </div>
+    <script>
+      // 마우스 엔터 시 img 태그를 바꿔치기 하는게 제일 편해보임
+      window.addEventListener("mouseenter", () => {});
+    </script>
+  </body>
+</html>

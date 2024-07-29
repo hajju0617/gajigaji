@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>정보 수정 페이지</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/header.css" />
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/footer.css" />
+
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #fff;
+      }
+      .main {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+      .main-inner {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+      .info-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .profile-picture-container {
+        text-align: center;
+        margin-bottom: 15px;
+        position: relative;
+      }
+      .profile-picture {
+        display: block;
+        margin: 0 auto 10px;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+      .create-profile-picture-input {
+        display: none; /* 파일 입력 요소를 숨김 */
+      }
+      .info-container label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        font-size: 12pt;
+      }
+      .info-container input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 12pt;
+      }
+      .info-container .input-group {
+        display: flex;
+        align-items: start;
+        margin-bottom: 0px;
+      }
+      .info-container .input-group input {
+        flex: 1;
+        margin-right: 10px;
+      }
+      .info-container .input-group button {
+        width: auto;
+        padding: 10px;
+        background-color: #919bfa;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        font-size: 12px;
+        cursor: pointer;
+      }
+      .info-container button {
+        width: calc(50% - 80px);
+        padding: 10px;
+        background-color: #919bfa;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        font-size: 12px;
+        cursor: pointer;
+        margin: 5px;
+      }
+      .info-container button:hover {
+        background-color: #7a89f1;
+      }
+      .info-container .button-group {
+        display: flex;
+        justify-content: space-between;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <main class="main">
+        <div class="main-inner">
+          <div class="info-container">
+            <form>
+              <div class="profile-picture-container">
+                <img
+                  src="https://via.placeholder.com/100"
+                  alt="프로필 사진"
+                  class="profile-picture"
+                  id="profilePreview"
+                  onclick="document.getElementById('profilePicture').click();"
+                />
+                <input
+                  type="file"
+                  accept="image/*"
+                  id="profilePicture"
+                  class="create-profile-picture-input"
+                  onchange="previewImage(event)"
+                />
+              </div>
+              <label for="nickname">닉네임</label>
+              <div class="input-group">
+                <input type="text" id="nickname" class="info-i-nick" />
+                <button type="button" class="info-n-button">중복 확인</button>
+              </div>
+              <label for="address">주소</label>
+              <input type="text" id="address" class="info-i-add" />
+              <label for="interests">관심 분야</label>
+              <input type="text" id="interests" class="info-in-intere" />
+              <label for="phone_number">전화번호</label>
+              <input type="text" id="phone_number" class="info-number" />
+              <label for="introduction">자기소개</label>
+              <input type="text" id="introduction" class="info-introd-g" />
+              <div class="button-group">
+                <button type="button" class="info-s-button">저장</button>
+                <button type="button" class="info-e-button">취소</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script>
+      function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function () {
+          const output = document.getElementById("profilePreview");
+          output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+      }
+    </script>
+  </body>
+</html>

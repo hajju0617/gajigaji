@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.gajigaji.common.CheckMapper">
+    <select id="checkPartyLeader">
+        SELECT COALESCE(B.member_role, 0) AS memberRole
+        FROM user_master A
+        LEFT JOIN party_member B ON A.user_seq = B.member_user_seq AND B.member_party_seq = #{partySeq}
+        LEFT JOIN party_master C ON B.member_party_seq = C.party_seq
+        WHERE A.user_seq = #{userSeq}
+    </select>
+    <select id="checkPartySeq">
+        SELECT COUNT(party_seq)
+        FROM party_master
+        WHERE party_seq = #{partySeq}
+    </select>
+    <select id="checkUserSeq">
+        SELECT COUNT(user_seq)
+        FROM user_master
+        WHERE user_seq = #{userSeq}
+    </select>
+    <select id="checkPartyName">
+        SELECT COUNT(party_name)
+        FROM party_master
+        WHERE party_name = #{partyName}
+    </select>
+
+    <select id="checkJoinApplicationOfUser">
+        SELECT COUNT(join_seq)
+        FROM party_join
+        WHERE join_party_seq = #{partySeq}
+        AND join_user_seq = #{userSeq}
+    </select>
+
+    <select id="checkMemberForPartySeqAndUserSeq">
+        SELECT COUNT(member_party_seq)
+        FROM party_member
+        WHERE member_party_seq = #{partySeq}
+        AND member_user_seq = #{userSeq}
+    </select>
+    <select id="checkPartyNowMem">
+        SELECT CASE
+        WHEN (SELECT COUNT(member_party_seq)
+        FROM party_member
+        WHERE member_gb = 1 AND member_party_seq = A.party_seq) = A.party_maximum
+        THEN 1
+        ELSE 0
+        END AS isEqual
+        FROM party_master A
+        WHERE A.party_seq = #{partySeq}
+    </select>
+
+    <select id="checkMemberUserSeq">
+        SELECT member_user_seq
+        FROM party_member
+        WHERE member_user_seq = #{memberUserSeq}
+    </select>
+    <select id="checkJoinPartySeq">
+        SELECT join_party_seq
+        FROM party_join
+        WHERE join_party_seq = #{joinPartySeq}
+    </select>
+    <select id="checkUserPartySeq">
+        SELECT join_user_seq
+        FROM party_join
+        WHERE join_user_seq = #{joinUserSeq}
+    </select>
+    <select id="checkBudgetPartySeq">
+        SELECT party_seq
+        FROM party_master
+        WHERE party_seq = #{budgetPartySeq}
+    </select>
+    <select id="checkBudgetMemberSeq">
+        SELECT member_seq
+        FROM party_member
+        WHERE member_party_seq = #{memberPartySeq}
+        AND member_seq = #{memberSeq}
+    </select>
+    <select id="checkBudgetSeq">
+        SELECT budget_seq
+        FROM party_budget
+        WHERE budget_seq = #{budgetSeq}
+    </select>
+    <select id="checkPlanSeq">
+        SELECT plan_seq
+        FROM plan_master
+        WHERE plan_seq = #{planSeq}
+    </select>
+    <select id="checkPlanPartySeq">
+        SELECT party_seq
+        FROM party_master
+        WHERE party_seq = #{planPartySeq}
+    </select>
+    <select id="checkPlanJoin" >
+        SELECT A.plmember_seq
+        FROM plan_member A
+        JOIN party_member B
+        ON A.plmember_member_seq = B.member_seq
+        WHERE A.plmember_plan_seq = #{plmemberPlanSeq}
+        AND B.member_seq = #{memberSeq}
+    </select>
+    <select id="checkPlanCompleted">
+        SELECT plan_completed AS planCompleted
+        FROM plan_master
+        WHERE plan_seq = #{planSeq}
+    </select>
+</mapper>

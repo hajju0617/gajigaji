@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.gajigaji.join.JoinMapper">
+
+    <insert id="postJoin" keyProperty="joinSeq" useGeneratedKeys="true">
+        INSERT INTO party_join
+        SET join_party_seq = #{joinPartySeq}
+        , join_user_seq = #{joinUserSeq}
+        , join_msg = #{joinMsg}
+    </insert>
+
+    <select id="getJoin">
+        SELECT
+        A.join_seq AS joinSeq
+        ,B.user_name AS userName
+        ,B.user_pic AS userPic
+        ,B.user_gender AS userGender
+        ,A.join_user_seq AS joinUserSeq
+        , A.join_msg AS joinMsg
+        , A.join_gb AS joinGb
+        FROM party_join A
+        JOIN user_master B ON A.join_user_seq = B.user_seq
+        WHERE join_party_seq = #{joinPartySeq}
+    </select>
+    <select id="getJoinDetail">
+        SELECT
+        A.join_seq AS joinSeq
+        ,B.user_name AS userName
+        ,B.user_pic AS userPic
+        ,B.user_gender AS userGender
+        ,A.join_user_seq AS joinUserSeq
+        , A.join_msg AS joinMsg
+        , A.join_gb AS joinGb
+        FROM party_join A
+        JOIN user_master B ON A.join_user_seq = B.user_seq
+        WHERE join_party_seq = #{joinPartySeq}
+        AND join_user_seq = #{joinUserSeq}
+    </select>
+
+    <update id="updateJoin">
+        UPDATE party_join
+        SET join_msg = #{joinMsg}
+        WHERE join_party_seq = #{joinPartySeq}
+        AND join_user_seq = #{joinUserSeq}
+    </update>
+    <update id="updateJoinGb">
+        UPDATE party_join
+        SET join_gb = #{joinGb}
+        WHERE join_party_seq = #{joinPartySeq}
+        AND join_user_seq = #{joinUserSeq}
+    </update>
+    <update id="updateSuspendedMember">
+        UPDATE party_member
+        SET member_role = 2
+            , member_gb = 1
+        WHERE member_party_seq = #{joinPartySeq}
+        AND member_user_seq = #{joinUserSeq}
+    </update>
+    <insert id="postMember">
+        INSERT INTO party_member
+        SET member_party_seq = #{joinPartySeq}
+        , member_user_seq = #{joinUserSeq}
+        , member_role = 2
+        , member_gb = 1
+    </insert>
+
+    <delete id ="deleteJoin">
+        DELETE from party_join
+        WHERE join_party_seq = #{joinPartySeq}
+        AND join_user_seq = #{joinUserSeq}
+    </delete>
+
+    <select id="getMyJoin">
+        SELECT A.join_seq AS joinSeq, A.join_party_seq AS joinPartySeq, A.join_msg AS joinMsg,
+            A.input_dt AS inputDt, B.party_seq AS partySeq, B.party_name AS partyName
+        FROM party_join A
+        JOIN party_master B
+        ON A.join_party_seq = B.party_seq
+        WHERE A.join_user_seq = #{userSeq}
+        AND A.join_gb = 0
+    </select>
+</mapper>

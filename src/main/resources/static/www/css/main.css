@@ -1,0 +1,105 @@
+.main {
+}
+.main-inner {
+  width: calc(100% - 150px);
+  max-width: 1170px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  margin-top: 50px;
+  padding: 0 10px;
+}
+.main-top {
+  width: 100%;
+  margin: 0 auto;
+}
+.mt-searchbox-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-bottom: 40px;
+}
+.mt-searchbox {
+  width: 600px;
+  height: 50px;
+  background-color: aliceblue;
+  border-radius: 25px;
+}
+.mt-category-div {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 50px;
+  background-color: aliceblue;
+}
+.main-mid {
+  width: 100%;
+}
+.main-mid h1 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.mm-meeting-picks {
+}
+.mm-meeting-list {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  height: 285px;
+  margin-bottom: 40px;
+}
+.list-box {
+  display: block;
+  width: 220px;
+  height: 285px;
+  background-color: aliceblue;
+}
+.list-box-img {
+  display: block;
+  width: 220px;
+  height: 150px;
+  background: url("../images/meetinga.png") no-repeat center;
+  background-size: cover;
+  border-radius: 15px 15px 0px 0px;
+  margin-bottom: 5px;
+}
+.list-box-title {
+  padding: 5px;
+}
+.list-box-text {
+  padding: 5px;
+}
+.list-box-place {
+  font-size: 14px;
+  padding: 5px;
+}
+.list-box-day {
+  font-size: 12px;
+  padding: 5px;
+}
+.main-bottom {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.main-bottom h1 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.mb-event-div {
+}
+.mb-rank-div {
+}
+.mb-event-list {
+  width: 500px;
+  height: 300px;
+  background-color: aliceblue;
+}
+.mb-rank-list {
+  width: 600px;
+  height: 300px;
+  background-color: aliceblue;
+}

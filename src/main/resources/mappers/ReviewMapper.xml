@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.gajigaji.review.ReviewMapper">
+
+    <insert id="postReview" keyProperty="reviewSeq" useGeneratedKeys="true">
+        INSERT INTO review_master
+        (review_plan_seq, review_plmember_seq, review_contents , review_rating)
+        VALUES
+        (#{reviewPlanSeq}, #{reviewPlmemberSeq}, #{reviewContents}, #{reviewRating})
+    </insert>
+
+    <insert id="postReviewPics">
+        INSERT INTO review_pic
+        (review_pic_review_seq, review_pic_file)
+        VALUES
+        <foreach item="pic" collection="fileNames" separator=",">
+            (#{reviewSeq}, #{pic})
+        </foreach>
+    </insert>
+
+    <select id="getReviewAll">
+        SELECT A.review_seq as reviewSeq
+        , A.review_plan_seq as reviewPlanSeq
+        , A.review_plmember_seq as reviewPlmemberSeq
+        , D.user_seq as userSeq
+        , D.user_name as userName
+        , D.user_pic as userPic
+        , A.review_contents as reviewContents
+        , A.review_rating as reviewRating
+        , A.input_dt as inputDt
+        , E.party_seq as partySeq
+        , E.party_name as partyName
+        , IF(F.user_name IS null, "모임장 없음", F.user_name) AS president
+        , IFNULL(G.favCnt, 0) AS favCnt
+        FROM review_master A
+        JOIN plan_member B
+        ON A.review_plmember_seq = B.plmember_seq
+        JOIN party_member C
+        ON B.plmember_member_seq = C.member_seq
+        JOIN user_master D
+        ON C.member_user_seq = D.user_seq
+        JOIN party_master E
+        ON C.member_party_seq = E.party_seq
+        LEFT JOIN (SELECT A.member_seq, B.USER_NAME, A.member_party_seq
+        FROM party_member A JOIN user_master B ON A.member_user_seq = b.user_seq WHERE A.member_role = '1') F
+        ON F.member_party_seq = E.party_seq
+        LEFT JOIN (SELECT COUNT(*) AS favCnt, review_fav_review_seq from review_fav GROUP BY review_fav_review_seq) G
+        ON A.review_seq = G.review_fav_review_seq
+        WHERE
+        <if test="search == 1">
+            (TRIM(REPLACE(E.party_name,' ','')) LIKE concat('%',#{searchData},'%')
+            || F.USER_NAME LIKE concat('%',#{searchData},'%')
+            || D.user_name LIKE concat('%',#{searchData},'%'))
+        </if>
+        <if test="search == 2"> TRIM(REPLACE(E.party_name,' ','')) LIKE concat('%',#{searchData},'%')</if>
+        <if test="search == 3"> F.USER_NAME LIKE concat('%',#{searchData},'%')</if>
+        <if test="search == 4"> D.user_name LIKE concat('%',#{searchData},'%')</if>
+        ORDER BY review_seq DESC
+        <if test="size != 0">
+            LIMIT #{startIdx}, #{size}
+        </if>
+    </select>
+
+    <select id="getReviewUser">
+        SELECT A.review_seq as reviewSeq
+        , A.review_plan_seq as reviewPlanSeq
+        , A.review_plmember_seq as reviewPlmemberSeq
+        , D.user_seq as userSeq
+        , D.user_name as userName
+        , D.user_pic as userPic
+        , A.review_contents as reviewContents
+        , A.review_rating as reviewRating
+        , A.input_dt as inputDt
+        , E.party_seq as partySeq
+        , E.party_name as partyName
+        , IF(F.user_name IS null, "모임장 없음", F.user_name) AS president
+        , IFNULL(G.favCnt, 0) AS favCnt
+        FROM review_master A
+        JOIN plan_member B
+        ON A.review_plmember_seq = B.plmember_seq
+        JOIN party_member C
+        ON B.plmember_member_seq = C.member_seq
+        JOIN user_master D
+        ON C.member_user_seq = D.user_seq
+        JOIN party_master E
+        ON C.member_party_seq = E.party_seq
+        LEFT JOIN (SELECT A.member_seq, B.USER_NAME, A.member_party_seq
+        FROM party_member A JOIN user_master B ON A.member_user_seq = b.user_seq WHERE A.member_role = '1') F
+        ON F.member_party_seq = E.party_seq
+        LEFT JOIN (SELECT COUNT(*) AS favCnt, review_fav_review_seq from review_fav GROUP BY review_fav_review_seq) G
+        ON A.review_seq = G.review_fav_review_seq
+        WHERE D.user_seq = #{userSeq}
+        <if test="search == 1">
+            AND (TRIM(REPLACE(E.party_name,' ','')) LIKE concat('%',#{searchData},'%')
+            || F.USER_NAME LIKE concat('%',#{searchData},'%')
+            || D.user_name LIKE concat('%',#{searchData},'%'))
+        </if>
+        <if test="search == 2"> AND TRIM(REPLACE(E.party_name,' ','')) LIKE concat('%',#{searchData},'%')</if>
+        <if test="search == 3"> AND F.USER_NAME LIKE concat('%',#{searchData},'%')</if>
+        <if test="search == 4"> AND D.user_name LIKE concat('%',#{searchData},'%')</if>
+        ORDER BY review_seq DESC
+        <if test="size != 0">
+            LIMIT #{startIdx}, #{size}
+        </if>
+    </select>
+
+    <select id="getPic">
+        SELECT review_pic_review_seq as reviewPicReviewSeq
+            , review_pic_file as reviewPicFile
+        FROM review_pic
+        WHERE review_pic_review_seq = #{reviewSeq}
+        ORDER BY review_pic_review_seq desc
+    </select>
+
+    <select id="getPicFiles">
+        SELECT review_pic_file as reviewPicFile
+        FROM review_pic
+        WHERE review_pic_review_seq = #{reviewSeq}
+        ORDER BY review_pic_review_seq desc
+    </select>
+
+    <select id="getTotalElements">
+        SELECT COUNT(*)
+        FROM review_master A
+        JOIN plan_member B
+        ON A.review_plmember_seq = B.plmember_seq
+        JOIN party_member C
+        ON B.plmember_member_seq = C.member_seq
+        JOIN user_master D
+        ON C.member_user_seq = D.user_seq
+        JOIN party_master E
+        ON C.member_party_seq = E.party_seq
+        LEFT JOIN (SELECT A.member_seq, B.USER_NAME, A.member_party_seq
+        FROM party_member A JOIN user_master B ON A.member_user_seq = b.user_seq WHERE A.member_role = '1') F
+        ON F.member_party_seq = E.party_seq
+        WHERE 1 = 1
+        <if test="userSeq != 0"> AND D.user_seq = #{userSeq}</if>
+        <if test="search == 1">
+            AND (TRIM(REPLACE(E.party_name,' ','')) LIKE concat('%',#{searchData},'%')
+            || F.USER_NAME LIKE concat('%',#{searchData},'%')
+            || D.user_name LIKE concat('%',#{searchData},'%'))
+        </if>
+        <if test="search == 2"> AND TRIM(REPLACE(E.party_name,' ','')) LIKE concat('%',#{searchData},'%')</if>
+        <if test="search == 3"> AND F.USER_NAME LIKE concat('%',#{searchData},'%')</if>
+        <if test="search == 4"> AND D.user_name LIKE concat('%',#{searchData},'%')</if>
+    </select>
+
+    <update id="patchReview">
+        UPDATE review_master
+        SET review_contents = #{reviewContents}
+        , review_rating = #{reviewRating}
+        WHERE review_seq = #{reviewSeq}
+    </update>
+
+    <delete id="deleteReview">
+        DELETE FROM review_master
+        WHERE review_seq = #{reviewSeq}
+    </delete>
+
+    <delete id="deleteReviewPics">
+        DELETE FROM review_pic
+        WHERE review_pic_review_seq = #{reviewSeq}
+    </delete>
+
+    <delete id="deleteReviewFavs">
+        DELETE FROM review_fav
+        WHERE review_fav_review_seq = #{reviewFavReviewSeq}
+    </delete>
+
+    <delete id="deleteReviewFav">
+        DELETE FROM review_fav
+        WHERE review_fav_review_seq = #{reviewFavReviewSeq}
+        AND review_fav_user_seq = #{reviewFavUserSeq}
+    </delete>
+
+    <insert id="insertReviewFav">
+        INSERT INTO review_fav
+        (review_fav_review_seq, review_fav_user_seq)
+        VALUES
+        (#{reviewFavReviewSeq}, #{reviewFavUserSeq})
+    </insert>
+</mapper>

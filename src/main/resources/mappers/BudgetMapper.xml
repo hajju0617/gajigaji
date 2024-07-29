@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.gajigaji.budget.BudgetMapper">
+
+    <insert id="postBudget" keyProperty="budgetSeq" useGeneratedKeys="true">
+        INSERT INTO party_budget
+        SET budget_party_seq = #{budgetPartySeq},
+        budget_member_seq = #{budgetMemberSeq},
+        budget_gb = #{budgetGb},
+        budget_amount = #{budgetAmount},
+        budget_dt = #{budgetDt},
+        budget_text = #{budgetText},
+        budget_pic = #{budgetPic}
+    </insert>
+
+    <update id="patchBudget">
+        UPDATE party_budget
+        <set>
+            <if test="budgetMemberSeq!=null and budgetMemberSeq!='' and budgetMemberSeq > 0">
+                budget_member_seq = #{budgetMemberSeq},
+            </if>
+            <if test="budgetGb!=null and budgetGb!='' and budgetGb > 0">
+                budget_gb = #{budgetGb},
+            </if>
+            <if test="budgetAmount!=null and budgetAmount!='' and budgetAmount > 0">
+                budget_amount = #{budgetAmount},
+            </if>
+            <if test="budgetDt!=null and budgetDt!=''">
+                budget_dt = #{budgetDt},
+            </if>
+            <if test="budgetText!=null and budgetText!=''">
+                budget_text = #{budgetText},
+            </if>
+            <if test="budgetPic!=null and budgetPic!=''">
+                budget_pic = #{budgetPic},
+            </if>
+            <if test="budgetDt!=null and budgetDt!=''">
+                budget_dt = #{budgetDt}
+            </if>
+        </set>
+        WHERE budget_seq = #{budgetSeq}
+    </update>
+
+    <select id="getBudget">
+        SELECT budget_seq AS budgetSeq, budget_party_seq AS budgetPartySeq, budget_member_seq AS budgetMemberSeq,
+        budget_gb AS budgetGb, F_COMMON_CD(BUDGET_GB, 'BU-01') AS cdNm, budget_amount AS budgetAmount, budget_dt AS budgetDt,
+        budget_text AS budgetText, budget_pic AS budgetPic
+        FROM party_budget
+        WHERE budget_party_seq = #{budgetPartySeq}
+        AND budget_dt LIKE '2024-${month}%'
+        ORDER BY budget_dt
+    </select>
+
+    <select id="getBudgetPic">
+        SELECT budget_seq AS budgetSeq, budget_pic AS budgetPic
+        FROM party_budget
+        WHERE budget_seq = #{budgetSeq}
+    </select>
+
+    <delete id="deleteBudget">
+        DELETE
+        FROM party_budget
+        WHERE budget_seq = #{budgetSeq}
+    </delete>
+
+    <select id="getBudgetMember">
+        SELECT COUNT(DISTINCT B.member_seq) AS memberSum, COUNT(DISTINCT CASE WHEN A.budget_gb = 1 THEN A.budget_member_seq END) AS depositedMember,
+            (COUNT(DISTINCT B.member_seq) - COUNT(DISTINCT CASE WHEN A.budget_gb = 1 THEN A.budget_member_seq END)) AS unDepositedMember
+        FROM party_budget A
+        JOIN party_member B
+        ON A.budget_party_seq = B.member_party_seq
+        WHERE A.budget_party_seq = #{budgetPartySeq}
+        AND A.budget_dt LIKE '2024-${month}%'
+    </select>
+
+    <select id="getBudgetMonthly">
+        SELECT SUM(CASE WHEN budget_gb = 1 THEN budget_amount END) AS depositSum,
+                SUM(CASE WHEN budget_gb = 2 THEN budget_amount * (-1) END) AS withdrawSum,
+                COALESCE(SUM(CASE WHEN budget_gb = 1 THEN budget_amount END), 0)
+                + COALESCE(SUM(CASE WHEN budget_gb = 2 THEN budget_amount * (-1) END), 0) AS SUM
+        FROM party_budget
+        WHERE budget_party_seq = #{budgetPartySeq}
+        AND budget_dt LIKE '2024-${month}%'
+    </select>
+
+    <select id="getMemberList">
+        SELECT A.member_seq AS memberSeq, B.user_name AS userName, B.user_nickname AS userNickname
+        FROM party_member A
+        JOIN user_master B
+        ON A.member_user_seq = B.user_seq
+        WHERE member_party_seq = #{memberPartySeq}
+        AND member_gb = 1
+    </select>
+    
+</mapper>

@@ -1,0 +1,20 @@
+.footer {
+  background-color: aliceblue;
+  margin-top: 50px;
+}
+
+.footer-inner {
+  width: calc(100% - 150px);
+  max-width: 1170px;
+  /* height: auto; */
+  margin: 0 auto;
+  padding: 20px 20px;
+}
+.footer-menu-list {
+  display: flex;
+  gap: 50px;
+  margin-bottom: 40px;
+}
+.footer-description {
+  margin-bottom: 10px;
+}

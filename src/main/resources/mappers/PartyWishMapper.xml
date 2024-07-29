@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.gajigaji.partywish.PartyWishMapper">
+    <insert id="insertPartyWish">
+        INSERT INTO party_wish
+        SET wish_user_seq = #{wishUserSeq}
+          , wish_party_seq = #{wishPartySeq}
+    </insert>
+
+    <delete id="deletePartyWish">
+        DELETE FROM party_wish
+        WHERE wish_user_seq = #{wishUserSeq}
+          AND wish_party_seq = #{wishPartySeq}
+    </delete>
+    
+    <select id="partyWishGetList">
+        SELECT B.user_seq AS userSeq
+        , A.wish_seq AS wishSeq
+        , C.party_seq AS partySeq
+        , C.party_name AS partyName
+        , C.party_genre AS partyGenre
+        , C.party_location AS partyLocation
+        , F_COMMON_CD(CAST(C.party_location/100 AS INT), 'LO-00') AS partyLocation1
+        , F_COMMON_CD(C.party_location%100, CONCAT('LO-', LPAD(CAST(C.party_location/100 AS INT), 2, 0))) AS partyLocation2
+        , C.party_pic AS partyPic
+        , D.president AS partyPresident
+        , D.president_pic AS partyPresidentPic
+        FROM party_wish A
+        JOIN user_master B
+        ON A.wish_user_seq = B.user_seq
+        JOIN party_master C
+        ON A.wish_party_seq = C.party_seq
+        LEFT JOIN
+        (SELECT A.member_party_seq, A.member_seq, B.user_name AS president, B.user_pic AS president_pic
+        FROM party_member A
+        JOIN user_master B
+        ON A.member_user_seq = B.user_seq
+        WHERE member_role = 1) D
+        ON D.member_party_seq = A.wish_party_seq
+        WHERE B.user_seq = #{userSeq};
+    </select>
+</mapper>

@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>회원가입</title>
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/header.css" />
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/footer.css" />
+
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #fff;
+      }
+      .main {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+      .main-inner {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+      .signup-container {
+        background-color: #f4f4f4;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .main-create-detail {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+      }
+      .profile-picture-container {
+        text-align: center;
+        margin-bottom: 15px;
+      }
+      .profile-picture {
+        display: block;
+        margin: 0 auto 10px;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+      .create-profile-picture-input {
+        display: none;
+      }
+      .main-create-detail label {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+      .main-create-detail input[type="email"],
+      .main-create-detail input[type="password"],
+      .main-create-detail input[type="text"],
+      .main-create-detail input[type="date"] {
+        width: 100%;
+        padding: 10px;
+        font-size: 10pt;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-bottom: 10px;
+      }
+      .create-email-button-group-1,
+      .create-nickname-button-group {
+        display: flex;
+        gap: 5px;
+        justify-content: space-between;
+        width: 100%;
+        align-items: center;
+      }
+      .create-email-button-group-1 input[type="email"] {
+        flex: 1;
+      }
+      .main-create-detail button {
+        width: 50%;
+        padding: 10px;
+        font-size: 10pt;
+        margin-top: 10px;
+        cursor: pointer;
+        background-color: #919bfa;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        text-align: center;
+      }
+      .main-create-detail button:hover {
+        background-color: #7a89f1;
+      }
+      .create-button-group {
+        display: flex;
+        gap: 10px;
+        width: 100%;
+      }
+      .create-button-group button {
+        flex: 1;
+      }
+      .create-gender-group {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .create-gender-group .create-gender-item {
+        flex: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <main class="main">
+        <div class="main-inner">
+          <div class="signup-container">
+            <form class="main-create-detail">
+              <div class="profile-picture-container">
+                <img
+                  src="https://via.placeholder.com/100"
+                  alt="프로필 사진"
+                  class="profile-picture"
+                  id="profilePreview"
+                  onclick="document.getElementById('profilePicture').click();"
+                />
+                <input
+                  type="file"
+                  accept="image/*"
+                  id="profilePicture"
+                  class="create-profile-picture-input"
+                />
+              </div>
+              <label>
+                이메일
+                <div class="create-email-button-group-1">
+                  <input type="email" class="create-email-1" />
+                  <i class="create-eee">@</i>
+                  <input type="email" class="create-email-2" />
+                </div>
+                <div class="create-button-group">
+                  <button type="button">중복 확인</button>
+                  <button type="button">인증</button>
+                </div>
+              </label>
+              <label>
+                비밀번호
+                <input type="password" class="create-password-1" />
+              </label>
+              <label>
+                비밀번호 확인
+                <input type="password" class="create-password-2" />
+              </label>
+              <label>
+                이름
+                <input type="text" class="create-name" />
+              </label>
+              <label>
+                닉네임
+                <div class="create-nickname-button-group">
+                  <input type="text" class="create-nickname" />
+                  <button type="button">중복 확인</button>
+                </div>
+              </label>
+              <label>
+                주소
+                <input
+                  type="text"
+                  id="postcode"
+                  name="zipcode"
+                  class="create-address"
+                />
+              </label>
+              <label>
+                생년 월일
+                <input type="date" class="create-birthday" />
+              </label>
+              <label>
+                전화번호
+                <input type="text" class="create-phone-number" />
+              </label>
+              <label>
+                관심있는 분야
+                <input type="text" class="create-interests" />
+              </label>
+              <label class="create-gender-group">
+                성별
+                <div class="create-gender-item">
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="남성"
+                    class="create-boy"
+                  />
+                  남
+                </div>
+                <div class="create-gender-item">
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="여성"
+                    class="create-girl"
+                  />
+                  여
+                </div>
+              </label>
+              <label>
+                자기 소개
+                <input type="text" class="create-introduction" />
+              </label>
+              <button type="submit">가입 완료</button>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      document
+        .getElementById("profilePicture")
+        .addEventListener("change", function (event) {
+          const file = event.target.files[0];
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            document.getElementById("profilePreview").src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        });
+    </script>
+  </body>
+</html>

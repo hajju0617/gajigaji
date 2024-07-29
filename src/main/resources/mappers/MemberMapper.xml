@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.gajigaji.member.MemberMapper">
+
+    <select id="getMember">
+        SELECT
+        A.member_seq AS memberSeq
+        ,B.user_name AS userName
+        ,B.user_pic AS userPic
+        ,B.user_gender AS userGender
+        , A.member_user_seq AS memberUserSeq
+        , A.member_role AS memberRole
+        , A.member_gb AS memberGb
+        FROM party_member A
+        JOIN user_master B ON A.member_user_seq = B.user_seq
+        WHERE member_party_seq = #{memberPartySeq}
+
+<!--        SELECT-->
+<!--            member_seq AS memberSeq, member_user_seq AS memberUserSeq-->
+<!--            , member_role AS memberRole, member_gb AS memberGb-->
+<!--        FROM party_member-->
+<!--        WHERE member_party_seq = #{memberPartySeq}-->
+    </select>
+    <select id="getMemberDetail">
+        SELECT
+        A.member_seq AS memberSeq
+        ,B.user_name AS userName
+        ,B.user_pic AS userPic
+        ,B.user_gender AS userGender
+        , A.member_user_seq AS memberUserSeq
+        , A.member_role AS memberRole
+        , A.member_gb AS memberGb
+        FROM party_member A
+        JOIN user_master B ON A.member_user_seq = B.user_seq
+        WHERE member_party_seq = #{memberPartySeq}
+        AND member_user_seq = #{memberUserSeq}
+
+<!--        SELECT-->
+<!--            member_seq AS memberSeq, member_user_seq AS memberUserSeq-->
+<!--            , member_role AS memberRole, member_gb AS memberGb-->
+<!--        FROM party_member-->
+<!--        WHERE member_party_seq = #{memberPartySeq}-->
+<!--        AND member_user_seq = #{memberUserSeq}-->
+    </select>
+
+    <update id="updateMember">
+        UPDATE party_member
+        SET member_role = #{memberRole}
+        WHERE member_party_seq = #{memberPartySeq}
+        AND  member_user_seq = #{memberUserSeq}
+    </update>
+    <update id="updateMemberGb">
+        UPDATE party_member
+        SET member_gb = 0
+        , member_role = 0
+        WHERE member_party_seq = #{memberPartySeq}
+        AND  member_user_seq = #{memberUserSeq}
+    </update>
+
+</mapper>

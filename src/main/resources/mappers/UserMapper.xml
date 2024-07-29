@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.gajigaji.user.UserMapper">
+    <insert id="postSignUp" keyProperty="userSeq" useGeneratedKeys="true">
+        INSERT INTO user_master
+        SET user_email = #{userEmail}
+        , user_pw = #{userPw}
+        , user_name = #{userName}
+        , user_addr = #{userAddr}
+        , user_nickname = #{userNickname}
+        , user_fav = #{userFav}
+        , user_birth = #{userBirth}
+        , user_gender = #{userGender}
+        , user_phone = #{userPhone}
+        , user_intro = #{userIntro}
+        , user_pic = #{userPic}
+    </insert>
+
+    <select id="getSimpleUserInfo">
+        <!--        SELECT user_seq AS userSeq, user_email AS userEmail, user_pw AS userPw-->
+        <!--        , user_nickname AS userNickname, user_pic AS userPic, user_name AS userName, A.user_gender AS userGender`, B.CD_GB_NM AS userGenderNm-->
+        <!--        , user_birth AS userBirth-->
+        <!--        , input_dt AS inputDt, update_dt AS updateDt-->
+        <!--        FROM user_master-->
+        <!--        WHERE user_email = #{userEmail}-->
+        SELECT A.user_seq AS userSeq
+        , A.user_email AS userEmail
+        , A.user_name AS userName
+        , A.user_pw AS userPw
+        , A.user_nickname AS userNickname
+        , A.user_addr AS userAddr
+        , A.user_birth AS userBirth
+        , A.user_gender AS userGender, B.CD_GB_NM AS userGenderNm
+        , user_phone AS userPhone
+        , user_pic AS userPic
+        FROM user_master A
+        JOIN (SELECT CD_GB, CD_GB_NM FROM common_cd WHERE CD = 'US-00') B
+        ON A.user_gender = B.CD_GB
+        WHERE user_email = #{userEmail}
+    </select>
+
+    <select id="getDetailUserInfo">
+        SELECT A.user_seq AS userSeq, A.user_email AS userEmail, A.user_name AS userName
+        , A.user_nickname AS userNickname
+        , A.user_addr AS userAddr, A.user_fav AS userFav, A.user_birth AS userBirth
+        , A.user_gender AS userGender, B.CD_GB_NM AS userGenderNm, user_phone AS userPhone,
+        user_intro AS userIntro, user_gb AS userGb, C.CD_GB_NM AS userEmailAuthStatus
+        , user_pic AS userPic
+        FROM user_master A
+        JOIN (SELECT CD_GB, CD_GB_NM FROM common_cd WHERE CD = 'US-00') B
+        JOIN (SELECT CD_GB, CD_GB_NM FROM common_cd WHERE CD = 'US-01') C
+        ON A.user_gender = B.CD_GB AND A.user_gb = C.CD_GB
+        WHERE user_seq = #{userSeq};
+    </select>
+
+    <select id="getUserPw">
+        SELECT user_pw AS userPw
+        FROM user_master
+        WHERE user_seq = #{userSeq}
+    </select>
+
+
+    <update id="updateUserInfo">
+        UPDATE user_master
+        <set>
+            <if test="userNickname != null and userNickname !=''">
+                user_nickname = #{userNickname},
+            </if>
+            <if test="userAddr != null and userAddr !=''">
+                user_addr = #{userAddr},
+            </if>
+            <if test="userFav != null and userFav !=''">
+                user_fav = #{userFav},
+            </if>
+            <if test="userPhone != null and userPhone !=''">
+                user_phone = #{userPhone},
+            </if>
+            <if test="userIntro != null and userIntro !=''">
+                user_intro = #{userIntro}
+            </if>
+        </set>
+        WHERE user_seq = #{userSeq}
+    </update>
+    
+    <update id="patchPassword">
+        UPDATE user_master
+        SET user_pw = #{userNewPw}
+        WHERE user_seq = #{userSeq}
+    </update>
+
+    <update id="updateUserPic">
+        UPDATE user_master
+        SET user_pic = #{picName}
+        WHERE user_seq = #{userSeq}
+    </update>
+    
+    <update id="deleteUser">
+        UPDATE user_master
+        SET
+        user_email = CONCAT(user_email, '_', #{userSeq})
+        , user_state = 2
+        WHERE
+        user_seq = #{userSeq} AND user_state = 1;
+    </update>
+
+    <select id="userExists">
+        SELECT COUNT(user_seq)
+        FROM user_master
+        WHERE user_seq = #{userSeq}
+    </select>
+
+    <update id="checkAuthNum">
+        UPDATE user_master
+        SET user_gb = 2
+        WHERE user_email = #{userEmail}
+    </update>
+
+    <select id="checkEmail">
+        SELECT user_gb
+        FROM user_master
+        WHERE user_email = #{userEmail};
+    </select>
+
+    <update id="setPassword">
+        UPDATE user_master
+        SET user_pw = #{userSetPw}
+        WHERE user_email = #{userEmail}
+    </update>
+
+    <select id="duplicatedCheckEmail">
+        SELECT COUNT(user_email)
+        FROM user_master
+        WHERE user_email = #{userEmail};
+    </select>
+
+    <select id="duplicatedCheckNickname">
+        SELECT COUNT(user_nickname)
+        FROM user_master
+        WHERE user_nickname = #{userNickname}
+    </select>
+
+    <select id="duplicatedCheckNumber">
+        SELECT COUNT(user_phone)
+        FROM user_master
+        WHERE user_phone = #{userPhone};
+    </select>
+
+    <select id="findUserId">
+        SELECT user_email
+        FROM user_master
+        WHERE user_name = #{userName} AND user_phone = #{userPhone} AND user_birth = #{userBirth}
+    </select>
+
+    <select id="emailExists">
+        SELECT COUNT(user_email)
+        FROM user_master
+        WHERE user_email = #{email}
+    </select>
+
+
+
+
+
+</mapper>

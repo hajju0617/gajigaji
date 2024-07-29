@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.gajigaji.plan.PlanMapper">
+    <insert id="postPlan" keyProperty="planSeq" useGeneratedKeys="true">
+        INSERT INTO plan_master
+        SET plan_party_seq = #{planPartySeq},
+        plan_start_dt = #{planStartDt},
+        plan_start_time = #{planStartTime},
+        plan_location = #{planLocation},
+        plan_title = #{planTitle},
+        plan_contents = #{planContents}
+    </insert>
+
+    <update id="patchPlan">
+        UPDATE plan_master
+        <set>
+            <if test="planStartDt!=null and planStartDt!=''">
+                plan_start_dt = #{planStartDt},
+            </if>
+            <if test="planStartTime!=null and planStartTime!=''">
+                plan_start_time = #{planStartTime},
+            </if>
+            <if test="planLocation!=null and planLocation!=''">
+                plan_location = #{planLocation},
+            </if>
+            <if test="planTitle!=null and planTitle!=''">
+                plan_title = #{planTitle},
+            </if>
+            <if test="planContents!=null and planContents!=''">
+                plan_contents = #{planContents}
+            </if>
+        </set>
+        WHERE plan_seq = #{planSeq}
+    </update>
+
+    <update id="patchPlanCompleted">
+        UPDATE plan_master
+        SET plan_completed = 2
+        WHERE plan_seq = #{planSeq}
+        AND plan_completed = 1
+    </update>
+
+    <select id="getPlanAll">
+        SELECT plan_seq AS planSeq, plan_party_seq AS planPartySeq, plan_start_dt AS planStartDt,
+        DATE_FORMAT(plan_start_time, "%h:%m") AS planStartTime, plan_completed AS planCompleted,
+        plan_location as planLocation, F_COMMON_CD(plan_completed, 'PC-01') AS cdNm, plan_title AS planTitle, plan_contents AS planContents
+        FROM plan_master
+        WHERE plan_party_seq = #{planPartySeq}
+    </select>
+
+    <select id="getPlan">
+        SELECT plan_seq AS planSeq, plan_party_seq AS planPartySeq, plan_start_dt AS planStartDt,
+        DATE_FORMAT(plan_start_time, "%h:%m") AS planStartTime, plan_completed AS planCompleted,
+        plan_location as planLocation, F_COMMON_CD(plan_completed, 'PC-01') AS cdNm, plan_title AS planTitle, plan_contents AS planContents
+        FROM plan_master
+        WHERE plan_seq = #{planSeq}
+    </select>
+
+    <select id="getPlanMember">
+        SELECT A.plmember_plan_seq AS planSeq, A.plmember_seq AS plmemberSeq, C.user_seq AS userSeq, C.user_name AS userName
+        FROM plan_member A
+        JOIN party_member B
+        ON A.plmember_member_seq = B.member_seq
+        JOIN user_master C
+        ON B.member_user_seq = C.user_seq
+        WHERE A.plmember_plan_seq = #{plmemberPlanSeq}
+        ORDER BY C.user_name
+    </select>
+
+    <delete id="deletePlan">
+        DELETE
+        FROM plan_master
+        WHERE plan_seq = #{planSeq}
+    </delete>
+</mapper>

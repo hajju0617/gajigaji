@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/header.css" />
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/footer.css" />
+    <style>
+      .item {
+        width: 100%;
+      }
+      .func-main {
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+      }
+      .func-main-inner {
+        width: 98%;
+        height: 98%;
+        border-radius: 4px;
+        background-color: white;
+        margin: 0 auto;
+      }
+      .divButtonStyle {
+        background-color: #d9d9d9;
+        color: #fff;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrap">
+      <header class="header"></header>
+      <main class="main">
+        <div class="main-inner">
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              width: 100%;
+              text-align: center;
+            "
+          >
+            <!-- 일단 누르면 이벤트 나오게 해놓음. -->
+            <div
+              style="
+                display: flex;
+                width: 100%;
+                justify-content: center;
+                align-items: center;
+              "
+            >
+              <div id="1" class="item">일정 관리</div>
+              <div id="2" class="item">모임 게시판</div>
+            </div>
+            <div class="func-main" style="width: 100%; height: 600px">
+              <div class="func-main-inner">
+                <!-- 삼항 연산자 들어올 자리 지금은 조건값 1,2임 -->
+                <div>
+                  <div>캘린더</div>
+                </div>
+                <div>
+                  <div>게시판리스트</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <footer class="footer">
+        <div class="footer-inner">
+          <div class="footer-menu">
+            <ul class="footer-menu-list">
+              <li><a href="#">About</a></li>
+              <li><a href="#">소개</a></li>
+              <li><a href="#">등록</a></li>
+              <li><a href="#">추가</a></li>
+            </ul>
+          </div>
+          <div class="footer-description">
+            가까운 지역 가까운 지인, 가지가지
+          </div>
+          <div>ⓒ gazigazi all rights reserved.</div>
+          <p>가지가지 로고</p>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      // 버튼 2개로 움직일 거임
+      // 그 전에 태그를 담아 두는거
+      let activeItem = null;
+
+      window.addEventListener("click", e => {
+        const a = document.querySelector(".func-main");
+        if (e.target.classList.contains("item")) {
+          const clickedItem = e.target;
+          if (activeItem) {
+            activeItem.classList.remove("divButtonStyle");
+          }
+
+          clickedItem.classList.add("divButtonStyle");
+
+          activeItem = clickedItem;
+          console.log(clickedItem);
+          // 이벤트 걸곳
+          console.log(a);
+          switch (clickedItem.id) {
+            case "1":
+              a.style.backgroundColor = "red";
+              break;
+            case "2":
+              a.style.backgroundColor = "blue";
+              break;
+            default:
+              break;
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

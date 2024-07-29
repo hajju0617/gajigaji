@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/header.css" />
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/footer.css" />
+    <style>
+      .func-main {
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+      }
+      .func-main-inner {
+        width: 98%;
+        height: 98%;
+        border-radius: 4px;
+        background-color: white;
+        margin: 0 auto;
+      }
+      .flex-column {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrap">
+      <header class="header"></header>
+      <main class="main">
+        <div class="main-inner">
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              width: 100%;
+              text-align: center;
+            "
+          >
+            <div class="func-main" style="width: 100%; height: 650px">
+              <div class="func-main-inner" style="max-width: 1024px">
+                <div
+                  style="
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+                    gap: 30px;
+                    max-width: 900px;
+                    border: 1px solid gray;
+                    border-radius: 4px;
+                    box-shadow: 1px 1px 1px 1px gray;
+                  "
+                >
+                  <!-- 굳이 해당 모임 타고 들어왔는데 보여줄 필요가 있나 싶어서 뺌 -->
+                  <div
+                    style="
+                      display: flex;
+                      width: 100%;
+                      height: 205px;
+                      justify-content: center;
+                      align-items: center;
+                      gap: 63px;
+                    "
+                  >
+                    <div style="/* width: 50%; */ height: 150px">
+                      <img src="../images/meetinga.png" />
+                    </div>
+                    <div style="width: 30%">
+                      <div
+                        style="display: flex; flex-direction: column; gap: 30px"
+                      >
+                        <div
+                          style="
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            text-align: left;
+                          "
+                        >
+                          <label for="mettingname" style="width: 25%"
+                            >모임명</label
+                          >
+                          <input id="mettingname" style="width: 73%" />
+                        </div>
+                        <div
+                          style="
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            text-align: left;
+                          "
+                        >
+                          <label for="mettingdata" style="width: 25%"
+                            >모임날짜</label
+                          >
+                          <input
+                            id="mettingdata"
+                            type="date"
+                            style="width: 73%"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    style="
+                      display: flex;
+                      flex-direction: column;
+                      gap: 20px;
+                      width: 100%;
+                      justify-content: center;
+                      align-items: center;
+                    "
+                  >
+                    <div
+                      class="flex-column"
+                      style="text-align: left; width: 60%"
+                    >
+                      <label for="noticeid">제목</label>
+                      <input id="noticeid" style="padding: 3px" />
+                    </div>
+                    <div
+                      class="flex-column"
+                      style="text-align: left; width: 60%; padding: 20px 0"
+                    >
+                      <label for="noticecontent" style="width: 100%"
+                        >내용/ 에디터 형식이 될듯함 사진 배치 이런것들이
+                        들어가서</label
+                      >
+                      <textarea
+                        id="noticecontent"
+                        rows="10"
+                        style="
+                          resize: none;
+                          padding: 10px;
+                          line-height: 2;
+                          width: 100%;
+                        "
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <footer class="footer">
+        <div class="footer-inner">
+          <div class="footer-menu">
+            <ul class="footer-menu-list">
+              <li><a href="#">About</a></li>
+              <li><a href="#">소개</a></li>
+              <li><a href="#">등록</a></li>
+              <li><a href="#">추가</a></li>
+            </ul>
+          </div>
+          <div class="footer-description">
+            가까운 지역 가까운 지인, 가지가지
+          </div>
+          <div>ⓒ gazigazi all rights reserved.</div>
+          <p>가지가지 로고</p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
