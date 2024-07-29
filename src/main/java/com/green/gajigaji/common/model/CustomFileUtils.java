@@ -1,4 +1,4 @@
-package com.green.project2nd.common.model;
+package com.green.gajigaji.common.model;
 
 
 import lombok.Getter;

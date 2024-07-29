@@ -1,7 +1,7 @@
-package com.green.project2nd.review;
+package com.green.gajigaji.review;
 
-import com.green.project2nd.common.model.ResultDto;
-import com.green.project2nd.review.model.*;
+import com.green.gajigaji.common.model.ResultDto;
+import com.green.gajigaji.review.model.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;

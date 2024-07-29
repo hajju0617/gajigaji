@@ -1,6 +1,6 @@
-package com.green.project2nd.common;
+package com.green.gajigaji.common;
 
-import com.green.project2nd.common.model.ResultDto;
+import com.green.gajigaji.common.model.ResultDto;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import static com.green.project2nd.user.userexception.ConstMessage.FAILURE;
+import static com.green.gajigaji.user.userexception.ConstMessage.FAILURE;
 
 @Order(2)
 @RestControllerAdvice

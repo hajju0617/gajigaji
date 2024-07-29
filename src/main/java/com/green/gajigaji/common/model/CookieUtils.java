@@ -1,4 +1,4 @@
-package com.green.project2nd.common.model;
+package com.green.gajigaji.common.model;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -56,23 +56,14 @@ public class CookieUtils {
         setCookie(res, name, null, 0);
     }
 
-<<<<<<< HEAD
     public String serialize(Object obj) {
-=======
-    public String serialize(Object obj) {   // 객체가 가지고 있는 데이터를 문자열로 변환(암호화)
-                                                     // byte[] -> String -> String
->>>>>>> c1deb1b (유저 - swagger 표시 작업, 생년월일 유효성 검사 작업, 이메일 인증번호 작업,  JWT 적용 작업 중,)
         return Base64.getUrlEncoder().encodeToString(SerializationUtils.serialize(obj));
     }
 
     public <T> T deserialize(Cookie cookie, Class<T> cls) {     // 복호화
         return cls.cast(
                 SerializationUtils.deserialize(
-<<<<<<< HEAD
                         Base64.getUrlDecoder().decode(cookie.getValue())
-=======
-                        Base64.getUrlDecoder().decode(cookie.getValue())        // String -> byte[] -> Object (decode 반환타입은 byte[])
->>>>>>> c1deb1b (유저 - swagger 표시 작업, 생년월일 유효성 검사 작업, 이메일 인증번호 작업,  JWT 적용 작업 중,)
                 )
         );
     }

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RequiredArgsConstructor
 @Order(1)
-@RestControllerAdvice(basePackages = "com.green.project2nd.join")
+@RestControllerAdvice(basePackages = "com.green.gajigaji.join")
 public class JoinExceptionHandler {
     private final CheckMapper mapper;
     private final JoinMapper joinMapper;

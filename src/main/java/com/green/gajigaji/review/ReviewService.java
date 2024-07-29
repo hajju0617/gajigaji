@@ -1,10 +1,10 @@
-package com.green.project2nd.review;
+package com.green.gajigaji.review;
 
-import com.green.project2nd.common.CheckMapper;
-import com.green.project2nd.common.model.CustomFileUtils;
-import com.green.project2nd.review.exception.CustomException;
-import com.green.project2nd.review.exception.ReviewErrorCode;
-import com.green.project2nd.review.model.*;
+import com.green.gajigaji.common.CheckMapper;
+import com.green.gajigaji.common.model.CustomFileUtils;
+import com.green.gajigaji.review.exception.CustomException;
+import com.green.gajigaji.review.exception.ReviewErrorCode;
+import com.green.gajigaji.review.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

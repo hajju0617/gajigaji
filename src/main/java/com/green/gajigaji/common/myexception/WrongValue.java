@@ -1,4 +1,4 @@
-package com.green.project2nd.common.myexception;
+package com.green.gajigaji.common.myexception;
 
 //선택적 예외처리 하기위해 RE를 사용함. (ex.프로그래밍 오류)
 public class WrongValue extends RuntimeException {

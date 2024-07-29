@@ -1,4 +1,4 @@
-package com.green.project2nd.review.model;
+package com.green.gajigaji.review.model;
 
 import lombok.Getter;
 import lombok.Setter;

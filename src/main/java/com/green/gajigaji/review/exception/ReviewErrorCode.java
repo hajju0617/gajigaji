@@ -1,11 +1,11 @@
-package com.green.project2nd.review.exception;
+package com.green.gajigaji.review.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
-import static com.green.project2nd.review.exception.ReviewConst.ERROR;
-import static com.green.project2nd.review.exception.ReviewConst.FAILURE;
+import static com.green.gajigaji.review.exception.ReviewConst.ERROR;
+import static com.green.gajigaji.review.exception.ReviewConst.FAILURE;
 
 @Getter
 @RequiredArgsConstructor

@@ -1,4 +1,4 @@
-package com.green.project2nd.review.exception;
+package com.green.gajigaji.review.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
@@ -13,7 +13,7 @@ import java.util.List;
 
 @Slf4j
 @Order(1)
-@RestControllerAdvice(basePackages = "com.green.project2nd.review")
+@RestControllerAdvice(basePackages = "com.green.gajigaji.review")
 public class ReviewGlobalExceptionHandler {
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<Object> handleException(CustomException e) {

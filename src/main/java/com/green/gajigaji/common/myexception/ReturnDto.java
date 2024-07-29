@@ -1,4 +1,4 @@
-package com.green.project2nd.common.myexception;
+package com.green.gajigaji.common.myexception;
 
 public class ReturnDto extends RuntimeException {
     public ReturnDto() {super();}

@@ -1,6 +1,6 @@
-package com.green.project2nd.review;
+package com.green.gajigaji.review;
 
-import com.green.project2nd.review.model.*;
+import com.green.gajigaji.review.model.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

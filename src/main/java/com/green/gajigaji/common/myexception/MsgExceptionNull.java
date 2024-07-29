@@ -1,4 +1,4 @@
-package com.green.project2nd.common.myexception;
+package com.green.gajigaji.common.myexception;
 
 public class MsgExceptionNull extends RuntimeException {
     public MsgExceptionNull() {super();}

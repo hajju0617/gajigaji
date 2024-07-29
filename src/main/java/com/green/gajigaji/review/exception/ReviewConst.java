@@ -1,4 +1,4 @@
-package com.green.project2nd.review.exception;
+package com.green.gajigaji.review.exception;
 
 public class ReviewConst {
     final static int SUCCESS = 1;

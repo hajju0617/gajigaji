@@ -1,4 +1,4 @@
-package com.green.project2nd.review.exception;
+package com.green.gajigaji.review.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
