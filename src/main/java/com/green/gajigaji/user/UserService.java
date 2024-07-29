@@ -36,7 +36,7 @@ import static com.green.gajigaji.user.userexception.ConstMessage.*;
 @RequiredArgsConstructor
 public class UserService {
 
-    private int i;
+
     private final UserMapper mapper;
     private final CustomFileUtils customFileUtils;
     private final JwtTokenProviderV2 jwtTokenProvider;
