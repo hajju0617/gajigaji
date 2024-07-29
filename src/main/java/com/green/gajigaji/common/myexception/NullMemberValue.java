@@ -1,4 +1,4 @@
-package com.green.gajigaji.common.myexception;
+package com.green.project2nd.common.myexception;
 
 public class NullMemberValue extends RuntimeException {
     public NullMemberValue() {super();}

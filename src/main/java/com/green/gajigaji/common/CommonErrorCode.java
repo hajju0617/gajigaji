@@ -1,4 +1,4 @@
-package com.green.gajigaji.common;
+package com.green.project2nd.common;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

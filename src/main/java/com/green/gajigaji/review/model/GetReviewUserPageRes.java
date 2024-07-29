@@ -1,9 +1,9 @@
-package com.green.gajigaji.review.model;
+package com.green.project2nd.review.model;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.*;
 
 
 @Getter

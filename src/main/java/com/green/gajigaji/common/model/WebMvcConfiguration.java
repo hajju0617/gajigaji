@@ -1,4 +1,4 @@
-package com.green.gajigaji.common.model;
+package com.green.project2nd.common.model;
 
 
 import lombok.extern.slf4j.Slf4j;

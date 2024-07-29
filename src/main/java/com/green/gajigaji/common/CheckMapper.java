@@ -1,6 +1,6 @@
-package com.green.gajigaji.common;
+package com.green.project2nd.common;
 
-import com.green.gajigaji.planjoin.model.TogglePlanJoinReq;
+import com.green.project2nd.planjoin.model.TogglePlanJoinReq;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

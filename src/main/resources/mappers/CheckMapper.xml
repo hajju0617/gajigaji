@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.green.gajigaji.common.CheckMapper">
+<mapper namespace="com.green.project2nd.common.CheckMapper">
     <select id="checkPartyLeader">
         SELECT COALESCE(B.member_role, 0) AS memberRole
         FROM user_master A
@@ -104,5 +104,11 @@
         SELECT plan_completed AS planCompleted
         FROM plan_master
         WHERE plan_seq = #{planSeq}
+    </select>
+    <select id="checkPostedReview">
+        SELECT 1
+        FROM review_master
+        WHERE review_plan_seq = #{reviewPlanSeq}
+        AND review_plmember_seq = #{reviewPlmemberSeq}
     </select>
 </mapper>

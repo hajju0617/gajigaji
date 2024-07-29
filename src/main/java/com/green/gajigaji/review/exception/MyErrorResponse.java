@@ -1,6 +1,6 @@
-package com.green.gajigaji.review.exception;
+package com.green.project2nd.review.exception;
 
-import com.green.gajigaji.review.model.MyResponse;
+import com.green.project2nd.review.model.MyResponse;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

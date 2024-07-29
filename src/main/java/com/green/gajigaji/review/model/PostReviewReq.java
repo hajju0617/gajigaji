@@ -1,4 +1,4 @@
-package com.green.gajigaji.review.model;
+package com.green.project2nd.review.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;

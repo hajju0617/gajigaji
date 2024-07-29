@@ -1,7 +1,7 @@
-package com.green.gajigaji.common.model;
+package com.green.project2nd.common.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.green.gajigaji.common.GlobalConst;
+import com.green.project2nd.common.GlobalConst;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

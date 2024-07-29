@@ -1,4 +1,4 @@
-package com.green.gajigaji.review.exception;
+package com.green.project2nd.review.exception;
 
 import org.springframework.http.HttpStatus;
 

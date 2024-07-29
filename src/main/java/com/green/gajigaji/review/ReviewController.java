@@ -1,7 +1,7 @@
-package com.green.gajigaji.review;
+package com.green.project2nd.review;
 
-import com.green.gajigaji.common.model.ResultDto;
-import com.green.gajigaji.review.model.*;
+import com.green.project2nd.common.model.ResultDto;
+import com.green.project2nd.review.model.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.rmi.AccessException;
 import java.util.List;
 
 @Slf4j
