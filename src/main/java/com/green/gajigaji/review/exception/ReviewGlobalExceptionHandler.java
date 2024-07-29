@@ -3,17 +3,17 @@ package com.green.gajigaji.review.exception;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.validation.BindException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
 @Order(1)
-@RestControllerAdvice(basePackages = "com.green.project2nd.review")
+@RestControllerAdvice(basePackages = "com.green.gajigaji.review")
 public class ReviewGlobalExceptionHandler {
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<Object> handleException(CustomException e) {

@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @Order(1)
-@RestControllerAdvice(basePackages = "com.green.project2nd.party")
+@RestControllerAdvice(basePackages = "com.green.gajigaji.party")
 public class PartyExceptionHandler {
     private final CheckMapper mapper;
 

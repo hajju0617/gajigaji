@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RequiredArgsConstructor
 @Order(1)
-@RestControllerAdvice(basePackages = "com.green.project2nd.member")
+@RestControllerAdvice(basePackages = "com.green.gajigaji.member")
 public class MemberExceptionHandler {
     private final CheckMapper mapper;
 
