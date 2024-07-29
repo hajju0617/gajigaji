@@ -35,6 +35,8 @@ import static com.green.gajigaji.user.userexception.ConstMessage.*;
 @Slf4j
 @RequiredArgsConstructor
 public class UserService {
+
+    private int i;
     private final UserMapper mapper;
     private final CustomFileUtils customFileUtils;
     private final JwtTokenProviderV2 jwtTokenProvider;
