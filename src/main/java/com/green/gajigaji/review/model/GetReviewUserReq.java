@@ -1,5 +1,6 @@
 package com.green.gajigaji.review.model;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +9,10 @@ import lombok.Setter;
 public class GetReviewUserReq {
     private int search;
     private String searchData;
+
+    @NotBlank(message = "유저 PK는 필수값입니다.")
     private long userSeq;
+
     private Integer page;
     private Integer size;
     private int startIdx;
