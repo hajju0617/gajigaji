@@ -21,7 +21,7 @@ public class JoinService {
     private final CheckMapper checkMapper;
     private final JoinExceptionHandler check;
     /** "JoinExceptionHandler"는 "GlobalExceptionHandler"보다 순위가 높음. @Order(1) == 1순위임.
-     * "JoinExceptionHandler"의 범위는 (basePackages = "com.green.project2nd.member")이다.
+     * "JoinExceptionHandler"의 범위는 (basePackages = "com.green.gajigaji.member")이다.
      * "JoinExceptionHandler"는 (MsgException,MsgExceptionNull,ReturnDto,NullReqValue,RuntimeException,NullPointerException,Exception)의 '에러' 발생시
      *  어노테이션 @ExceptionHandler('에러'.class)으로 사용자가 '에러'에 대응하게 설정한 값들을 리턴해줌.
      * check.exception('값')은 잘못된 '값'에 대해서 사용자가 설정한 커스텀 에러를 터트림(커스텀 에러 : MsgException,MsgExceptionNull,ReturnDto,NullReqValue)
