@@ -104,7 +104,7 @@ public class UserService {
 
         MyUser myUser = MyUser.builder()
                 .userId(user.getUserSeq())
-                .role("ROLE_USER")
+                .role(user.getUserRole())
                 .build();
 
         String accessToken = jwtTokenProvider.generateAccessToken(myUser);
@@ -127,6 +127,7 @@ public class UserService {
                 .userPhone(user.getUserPhone())
                 .userGenderNm(user.getUserGenderNm())
                 .accessToken(accessToken)
+                .userRole(user.getUserRole())
                 .build();
     }
     public Map getAccessToken(HttpServletRequest req) {

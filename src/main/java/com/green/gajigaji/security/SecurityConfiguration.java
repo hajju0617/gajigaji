@@ -59,6 +59,7 @@ public class SecurityConfiguration {
                                 ,"/api/budget/**"
                         )
                                 .authenticated()
+                                .requestMatchers("/admin").hasRole("ADMIN")
                                 .anyRequest().permitAll()
 
 

@@ -1,4 +1,4 @@
-package com.green.gajigaji.common;
+package com.green.gajigaji.common.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
