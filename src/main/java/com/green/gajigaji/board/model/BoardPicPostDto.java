@@ -11,9 +11,9 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-@EqualsAndHashCode
 
 public class BoardPicPostDto {
     private long boardSeq;
+    @Builder.Default
     private List<String> fileNames = new ArrayList();
 }

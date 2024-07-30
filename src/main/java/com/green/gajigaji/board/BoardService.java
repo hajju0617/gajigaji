@@ -3,10 +3,12 @@ package com.green.gajigaji.board;
 
 import com.green.gajigaji.board.model.*;
 import com.green.gajigaji.common.model.CustomFileUtils;
+import io.jsonwebtoken.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +60,7 @@ public class BoardService {
     }
 
 
-    public boolean boardPatch(List<MultipartFile> newPics, BoardPatchReq p) {
+    public BoardPatchReq boardPatch(List<MultipartFile> newPics, BoardPatchReq p) {
         int updateCount = mapper.patchBoard(p);
         if (updateCount == 0) {
             throw new RuntimeException("수정된 부분이 없음");
@@ -70,38 +72,46 @@ public class BoardService {
         boolean hasDeletedFiles = p.getDeleteFileNames() != null && !p.getDeleteFileNames().isEmpty();
 
         if (!hasNewFiles && !hasDeletedFiles) {
-            return true;
+            return p;
         }
 
-        BoardPicPostDto dto = BoardPicPostDto.builder().boardSeq(p.getBoardSeq())
-                .fileNames(new ArrayList<>()).build();
-        try {
-            String path = String.format("board/%d", p.getBoardSeq());
+        BoardPicPostDto dto = BoardPicPostDto.builder().boardSeq(p.getBoardSeq()).fileNames(new ArrayList()).build();
+        String path = String.format("board/%d", p.getBoardSeq());
 
+        try {
             if (hasDeletedFiles) {
-                for (String fileName : p.getDeleteFileNames()) {
-                    if (existingFileNames.contains(fileName)) {
-                        String target = String.format("%s/%s", path, fileName);
-                        customFileUtils.deleteFolder(target);
-                        mapper.deleteBoardPics(p.getBoardSeq(), fileName);
-                    }
-                }
+                deleteFiles(p.getDeleteFileNames(), existingFileNames, path, p.getBoardSeq());
             }
             if (hasNewFiles) {
-                for (MultipartFile pic : newPics) {
-                    String fileName = customFileUtils.makeRandomFileName(pic);
-                    String target = String.format("%s/%s", path, fileName);
-                    customFileUtils.transferTo(pic, target);
-                    dto.getFileNames().add(fileName);
-                }
-                mapper.postBoardPics(dto);
+                uploadFiles(newPics, path, dto);
             }
+            mapper.postBoardPics(dto);
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("board 수정 오류");
+            log.error("Board 수정 오류: {}", e.getMessage(), e);
+            throw new RuntimeException("board 수정 오류", e);
         }
-        return true;
+
+        return p;
     }
+
+    private void deleteFiles(List<String> deleteFileNames, List<String> existingFileNames, String path, long boardSeq) throws IOException {
+        for (String fileName : deleteFileNames) {
+            if (existingFileNames.contains(fileName)) {
+                String target = String.format("%s/%s", path, fileName);
+                customFileUtils.deleteFolder(target);
+                mapper.deleteBoardPics(boardSeq, fileName);
+            }
+        }
+    }
+    private void uploadFiles(List<MultipartFile> newPics, String path, BoardPicPostDto dto) throws Exception {
+        for (MultipartFile pic : newPics) {
+            String fileName = customFileUtils.makeRandomFileName(pic);
+            String target = String.format("%s/%s", path, fileName);
+            customFileUtils.transferTo(pic, target);
+            dto.getFileNames().add(fileName);
+        }
+    }
+
     public BoardGetRes getBoard(BoardGetReq p) {
         mapper.incrementBoardHit(p.getBoardSeq(), p.getBoardPartySeq(), p.getBoardMemberSeq());
         BoardGetRes board = mapper.getBoard(p.getBoardSeq(), p.getBoardPartySeq(), p.getBoardMemberSeq());
