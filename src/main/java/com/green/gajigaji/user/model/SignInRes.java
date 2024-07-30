@@ -34,4 +34,5 @@ public class SignInRes {
 
 
     private String accessToken;
+    private String userRole;
 }
