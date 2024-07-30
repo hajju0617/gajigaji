@@ -116,25 +116,16 @@ public class JwtTokenProviderV2 {
 
 
     public String resolveToken(HttpServletRequest req) {
-
         String jwt = req.getHeader(appProperties.getJwt().getHeaderSchemaName());
-
 
         if(jwt == null) {
             return null;
         }
 
-
         if(!(jwt.startsWith(appProperties.getJwt().getTokenType()))) {
             return null;
         }
 
-
         return jwt.substring(appProperties.getJwt().getTokenType().length()).trim();
-
-
-
-
-
     }
 }

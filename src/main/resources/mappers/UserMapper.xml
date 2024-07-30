@@ -35,6 +35,7 @@
         , A.user_gender AS userGender, B.CD_GB_NM AS userGenderNm
         , user_phone AS userPhone
         , user_pic AS userPic
+        , user_role AS userRole
         FROM user_master A
         JOIN (SELECT CD_GB, CD_GB_NM FROM common_cd WHERE CD = 'US-00') B
         ON A.user_gender = B.CD_GB
