@@ -36,12 +36,7 @@ public class BoardController {
                 .build();
     }
     @DeleteMapping
-    @Operation(summary = "게시글 삭제") /*,description =
-            "<strong> 커뮤니티 게시글 삭제   </strong><p></p>" +
-                    "<p><strong> boardSeq  </strong> : 게시글 PK (long) </p>" +
-                    "<p><strong> boardMemberSeq </strong> : 게시글 유저 PK (long) </p>"
-    ) */
-
+    @Operation(summary = "게시글 삭제")
     public ResultDto<Integer> deleteBoard(@RequestBody BoardDeleteReq p ) {
         int result = service.deleteBoard(p);
 
@@ -53,24 +48,16 @@ public class BoardController {
                 .build();
     }
 
-    @PatchMapping
-    @Operation(summary = "게시글 수정" )
-    /*,description =
-            "<strong> 커뮤니티 게시글 수정    </strong><p></p>" +
-                    "<p><strong> boardSeq  </strong> : 게시글 PK (long) </p>" +
-                    "<p><strong> boardMemberSeq </strong> : 게시글 유저 PK (long) </p>" +
-                    "<p><strong> boardTitle   </strong> : 게시글 제목 (strong) </p>" +
-                    "<p><strong> nowFileNames </strong> : 수정시 존재할 사진 (String) </p>" +
-                    "<p><strong> deleteFileNames </strong> : 수정시 삭제할 사진 (string) </p>"
-    )*/
 
+    @PatchMapping
+    @Operation(summary = "게시글 수정")
     public ResultDto<BoardPatchReq> patchBoard(@RequestParam List<MultipartFile> newPics, @RequestBody BoardPatchReq p) {
-        boolean result = service.boardPatch(newPics, p);
+        BoardPatchReq result = service.boardPatch(newPics, p);
         return ResultDto.<BoardPatchReq>builder()
                 .status(HttpStatus.OK)
                 .code(1)
                 .resultMsg("정상처리 되었습니다")
-                .resultData(p)
+                .resultData(result)
                 .build();
     }
     @GetMapping
