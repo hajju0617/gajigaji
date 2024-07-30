@@ -7,10 +7,10 @@ import java.util.List;
 
 @Mapper
 public interface ReviewMapper {
-    void postReview(PostReviewReq p);
-    void postReviewPics(PostReviewPicDto p);
+    int postReview(PostReviewReq p);
+    int postReviewPics(PostReviewPicDto p);
     int deleteReview(long reviewSeq);
-    void deleteReviewPics(long reviewSeq);
+    int deleteReviewPics(long reviewSeq);
     List<GetReviewAllRes> getReviewAll(GetReviewAllReq p);
     List<GetReviewUserRes> getReviewUser(GetReviewUserReq p);
     long getTotalElements(int search, String searchData, long userSeq);
