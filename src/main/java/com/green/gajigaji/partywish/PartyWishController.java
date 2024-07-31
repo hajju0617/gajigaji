@@ -3,13 +3,10 @@ package com.green.gajigaji.partywish;
 
 import com.green.gajigaji.common.model.ResultDto;
 import com.green.gajigaji.partywish.model.PartyWishGetListRes;
-import com.green.gajigaji.partywish.model.PartyWishToggleReq;
-import com.green.gajigaji.user.userexception.NotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,8 +33,8 @@ public class PartyWishController {
                             "<p>  관심모임 추가 : 1 </p> " +
                             "<p>  관심모임 삭제 : 0 </p> "
     )
-    public ResultDto<Integer> togglePartyWish(@ParameterObject @ModelAttribute PartyWishToggleReq p) {
-            int result = service.togglePartyWish(p);
+    public ResultDto<Integer> togglePartyWish(long wishPartySeq) {
+            int result = service.togglePartyWish(wishPartySeq);
             return ResultDto.<Integer>builder()
                     .status(HttpStatus.OK)
                     .code(SUCCESS)
@@ -47,9 +44,9 @@ public class PartyWishController {
 
     }
 
-    @GetMapping("{userSeq}")
-    public ResultDto<List<PartyWishGetListRes>> partyWishGetList(@PathVariable("userSeq") long userSeq) {
-            List<PartyWishGetListRes> result = service.partyWishGetList(userSeq);
+    @GetMapping("/list")
+    public ResultDto<List<PartyWishGetListRes>> partyWishGetList() {
+            List<PartyWishGetListRes> result = service.partyWishGetList();
             return ResultDto.<List<PartyWishGetListRes>>builder()
                     .status(HttpStatus.OK)
                     .code(SUCCESS)

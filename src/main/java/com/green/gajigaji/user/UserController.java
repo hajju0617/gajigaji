@@ -1,12 +1,14 @@
 package com.green.gajigaji.user;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.green.gajigaji.common.model.ResultDto;
 import com.green.gajigaji.user.model.*;
-import com.green.gajigaji.user.userexception.*;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -20,7 +22,6 @@ import java.util.Map;
 
 import static com.green.gajigaji.common.GlobalConst.*;
 
-import static com.green.gajigaji.user.usercommon.UserErrorMessage.*;
 import static com.green.gajigaji.user.usercommon.UserMessage.IS_NOT_DUPLICATE;
 
 
@@ -61,8 +62,9 @@ public class UserController {
                             "<p>   : 중복된 닉네임</p> " +
                             "<p> 3 : 관리자에게 문의하세요</p> "
     )
-    public ResultDto<Long> postSignUp(@RequestPart(value = "userPic") MultipartFile userPic, @Valid @RequestPart(value = "p") SignUpReq p) {
-            long result = service.postSignUp(userPic, p);
+    public ResultDto<Long> postSignUp(@RequestPart(value = "userPic") MultipartFile userPic, @Valid @RequestPart(value = "p") SignUpReq p,  @Nullable Integer a) {
+
+            long result = service.postSignUp(userPic, p, a);
 
             return ResultDto.<Long>builder()
                     .status(HttpStatus.OK)

@@ -12,9 +12,6 @@ import com.green.gajigaji.security.MyUserDetails;
 import com.green.gajigaji.security.jwt.JwtTokenProviderV2;
 import com.green.gajigaji.user.usercommon.CommonUser;
 import com.green.gajigaji.user.model.*;
-import com.green.gajigaji.user.userexception.*;
-import com.green.gajigaji.user.userexception.DuplicationException;
-import com.green.gajigaji.user.userexception.LoginException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -38,8 +35,6 @@ import static com.green.gajigaji.user.usercommon.UserErrorMessage.*;
 @Slf4j
 @RequiredArgsConstructor
 public class UserService {
-
-
     private final UserMapper mapper;
     private final CustomFileUtils customFileUtils;
     private final JwtTokenProviderV2 jwtTokenProvider;
@@ -50,7 +45,7 @@ public class UserService {
 
 
     @Transactional
-    public Long postSignUp(MultipartFile userPic, SignUpReq p) {
+    public Long postSignUp(MultipartFile userPic, SignUpReq p, Integer a) {
         if(userPic == null || userPic.isEmpty()) {
             throw new CustomException(PIC_INPUT_MESSAGE);
         }
@@ -71,12 +66,16 @@ public class UserService {
         if(mapper.duplicatedCheckNickname(p.getUserNickname()) == 1) {
             throw new CustomException(NICKNAME_DUPLICATION_MESSAGE);
         }
-
         String saveFileName = customFileUtils.makeRandomFileName(userPic);
         p.setUserPic(saveFileName);
         String hashPw = passwordEncoder.encode(p.getUserPw());
         p.setUserPw(hashPw);
 
+        if(a == null){
+            p.setUserRole("ROLE_USER");
+        } else {
+            p.setUserRole("ROLE_ADMIN");
+        }
         int result = mapper.postSignUp(p);
 
         try {
@@ -85,8 +84,8 @@ public class UserService {
             String target = String.format("%s/%s", path, saveFileName);
             customFileUtils.transferTo(userPic, target);
 
-        } catch (Exception fe) {
-            fe.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
             throw new CustomException(CommonErrorCode.INTERNAL_SERVER_ERROR); //구체적 예외처리 하기
         }
         return p.getUserSeq();
@@ -103,6 +102,7 @@ public class UserService {
                 .userId(user.getUserSeq())
                 .role(user.getUserRole())
                 .build();
+        log.info("user.getUserRole() : {}", user.getUserRole());
 
         String accessToken = jwtTokenProvider.generateAccessToken(myUser);
         String refreshToken = jwtTokenProvider.generateRefreshToken(myUser);
@@ -144,7 +144,7 @@ public class UserService {
 
         String accessToken = jwtTokenProvider.generateAccessToken(myUser);
 
-        Map map = new HashMap();
+        Map map = new HashMap<>();
         map.put("accessToken", accessToken);
         return map;
     }
@@ -176,8 +176,8 @@ public class UserService {
             String delAbsoluteFolderPath = String.format("%s%s", customFileUtils.uploadPath, midPath);
             customFileUtils.deleteFolder(delAbsoluteFolderPath);
 
-        } catch (FileException fe) {
-            throw new CustomException(FILE_ERROR_MESSAGE);
+        } catch (Exception e) {
+            throw new CustomException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
         return mapper.deleteUser(userPk);
     }
@@ -185,6 +185,7 @@ public class UserService {
     public UserEntity getDetailUserInfo() {
         long userPk = authenticationFacade.getLoginUserId();
         UserEntity userEntity = mapper.getDetailUserInfo(userPk);
+        log.info("userEntity : {}", userEntity);
 
         return userEntity;
     }

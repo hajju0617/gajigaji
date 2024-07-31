@@ -8,10 +8,10 @@ import java.util.List;
 
 @Mapper
 public interface PartyWishMapper {
-    int insertPartyWish(PartyWishToggleReq p);
+    int insertPartyWish(long wishUserSeq, long wishPartySeq);
 
-    int deletePartyWish(PartyWishToggleReq p);
+    int deletePartyWish(long wishUserSeq, long wishPartySeq);
 
-    List<PartyWishGetListRes> partyWishGetList(long userSeq);
+    List<PartyWishGetListRes> partyWishGetList(long wishUserSeq);
 
 }

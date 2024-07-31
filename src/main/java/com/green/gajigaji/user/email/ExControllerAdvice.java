@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 @RestControllerAdvice
 public class ExControllerAdvice {
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<ErrorResult/*code, 메세지*/> testing(NullPointerException e){

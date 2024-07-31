@@ -251,7 +251,7 @@
     </update>
     <update id="updatePartyAuthGb1">
         UPDATE party_master
-        SET party_auth_gb = 1
+        SET party_auth_gb = 2
         WHERE party_seq = #{partySeq}
 
     </update>

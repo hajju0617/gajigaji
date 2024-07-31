@@ -16,6 +16,8 @@
         , user_phone = #{userPhone}
         , user_intro = #{userIntro}
         , user_pic = #{userPic}
+        , user_role = #{userRole}
+
     </insert>
 
     <select id="getSimpleUserInfo">

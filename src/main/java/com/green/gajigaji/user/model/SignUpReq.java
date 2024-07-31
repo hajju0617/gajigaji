@@ -70,4 +70,7 @@ public class SignUpReq {
 
     @JsonIgnore
     private long userSeq;
+
+    @JsonIgnore
+    private String userRole;
 }

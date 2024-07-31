@@ -39,6 +39,6 @@
         ON A.member_user_seq = B.user_seq
         WHERE member_role = 1) D
         ON D.member_party_seq = A.wish_party_seq
-        WHERE B.user_seq = #{userSeq};
+        WHERE B.user_seq = #{wishUserSeq};
     </select>
 </mapper>

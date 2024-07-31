@@ -4,6 +4,7 @@ import com.green.gajigaji.common.model.CustomFileUtils;
 import com.green.gajigaji.common.model.ResultDto;
 import com.green.gajigaji.party.exception.PartyExceptionHandler;
 import com.green.gajigaji.party.model.*;
+import com.green.gajigaji.security.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import java.util.List;
 public class PartyServiceImpl implements PartyService{
     private final PartyMapper mapper;
     private final CustomFileUtils customFileUtils;
+    private final AuthenticationFacade authenticationFacade;
 
     private final PartyExceptionHandler check;
     /** "PartyExceptionHandler"는 "GlobalExceptionHandler"보다 순위가 높음. @Order(1) == 1순위임.
@@ -153,8 +155,9 @@ public class PartyServiceImpl implements PartyService{
     /** (중요!!) userSeq <- 나중에 멤버장이 아닌, 관리자가 접근했을 때 승인해주게 해야함!
      * 관리자를 어떻게 설정하는지에 따라서 코드 변경 하세용. */
     //모임 생성 승인 (모임장이 자신의 모임을 승인함. 관리자 나오면 수정해야함.)
-    public ResultDto<Integer> updatePartyAuthGb1(Long partySeq, Long userSeq) {
-        check.exception(partySeq, userSeq);
+    public ResultDto<Integer> updatePartyAuthGb1(Long partySeq) {
+        long userSeq = authenticationFacade.getLoginUserId();
+        check.exception(partySeq);
 
         // 모임 상태 변경 (PartyAuthGb = 1)
         mapper.updatePartyAuthGb1(partySeq, userSeq);
