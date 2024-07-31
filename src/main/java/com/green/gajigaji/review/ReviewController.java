@@ -12,9 +12,9 @@ import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.rmi.AccessException;
 import java.util.List;
+
+import static com.green.gajigaji.common.GlobalConst.SUCCESS;
 
 @Slf4j
 @RestController
@@ -37,10 +37,10 @@ public class ReviewController {
                             "<p> 1 : 성공 (유저PK, 사진 리턴)</p>" +
                             "<p> 2 : 실패, ResultMsg</p>")
     public ResultDto<PostReviewRes> postReview(@RequestPart(value = "pics", required = false) List<MultipartFile> pics
-            , @RequestPart PostReviewReq p) throws Exception{
+            , @RequestPart PostReviewReq p){
 
             PostReviewRes result = service.postReview(pics, p);
-            return ResultDto.resultDto(HttpStatus.OK, 1,"리뷰 등록 완료" ,result);
+            return ResultDto.resultDto(HttpStatus.OK, SUCCESS,"리뷰 등록 완료" ,result);
     }
 
     @DeleteMapping
@@ -55,7 +55,7 @@ public class ReviewController {
     public ResultDto<Integer> deleteReview(@RequestParam(name = "reviewSeq", required = true) long reviewSeq) {
 
         int result = service.deleteReview(reviewSeq);
-        return ResultDto.resultDto(HttpStatus.OK,1,"삭제 완료(result = 영향받은 행 수)", result);
+        return ResultDto.resultDto(HttpStatus.OK,SUCCESS,"삭제 완료(result = 영향받은 행 수)", result);
     }
 
     @GetMapping
@@ -84,7 +84,7 @@ public class ReviewController {
        GetReviewAllReq p = new GetReviewAllReq(page, size, search, searchData);
        GetReviewAllPageRes result = service.getReviewAll(p);
 
-       return ResultDto.resultDto(HttpStatus.OK,1, "리뷰 조회 완료", result);}
+       return ResultDto.resultDto(HttpStatus.OK,SUCCESS, "리뷰 조회 완료", result);}
 
     @GetMapping("/user")
     @Operation(summary = "내가 적은 리뷰 검색", description =
@@ -110,10 +110,8 @@ public class ReviewController {
         if(size == null || size < 0) { size = 0; }
 
         GetReviewUserReq p = new GetReviewUserReq(page, size, search, userSeq, searchData);
-
         GetReviewUserPageRes result = service.getReviewUser(p);
-
-        return ResultDto.resultDto(HttpStatus.OK,1, "리뷰 조회 완료", result);
+        return ResultDto.resultDto(HttpStatus.OK,SUCCESS, "리뷰 조회 완료", result);
     }
 
     @PatchMapping
@@ -128,25 +126,9 @@ public class ReviewController {
                             "<p> 1 : 성공 (사진 리턴)</p>" +
                             "<p> 2 : 실패, ResultMsg</p>")
     public ResultDto<List<GetReviewPicDto>> patchReview(@RequestPart(value = "pics", required = false) List<MultipartFile> pics
-                                                         , @RequestPart PatchReviewReq p) {
-        if(p.getReviewSeq() == 0) {         //리뷰PK 예외처리
-            return ResultDto.resultDto(HttpStatus.BAD_REQUEST,2, "리뷰가 존재하지 않거나 리뷰 PK 값이 전달되지 않았습니다.");
-        }
-        if(p.getReviewContents() == null) { // 내용 예외처리
-            return ResultDto.resultDto(HttpStatus.BAD_REQUEST,2, "내용을 입력해주세요.");
-        }
-        if(p.getReviewRating() <= 0 || p.getReviewRating() > 5) {   // 별점 예외처리
-            return ResultDto.resultDto(HttpStatus.BAD_REQUEST,2, "별점은 0~5점이어야 합니다.");
-        }
-
-        try {
+                                                         , @RequestPart PatchReviewReq p){
             List<GetReviewPicDto> result = service.patchReview(pics, p);
-
-            return ResultDto.resultDto(HttpStatus.OK,1, "리뷰 수정 완료", result);
-        } catch (Exception e){
-            log.info("e : {}", e);
-            return ResultDto.resultDto(HttpStatus.INTERNAL_SERVER_ERROR,2, "파일 업로드 중 오류가 발생했습니다.");
-        }
+            return ResultDto.resultDto(HttpStatus.OK,SUCCESS, "리뷰 수정 완료", result);
     }
 
     @GetMapping("/fav")
@@ -159,22 +141,8 @@ public class ReviewController {
                     "<p> ResponseCode 응답 코드 </p>" +
                             "<p> 1 : 성공, ResultMsg</p>" +
                             "<p> 2 : 실패, ResultMsg</p>")
-    public ResultDto<Integer> getReviewFavToggle(@ModelAttribute @ParameterObject GetReviewFavToggleReq p) {
-
+    public ResultDto<Integer> getReviewFavToggle(@ModelAttribute @ParameterObject GetReviewFavToggleReq p){
         int result = service.toggleReviewFav(p); //== 1 ? "취소" : "등록";
-        String msg;
-
-        if (result == 1) {
-            msg = "취소";
-        } else if (result == 2) {
-            msg = "등록";
-        } else {
-            msg = "등록/취소에 실패했습니다.";
-        }
-        if(result == 1 || result == 2) {
-            return ResultDto.resultDto(HttpStatus.OK, 1, "도움돼요 " + msg + "완료");
-        } else {
-            return ResultDto.resultDto(HttpStatus.INTERNAL_SERVER_ERROR, 2, msg);
-        }
+        return ResultDto.resultDto(HttpStatus.OK, SUCCESS, "Fav Toggle 처리 완료(1:취소, 2:등록)", result);
     }
 }
