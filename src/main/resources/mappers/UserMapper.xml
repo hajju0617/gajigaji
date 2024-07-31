@@ -130,12 +130,6 @@
         WHERE user_email = #{userEmail}
     </update>
 
-    <select id="duplicatedCheckEmail">
-        SELECT COUNT(user_email)
-        FROM user_master
-        WHERE user_email = #{userEmail};
-    </select>
-
     <select id="duplicatedCheckNickname">
         SELECT COUNT(user_nickname)
         FROM user_master
