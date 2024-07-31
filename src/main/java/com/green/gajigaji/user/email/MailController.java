@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.green.gajigaji.user.userexception.ConstMessage.*;
+import static com.green.gajigaji.common.GlobalConst.SUCCESS;
+import static com.green.gajigaji.common.GlobalConst.SUCCESS_MESSAGE;
+import static com.green.gajigaji.user.usercommon.UserErrorMessage.*;
 
 
 
@@ -40,23 +42,12 @@ public class MailController {
     )
     public ResultDto<String> mailSend(@RequestBody @Valid EmailRequestReq emailDto) {
         log.info("이메일 인증 이메일 : {}", emailDto.getUserEmail());
-        try {
             String str = mailService.joinEmail(emailDto.getUserEmail());
-            if(str.equals(UNREGISTERED_EMAIL_MESSAGE)) {
-                return ResultDto.<String>builder().status(HttpStatus.BAD_REQUEST).code(FAILURE)
-                        .resultMsg(str).build();
-            }
-            if(str.equals(EMAIL_ALREADY_VERIFIED_MESSAGE)) {
-                return ResultDto.<String>builder().status(HttpStatus.CONFLICT).code(FAILURE)
-                        .resultMsg(str).build();
-            }
+
             return ResultDto.<String>builder().status(HttpStatus.OK).code(SUCCESS)
                     .resultMsg(str).build();
 
-        } catch (RuntimeException e) {
-            return ResultDto.<String>builder().status(HttpStatus.INTERNAL_SERVER_ERROR).code(ERROR)
-                    .resultMsg(TRY_AGAIN_MESSAGE).build();
-        }
+
     }
 
 
@@ -73,38 +64,17 @@ public class MailController {
                             "<p>  2 : 실패  </p> " +
                             "<p>  3 : 에러 "
     )
-    public ResultDto<Integer> AuthCheck(@RequestBody @Valid EmailCheckReq p){   // 이메일이랑 임의 코드
-        String Checked = mailService.CheckAuthNum(p.getUserEmail(),p.getAuthNum());
-        log.info("Check : {}", Checked);
+    public ResultDto<String> AuthCheck(@RequestBody @Valid EmailCheckReq p){   // 이메일이랑 임의 코드
+        String checked = mailService.CheckAuthNum(p.getUserEmail(),p.getAuthNum());
+        log.info("Check : {}", checked);
         log.info("p.getUserEmail() : {}", p.getUserEmail());
         log.info("p.getAuthNum() : {}", p.getAuthNum());
-        switch (Checked) {
-            case SUCCESS_MESSAGE -> {
-                return ResultDto.<Integer>builder()
-                        .status(HttpStatus.OK).code(SUCCESS)
-                        .resultMsg(SUCCESS_MESSAGE).build();
-            }
-            case AUTH_CODE_INCORRECT -> {
-                return ResultDto.<Integer>builder()
-                        .status(HttpStatus.BAD_REQUEST).code(FAILURE)
-                        .resultMsg(AUTH_CODE_INCORRECT).build();
-            }
-            case AUTH_CODE_EXPIRED -> {
-                return ResultDto.<Integer>builder()
-                        .status(HttpStatus.CONFLICT).code(FAILURE)
-                        .resultMsg(AUTH_CODE_EXPIRED).build();
-            }
-            case TRY_AGAIN_MESSAGE -> {
-                return ResultDto.<Integer>builder()
-                        .status(HttpStatus.INTERNAL_SERVER_ERROR).code(ERROR)
-                        .resultMsg(TRY_AGAIN_MESSAGE).build();
-            }
-            default -> {
-                return ResultDto.<Integer>builder()
-                        .status(HttpStatus.INTERNAL_SERVER_ERROR).code(ERROR)
-                        .resultMsg(ADMIN_CONTACT_MESSAGE).build();
-            }
-        }
+
+        return ResultDto.<String>builder()
+                .status(HttpStatus.OK).code(SUCCESS)
+                .resultMsg(SUCCESS_MESSAGE).resultData(checked).build();
+
+
     }
 
     @PatchMapping("/findpw")
@@ -120,28 +90,14 @@ public class MailController {
                             "<p>  3 : 에러 "
     )
     public ResultDto<String> setPassword(@RequestBody FindPasswordReq p) {
-
-        try {
             String result = mailService.setPassword(p);
-            if(result == null || result.isEmpty()) {
-                return ResultDto.<String>builder()
-                        .status(HttpStatus.BAD_REQUEST)
-                        .code(FAILURE)
-                        .resultMsg(UNREGISTERED_EMAIL_MESSAGE)
-                        .build();
-            }
+
             return ResultDto.<String>builder()
                     .status(HttpStatus.OK)
                     .code(SUCCESS)
                     .resultMsg(SUCCESS_MESSAGE)
                     .resultData(result)
                     .build();
-        } catch (RuntimeException e) {
-            return ResultDto.<String>builder()
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .code(ERROR)
-                    .resultMsg(TRY_AGAIN_MESSAGE)
-                    .build();
-        }
+
     }
 }

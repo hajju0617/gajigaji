@@ -1,6 +1,8 @@
 package com.green.gajigaji.user;
 
 
+import com.green.gajigaji.common.exception.CommonErrorCode;
+import com.green.gajigaji.common.exception.CustomException;
 import com.green.gajigaji.common.model.AppProperties;
 import com.green.gajigaji.common.model.CookieUtils;
 import com.green.gajigaji.common.model.CustomFileUtils;
@@ -8,7 +10,7 @@ import com.green.gajigaji.security.AuthenticationFacade;
 import com.green.gajigaji.security.MyUser;
 import com.green.gajigaji.security.MyUserDetails;
 import com.green.gajigaji.security.jwt.JwtTokenProviderV2;
-import com.green.gajigaji.user.datacheck.CommonUser;
+import com.green.gajigaji.user.usercommon.CommonUser;
 import com.green.gajigaji.user.model.*;
 import com.green.gajigaji.user.userexception.*;
 import com.green.gajigaji.user.userexception.DuplicationException;
@@ -27,8 +29,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.green.gajigaji.user.userexception.ConstMessage.*;
-
+import static com.green.gajigaji.common.GlobalConst.*;
+import static com.green.gajigaji.common.exception.MemberErrorCode.EXPIRED_TOKEN;
+import static com.green.gajigaji.user.usercommon.UserErrorMessage.*;
 
 
 @Service
@@ -47,33 +50,27 @@ public class UserService {
 
 
     @Transactional
-    public Long postSignUp(MultipartFile userPic, SignUpReq p) throws Exception {
+    public Long postSignUp(MultipartFile userPic, SignUpReq p) {
         if(userPic == null || userPic.isEmpty()) {
-            throw new FileException(PIC_INPUT_MESSAGE);
+            throw new CustomException(PIC_INPUT_MESSAGE);
         }
         if(!p.getUserPw().equals(p.getUserPwCheck())) {
-            throw new PwCheckException(PASSWORD_CHECK_MESSAGE);
+            throw new CustomException(PASSWORD_CHECK_MESSAGE);
         }
         if(CommonUser.isValidDate(p.getUserBirth())) {
             CommonUser.convertToDate(p.getUserBirth());
         } else {
-            throw new BirthDateException(BIRTHDATE_REGEX_MESSAGE);
+            throw new CustomException(BIRTHDATE_REGEX_MESSAGE);
         }
-        if(mapper.duplicatedCheckEmail(p.getUserEmail()) == 1) {
-            throw new DuplicationException(EMAIL_DUPLICATION_MESSAGE);
+        if(mapper.emailExists(p.getUserEmail()) == 1) {
+            throw new CustomException(EMAIL_DUPLICATION_MESSAGE);
         }
         if(mapper.duplicatedCheckNumber(p.getUserPhone()) == 1) {
-            throw new NumberDuplicationException(NUMBER_DUPLICATION_MESSAGE);
+            throw new CustomException(NUMBER_DUPLICATION_MESSAGE);
         }
         if(mapper.duplicatedCheckNickname(p.getUserNickname()) == 1) {
-            throw new RuntimeException(NICKNAME_DUPLICATION_MESSAGE);
+            throw new CustomException(NICKNAME_DUPLICATION_MESSAGE);
         }
-//        if(!isValidEmail(p.getUserEmail())) {
-//            throw new EmailRegexException(EMAIL_REGEX_MESSAGE);
-//        }
-//        if(!isValidNickname(p.getUserNickname())) {
-//            throw new NicknameRegexException(NICKNAME_REGEX_MESSAGE);
-//        }
 
         String saveFileName = customFileUtils.makeRandomFileName(userPic);
         p.setUserPic(saveFileName);
@@ -88,9 +85,9 @@ public class UserService {
             String target = String.format("%s/%s", path, saveFileName);
             customFileUtils.transferTo(userPic, target);
 
-        } catch (FileException fe) {
+        } catch (Exception fe) {
             fe.printStackTrace();
-            throw new FileException(FILE_ERROR_MESSAGE); //구체적 예외처리 하기
+            throw new CustomException(CommonErrorCode.INTERNAL_SERVER_ERROR); //구체적 예외처리 하기
         }
         return p.getUserSeq();
     }
@@ -99,7 +96,7 @@ public class UserService {
         SimpleInfo user = mapper.getSimpleUserInfo(p.getUserEmail());
 
         if(user == null || !(p.getUserEmail().equals(user.getUserEmail())) || !(passwordEncoder.matches(p.getUserPw(), user.getUserPw()))) {
-            throw new LoginException(LOGIN_MESSAGE);
+            throw new CustomException(LOGIN_MESSAGE);
         }
 
         MyUser myUser = MyUser.builder()
@@ -130,15 +127,16 @@ public class UserService {
                 .userRole(user.getUserRole())
                 .build();
     }
+
     public Map getAccessToken(HttpServletRequest req) {
         Cookie cookie = cookieUtils.getCookie(req, appProperties.getJwt().getRefreshTokenCookieName());
         if(cookie == null) { // refresh-token 값이 쿠키에 존재 여부
-            throw new RuntimeException();
+            throw new CustomException(MISSING_REFRESH_TOKEN_MESSAGE);
         }
 
         String refreshToken = cookie.getValue();
         if(!jwtTokenProvider.isValidateToken(refreshToken)) { //refresh-token 만료시간 체크
-            throw new RuntimeException();
+            throw new CustomException(EXPIRED_TOKEN);
         }
 
         UserDetails auth = jwtTokenProvider.getUserDetailsFromToken(refreshToken);
@@ -158,7 +156,7 @@ public class UserService {
 
 
         if (!(passwordEncoder.matches(p.getUserPw(), userPw)) || !(p.getUserNewPw().equals(p.getUserPwCheck()))) {
-            throw new PwCheckException(PASSWORD_CHECK_MESSAGE);
+            throw new CustomException(PASSWORD_CHECK_MESSAGE);
         }
         String newPassword = passwordEncoder.encode(p.getUserNewPw());
         p.setUserNewPw(newPassword);
@@ -171,7 +169,7 @@ public class UserService {
         long userPk = authenticationFacade.getLoginUserId();
         int result = mapper.userExists(userPk);
         if(result == 0) {
-            throw new NotFoundException(NOT_FOUND_MESSAGE);
+            throw new CustomException(NOT_FOUND_MESSAGE);
         }
         try {
             String midPath = String.format("user/%d", userPk);
@@ -179,7 +177,7 @@ public class UserService {
             customFileUtils.deleteFolder(delAbsoluteFolderPath);
 
         } catch (FileException fe) {
-            throw new FileException(FILE_ERROR_MESSAGE);
+            throw new CustomException(FILE_ERROR_MESSAGE);
         }
         return mapper.deleteUser(userPk);
     }
@@ -187,23 +185,24 @@ public class UserService {
     public UserEntity getDetailUserInfo() {
         long userPk = authenticationFacade.getLoginUserId();
         UserEntity userEntity = mapper.getDetailUserInfo(userPk);
-        if(userEntity == null) {
-            throw new RuntimeException(FAILURE_MESSAGE);
-        }
+
         return userEntity;
     }
 
     public int duplicatedCheck(String str, int num) {   // 1 : 이메일, 2 : 닉네임
         switch (num) {
-            case 1 -> num = mapper.duplicatedCheckEmail(str);
+            case 1 -> num = mapper.emailExists(str);
             case 2 -> num = mapper.duplicatedCheckNickname(str);
-            default -> throw new IllegalArgumentException(INPUT_VALIDATION_MESSAGE);
+            default -> throw new CustomException(INPUT_VALIDATION_MESSAGE);
+        }
+        if(num == SUCCESS) {
+            throw new CustomException(IS_DUPLICATE);
         }
         return num;
     }
 
     @Transactional
-    public String updateUserPic(UpdateUserPicReq p) throws Exception {
+    public String updateUserPic(UpdateUserPicReq p) {
         long userPk = authenticationFacade.getLoginUserId();
 
         String fileName = customFileUtils.makeRandomFileName(p.getPic());
@@ -219,8 +218,8 @@ public class UserService {
             String filePath = String.format("%s/%s", Path, fileName);
             customFileUtils.transferTo(p.getPic(), filePath);
 
-        } catch (FileException fe) {
-            throw new FileException(FILE_ERROR_MESSAGE);  // 에러 처리하기
+        } catch (Exception fe) {
+            throw new CustomException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
         return fileName;
     }
@@ -230,7 +229,7 @@ public class UserService {
 
         int result = mapper.updateUserInfo(p.getUserNickname(), p.getUserAddr(), p.getUserFav(), p.getUserPhone(), p.getUserIntro(), userPk);
         if(result == 0) {
-            throw new RuntimeException(FAILURE_MESSAGE);
+            throw new CustomException(TRY_AGAIN_MESSAGE);
         }
         return result;
     }
@@ -238,7 +237,7 @@ public class UserService {
     public String findUserId(FindUserReq p) {
         String userEmail = mapper.findUserId(p);
         if(userEmail == null) {
-            throw new RuntimeException(NOT_FOUND_MESSAGE);
+            throw new CustomException(NOT_FOUND_MESSAGE);
         }
         return CommonUser.maskEmail(userEmail);
     }

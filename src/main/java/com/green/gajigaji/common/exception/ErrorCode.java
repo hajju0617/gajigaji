@@ -6,4 +6,5 @@ public interface ErrorCode {
     String name();       // enum이 가지고 있는 메서드
     HttpStatus getHttpStatus(); // httpStatus 멤버필드의 getter
     String getMessage();    // message 멤버필드의 getter
+    int getCode();
 }

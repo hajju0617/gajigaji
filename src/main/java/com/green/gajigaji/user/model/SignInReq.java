@@ -5,8 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
-import static com.green.gajigaji.user.userexception.ConstMessage.ID_INPUT_MESSAGE;
-import static com.green.gajigaji.user.userexception.ConstMessage.PW_INPUT_MESSAGE;
+
+import static com.green.gajigaji.user.usercommon.UserMessage.ID_INPUT_MESSAGE;
+import static com.green.gajigaji.user.usercommon.UserMessage.PW_INPUT_MESSAGE;
 
 @Getter
 @Setter

@@ -5,8 +5,9 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 
-import static com.green.gajigaji.user.userexception.ConstMessage.NICKNAME_REGEX_MESSAGE;
-import static com.green.gajigaji.user.userexception.ConstMessage.PASSWORD_VALIDATION_MESSAGE;
+import static com.green.gajigaji.user.usercommon.UserMessage.NICKNAME_REGEX_MESSAGE;
+import static com.green.gajigaji.user.usercommon.UserMessage.PASSWORD_REGEX_MESSAGE;
+
 
 @Setter
 @Getter
@@ -22,7 +23,7 @@ public class UpdateUserInfoReq {
     private String userFav;
 
     @Schema(example = "01012345678", description = "유저 전화번호")
-    @Pattern(regexp = "^01[01](?:\\d{3}|\\d{4})\\d{4}$", message = PASSWORD_VALIDATION_MESSAGE)
+    @Pattern(regexp = "^01[01](?:\\d{3}|\\d{4})\\d{4}$", message = PASSWORD_REGEX_MESSAGE)
     private String userPhone;
 
     @Schema(example = "안녕하세요 가지가지 나뭇가지", description = "유저 자기소개")

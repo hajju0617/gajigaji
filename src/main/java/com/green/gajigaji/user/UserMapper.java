@@ -18,7 +18,6 @@ public interface UserMapper {
     int deleteUser(long userSeq);
     int userExists(long userSeq);
 
-    int duplicatedCheckEmail(String userEmail);
     int duplicatedCheckNickname(String userNickname);
     int duplicatedCheckNumber(String userPhone);
     int checkEmail(String userEmail);
@@ -31,7 +30,7 @@ public interface UserMapper {
 
     void checkAuthNum(String email);
     int setPassword(FindPasswordReq p);
-    int emailExists(String email);
+    int emailExists(String userEmail);
 
 }
 

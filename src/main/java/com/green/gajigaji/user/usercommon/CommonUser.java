@@ -1,11 +1,11 @@
-package com.green.gajigaji.user.datacheck;
+package com.green.gajigaji.user.usercommon;
 
 import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Const {
+public class CommonUser {
 
     private static final String NICKNAME_REGEX = "^[0-9a-zA-Z가-힣]{4,10}$";
 
@@ -33,10 +33,9 @@ public class Const {
         try {
             // 문자열을 Date 객체로 변환
             Date date = sdf.parse(dateStr);
-            return false;
-        } catch (ParseException e) {
-
             return true;
+        } catch (ParseException e) {
+            return false;
         }
     }
     public static Date convertToDate(String dateStr) {
@@ -66,6 +65,38 @@ public class Const {
             password.append(allChars.charAt(RANDOM.nextInt(allChars.length())));
         }
         return password.toString();
+    }
+
+    public static String maskEmail(String email) {
+        String id = extractIdFromEmail(email);
+        String maskedId = maskId(id);
+        String domain = email.split("@")[1];
+        return maskedId + "@" + domain;
+    }
+    public static String extractIdFromEmail(String email) {
+        return email.split("@")[0];
+    }
+    public static String maskId(String id) {
+        int length = id.length();
+        StringBuilder maskedId = new StringBuilder(id);
+
+        if (length == 6) {
+            // 뒤에서 두 번째까지
+            for (int i = length - 2; i < length; i++) {
+                maskedId.setCharAt(i, '*');
+            }
+        } else if (length > 6 && length <= 9) {
+            // 뒤에서 세 번째까지
+            for (int i = length - 3; i < length; i++) {
+                maskedId.setCharAt(i, '*');
+            }
+        } else if (length > 9) {
+            // 뒤에서 다섯 번째까지
+            for (int i = length - 5; i < length; i++) {
+                maskedId.setCharAt(i, '*');
+            }
+        }
+        return maskedId.toString();
     }
 
 }

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.green.gajigaji.user.userexception.ConstMessage.*;
+import static com.green.gajigaji.user.usercommon.UserErrorMessage.*;
 
 @Slf4j
 @Service
@@ -19,25 +19,18 @@ public class PartyWishService {
     private final PartyWishMapper mapper;
     private final AuthenticationFacade authenticationFacade;
 
-    public int togglePartyWish(PartyWishToggleReq p) throws Exception {
-        try {
+    public int togglePartyWish(PartyWishToggleReq p) {
+
             int result = mapper.deletePartyWish(p);
             if(result == 1) {
                 return 0;
             }
-        } catch (NotFoundException ne) {
-            throw new NotFoundException(FAILURE_MESSAGE);
-        } catch (Exception e) {
-            throw new Exception(ERROR_MESSAGE);
-        }
+
         return mapper.insertPartyWish(p);
     }
 
     public List<PartyWishGetListRes> partyWishGetList(long userSeq) {
-        try {
             return mapper.partyWishGetList(userSeq);
-        } catch (RuntimeException re) {
-            throw new RuntimeException(TRY_AGAIN_MESSAGE);
-        }
+
     }
 }

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.green.gajigaji.user.userexception.ConstMessage.*;
+import static com.green.gajigaji.common.GlobalConst.*;
 
 @RestController
 @Slf4j
@@ -37,7 +37,6 @@ public class PartyWishController {
                             "<p>  관심모임 삭제 : 0 </p> "
     )
     public ResultDto<Integer> togglePartyWish(@ParameterObject @ModelAttribute PartyWishToggleReq p) {
-        try {
             int result = service.togglePartyWish(p);
             return ResultDto.<Integer>builder()
                     .status(HttpStatus.OK)
@@ -45,20 +44,11 @@ public class PartyWishController {
                     .resultMsg(result == 0 ? "관심모임 삭제" : "관심모임 추가")
                     .resultData(result)
                     .build();
-        } catch (NotFoundException ne) {
-            return ResultDto.<Integer>builder()
-                    .status(HttpStatus.CONFLICT).code(FAILURE)
-                    .resultMsg(ne.getMessage()).build();
-        } catch (Exception e) {
-            return ResultDto.<Integer>builder()
-                    .status(HttpStatus.BAD_REQUEST).code(ERROR)
-                    .resultMsg(e.getMessage()).build();
-        }
+
     }
 
     @GetMapping("{userSeq}")
     public ResultDto<List<PartyWishGetListRes>> partyWishGetList(@PathVariable("userSeq") long userSeq) {
-        try {
             List<PartyWishGetListRes> result = service.partyWishGetList(userSeq);
             return ResultDto.<List<PartyWishGetListRes>>builder()
                     .status(HttpStatus.OK)
@@ -66,10 +56,6 @@ public class PartyWishController {
                     .resultMsg(SUCCESS_MESSAGE)
                     .resultData(result)
                     .build();
-        } catch (RuntimeException re) {
-            return ResultDto.<List<PartyWishGetListRes>>builder()
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR).code(ERROR)
-                    .resultMsg(ERROR_MESSAGE).build();
-        }
+
     }
 }

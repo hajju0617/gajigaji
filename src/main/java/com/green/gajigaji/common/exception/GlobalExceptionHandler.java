@@ -18,7 +18,7 @@ import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.green.gajigaji.user.userexception.ConstMessage.FAILURE;
+
 
 
 /*
@@ -73,7 +73,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     private MyErrorResponse makeErrorResponse(ErrorCode errorCode, BindException e) {
         return MyErrorResponse.builder()
-                .code(FAILURE)
+                .code(errorCode.getCode())
                 .status(errorCode.getHttpStatus())
                 .resultMsg(errorCode.getMessage())
                 .resultData(errorCode.name())   // errorCode.name() : enum의 이름

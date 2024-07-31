@@ -9,7 +9,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import static com.green.gajigaji.user.userexception.ConstMessage.*;
+import static com.green.gajigaji.user.usercommon.UserErrorMessage.*;
+import static com.green.gajigaji.user.usercommon.UserMessage.*;
 
 @Setter
 @Getter
@@ -24,7 +25,7 @@ public class SignUpReq {
 
     @Schema(example = "abcd1234!", description = "유저 비밀번호")
     @NotBlank(message = PW_INPUT_MESSAGE)
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])\\S{10,20}$", message = PASSWORD_VALIDATION_MESSAGE)
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])\\S{10,20}$", message = PASSWORD_REGEX_MESSAGE)
     private String userPw;
 
     @Schema(example = "abcd1234!", description = "유저 비밀번호 확인")

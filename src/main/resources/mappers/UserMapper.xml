@@ -157,7 +157,7 @@
     <select id="emailExists">
         SELECT COUNT(user_email)
         FROM user_master
-        WHERE user_email = #{email}
+        WHERE user_email = #{userEmail}
     </select>
 
 

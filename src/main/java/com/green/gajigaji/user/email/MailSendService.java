@@ -2,8 +2,11 @@ package com.green.gajigaji.user.email;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.green.gajigaji.common.exception.CommonErrorCode;
+import com.green.gajigaji.common.exception.CustomException;
 import com.green.gajigaji.user.UserMapper;
 import com.green.gajigaji.user.model.FindPasswordReq;
+import com.green.gajigaji.user.usercommon.UserErrorMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +21,9 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.util.Random;
 
-import static com.green.gajigaji.user.datacheck.CommonUser.tempPassword;
-import static com.green.gajigaji.user.userexception.ConstMessage.*;
+import static com.green.gajigaji.common.GlobalConst.SUCCESS_MESSAGE;
+import static com.green.gajigaji.user.usercommon.CommonUser.tempPassword;
+import static com.green.gajigaji.user.usercommon.UserErrorMessage.*;
 
 
 @Service
@@ -41,20 +45,20 @@ public class MailSendService {
         // 시간이 초과 됐다면 인증번호 만료
         String str = redisUtil.getData(authNum);
         if(str == null) {
-            return AUTH_CODE_INCORRECT;
+            throw new CustomException(AUTH_CODE_INCORRECT);
         }
         LocalTime now = LocalTime.now();
         TimeCheckInstance timeCheckInstance = null;
         try {
             timeCheckInstance = om.readValue(str, TimeCheckInstance.class);
         } catch (JsonProcessingException e) {
-            return TRY_AGAIN_MESSAGE;
+            throw new CustomException(TRY_AGAIN_MESSAGE);
         }
         Duration diff = Duration.between(timeCheckInstance.getNowTest(), now);
         if(diff.toSeconds() > 60) {
             log.info("diff.toSeconds() : {}", diff.toSeconds());
             log.info("timeCheckInstance.getNowTest()) : {}",timeCheckInstance.getNowTest());
-            return AUTH_CODE_EXPIRED;
+            throw new CustomException(AUTH_CODE_EXPIRED);
         }
         mapper.checkAuthNum(email);
         return SUCCESS_MESSAGE;
@@ -70,16 +74,16 @@ public class MailSendService {
         authNumber = Integer.parseInt(randomNumber);
     }
 
-    public String joinEmail(String email) {
-        if (mapper.emailExists(email) == 0) {
-            return UNREGISTERED_EMAIL_MESSAGE;
+    public String joinEmail(String userEmail) {
+        if (mapper.emailExists(userEmail) == 0) {
+            throw new CustomException(UNREGISTERED_EMAIL_MESSAGE);
         }
-        if (mapper.checkEmail(email) == 2) {
-            return EMAIL_ALREADY_VERIFIED_MESSAGE;
+        if (mapper.checkEmail(userEmail) == 2) {
+            throw new CustomException(EMAIL_ALREADY_VERIFIED_MESSAGE);
         }
         makeRandomNumber();
         String setFrom = "hajju0617@naver.com"; // email-config에 설정한 자신의 이메일 주소
-        String toMail = email;
+        String toMail = userEmail;
         String title = "이메일 인증.";
         String content =
                 "안녕하세요." + 	//html 형식으로 작성 !
@@ -98,6 +102,11 @@ public class MailSendService {
 //        if(user == null) {
 //            return 0;
 //        }
+        int result = mapper.emailExists(p.getUserEmail());
+        if(result == 0) {
+            throw new CustomException(NOT_FOUND_MESSAGE);
+        }
+
         String temp = tempPassword(10);
 
         String hashPw = passwordEncoder.encode(temp);
@@ -131,6 +140,7 @@ public class MailSendService {
             mailSender.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();
+            throw new CustomException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
         LocalTime temp = LocalTime.now();
         TimeCheckInstance now = new TimeCheckInstance(toMail, temp);
@@ -138,7 +148,7 @@ public class MailSendService {
             String json = om.writeValueAsString(now);
             redisUtil.setData(Integer.toString(authNumber), json);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException();
+            throw new CustomException(UserErrorMessage.TRY_AGAIN_MESSAGE);
         }
 //        redisUtil.setDataExpire(Integer.toString(authNumber),toMail/*받는 사람 이메일*/,60);
 //
