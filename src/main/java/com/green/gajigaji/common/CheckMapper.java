@@ -28,4 +28,6 @@ public interface CheckMapper {
 
     //영록
     Integer checkPostedReview(long reviewPlanSeq, long reviewPlmemberSeq);
+    Integer checkReview(long reviewSeq);
+    Integer checkReviewPics(long reviewSeq);
 }

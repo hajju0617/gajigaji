@@ -111,4 +111,15 @@
         WHERE review_plan_seq = #{reviewPlanSeq}
         AND review_plmember_seq = #{reviewPlmemberSeq}
     </select>
+    <select id="checkReview">
+        SELECT 1
+        FROM review_master
+        WHERE review_seq = #{reviewSeq}
+    </select>
+    <select id="checkReviewPics">
+        SELECT 1
+        FROM review_pic
+        WHERE review_pic_review_seq = #{reviewSeq}
+        LIMIT 1
+    </select>
 </mapper>
