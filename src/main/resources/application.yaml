@@ -26,6 +26,16 @@ spring:
     redis:
       host: localhost
       port: 6379
+  jpa:
+    database: mysql
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 50 # JPA Batch 작업(Insert, Update)
+        format_sql: true #로그 찍을 때 보기편하게 포맷팅해서 출력해줘
+        order_inserts: true # JPA Batch 작업(Insert, Update)
+        order_updates: true # JPA Batch 작업(Insert, Update)
+    show-sql: true # JPA만든 쿼리문 로그에 출력해줘
 
 mybatis:
   mapper-locations: mappers/**/*.xml
