@@ -13,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 
+import static jdk.internal.jimage.decompressor.CompressedResourceHeader.getSize;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -112,16 +114,17 @@ public class BoardService {
         }
     }
 
-    public BoardGetRes getBoard(BoardGetReq p) {
-        mapper.incrementBoardHit(p.getBoardSeq(), p.getBoardPartySeq(), p.getBoardMemberSeq());
-        BoardGetRes board = mapper.getBoard(p.getBoardSeq(), p.getBoardPartySeq(), p.getBoardMemberSeq());
-        List<String> pics = mapper.getFileNamesByBoardSeq(p.getBoardSeq());
+    public BoardGetPage getBoard(BoardGetReq p) {
+        BoardGetRes board = mapper.getBoard(p.getBoardPartySeq());
+        List<String> pics = mapper.getFileNamesByBoardSeq(p.getBoardPartySeq());
         board.setPics(pics);
-        return board;
+        return null;
     }
 
-    public BoardGetPage getBoardDetail(BoardGetReq data) {
-        List<BoardGetRes> list = mapper.getBoardDetail(data);
+    //PK만 받아
+    public BoardGetRes getBoardDetail(long boardSeq) {
+        mapper.incrementBoardHit(boardSeq);
+        List<BoardGetRes> list = mapper.getBoardDetail(boardSeq);
         long totalElements = mapper.getTotalCount();
 
         for (BoardGetRes board : list) {
@@ -129,6 +132,6 @@ public class BoardService {
             board.setPics(pics);
         }
 
-        return new BoardGetPage(list, data.getSize(), totalElements);
+        return new BoardGetRes();
     }
 }

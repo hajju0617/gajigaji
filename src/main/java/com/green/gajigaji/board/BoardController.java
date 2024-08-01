@@ -35,6 +35,7 @@ public class BoardController {
                 .resultData(result)
                 .build();
     }
+
     @DeleteMapping
     @Operation(summary = "게시글 삭제")
     public ResultDto<Integer> deleteBoard(@RequestBody BoardDeleteReq p ) {
@@ -62,10 +63,12 @@ public class BoardController {
     }
     @GetMapping
     @Operation(summary = "게시글 조회" )
-    public ResultDto<BoardGetPage> getBoard(@RequestParam(name = "page", defaultValue = "0") int page, @RequestParam(name = "boardPartySeq", defaultValue = "0") int boardPartySeq) {
-        BoardGetReq data = new BoardGetReq(0, page, GlobalConst.PAGING_SIZE);
+    //@RequestParam(name = "page", defaultValue = "0") int page, @RequestParam(name = "boardPartySeq", defaultValue = "0") int boardPartySeq
+    public ResultDto<BoardGetPage> getBoard(int page, int size, int boardPartySeq) {
+        BoardGetReq data = new BoardGetReq(page, size, boardPartySeq );
         data.setBoardPartySeq(boardPartySeq);
-        BoardGetPage list = service.getBoardDetail(data);
+        BoardGetPage list = service.getBoard(data);
+
         return ResultDto.<BoardGetPage>builder()
                 .status(HttpStatus.OK)
                 .code(1)
@@ -76,13 +79,14 @@ public class BoardController {
     @GetMapping("/{boardSeq}")
     @Operation(summary = "게시글 상세 조회")
 
-    public ResultDto<BoardGetRes> getBoardDetail(@ParameterObject @ModelAttribute BoardGetReq data) {
-        BoardGetRes board = service.getBoard(data);
+    public ResultDto<BoardGetRes> getBoardDetail(long boardSeq) {
+        BoardGetRes p = service.getBoardDetail(boardSeq);
+
         return ResultDto.<BoardGetRes>builder()
                 .status(HttpStatus.OK)
                 .code(1)
                 .resultMsg("정상처리 되었습니다")
-                .resultData(board)
+                .resultData(p)
                 .build();
     }
 }

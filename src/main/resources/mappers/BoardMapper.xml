@@ -27,7 +27,8 @@
     </update>
 
     <select id="getFileNamesByBoardSeq">
-        SELECT board_pic_file AS fileName FROM party_board_pic
+        SELECT board_pic_file AS fileName
+        FROM party_board_pic
         WHERE board_pic_board_seq = #{boardSeq}
     </select>
 
@@ -46,8 +47,6 @@
         UPDATE party_board_master
         SET board_hit = board_hit + 1
         WHERE board_seq = #{boardSeq}
-        AND board_party_seq = #{boardPartySeq}
-        AND board_member_seq = #{boardMemberSeq}
     </update>
 
     <select id="getBoardDetail">
@@ -66,11 +65,8 @@
         ON A.board_member_seq = B.member_seq
         INNER JOIN user_master C
         ON B.member_user_seq = C.user_seq
-        <where>
-            board_party_seq = #{boardPartySeq}
-        </where>
-        ORDER BY board_seq DESC
-        LIMIT #{startIdx}, #{size}
+        WHERE board_seq= #{boardSeq}
+
     </select>
 
     <select id="getTotalCount">
@@ -93,10 +89,7 @@
         ON A.board_member_seq = B.member_seq
         INNER JOIN user_master C
         ON B.member_user_seq = C.user_seq
-        WHERE board_seq = #{boardSeq}
-        AND board_party_seq = #{boardPartySeq}
-        AND board_member_seq = #{boardMemberSeq}
+        WHERE board_party_seq = #{boardPartySeq}
         ORDER BY board_seq DESC
     </select>
-
 </mapper>
