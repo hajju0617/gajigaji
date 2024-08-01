@@ -1,6 +1,6 @@
 package com.green.gajigaji.user.jpa;
 
-import com.green.gajigaji.plan.jpa.UpdatedAt;
+import com.green.gajigaji.common.jpa.UpdateDt;
 import com.green.gajigaji.security.SignInProviderType;
 import com.green.gajigaji.user.model.SignUpReq;
 import jakarta.persistence.*;
@@ -8,8 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.catalina.User;
-
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -19,7 +17,7 @@ import java.util.Date;
 @Entity(name = "userMaster")
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserEntity extends UpdatedAt {
+public class UserEntity extends UpdateDt {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

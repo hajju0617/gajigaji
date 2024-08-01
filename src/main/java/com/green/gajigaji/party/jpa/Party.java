@@ -1,5 +1,6 @@
 package com.green.gajigaji.party.jpa;
 
+import com.green.gajigaji.common.jpa.UpdateDt;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +11,7 @@ import java.time.Year;
 @Entity(name = "partyMaster")
 @Getter
 @Setter
-public class Party extends UpdateDt{
+public class Party extends UpdateDt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long partySeq;

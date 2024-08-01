@@ -1,6 +1,8 @@
 package com.green.gajigaji.join.jpa;
 
+import com.green.gajigaji.common.jpa.UpdateDt;
 import com.green.gajigaji.party.jpa.Party;
+import com.green.gajigaji.user.jpa.UserEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +19,7 @@ import org.hibernate.annotations.ColumnDefault;
         }
 )
 
-public class Join extends UpdateDt{
+public class Join extends UpdateDt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long JoinSeq;
@@ -28,7 +30,7 @@ public class Join extends UpdateDt{
 
     @ManyToOne
     @JoinColumn(name = "join_user_seq", nullable = false)
-    private User user;
+    private UserEntity user;
 
     @Column(nullable = false)
     private String joinMsg;

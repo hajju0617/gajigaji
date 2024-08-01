@@ -1,14 +1,11 @@
 package com.green.gajigaji.plan.jpa;
 
+import com.green.gajigaji.common.jpa.UpdateDt;
 import com.green.gajigaji.party.jpa.Party;
-import com.green.gajigaji.party.jpa.UpdateDt;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity(name = "planMaster")
 @Setter
