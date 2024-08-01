@@ -40,4 +40,6 @@ public class Plan extends UpdateDt {
 
     @Column(nullable = false)
     private String planLocation;
+
+
 }
