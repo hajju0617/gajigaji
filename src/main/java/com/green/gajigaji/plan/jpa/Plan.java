@@ -1,5 +1,7 @@
 package com.green.gajigaji.plan.jpa;
 
+import com.green.gajigaji.party.jpa.Party;
+import com.green.gajigaji.party.jpa.UpdateDt;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +12,7 @@ import java.time.LocalDateTime;
 @Entity(name = "planMaster")
 @Setter
 @Getter
-public class Plan {
+public class Plan extends UpdateDt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long planSeq;

@@ -1,4 +1,4 @@
-package com.green.gajigaji.plan.jpa;
+package com.green.gajigaji.join.jpa;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
@@ -14,9 +14,9 @@ import java.time.LocalDateTime;
 @Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class UpdatedAt extends CreatedAt {
+public class UpdateDt extends InputDt {
 
     @LastModifiedDate
     @Column(nullable = false)
-    private LocalDateTime updatedAt;
+    private LocalDateTime updateDt;
 }

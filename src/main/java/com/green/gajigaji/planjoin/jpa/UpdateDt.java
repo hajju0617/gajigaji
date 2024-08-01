@@ -5,18 +5,18 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-@Setter
 @Getter
+@Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class CreatedAt {
+public class UpdateDt extends InputDt {
 
+    @LastModifiedDate
     @Column(nullable = false)
-    @CreatedDate
-    private LocalDateTime createdAt;
+    private LocalDateTime updateDt;
 }

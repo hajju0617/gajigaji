@@ -1,21 +1,22 @@
-package com.green.gajigaji.budget.jpa;
+package com.green.gajigaji.plan.jpa;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
-import org.springframework.data.annotation.CreatedDate;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class Base {
-    @CreatedDate
-    @Column(updatable = false, nullable = false)
-    private LocalDateTime inputDt;
+public class UpdateDt extends InputDt {
 
     @LastModifiedDate
+    @Column(nullable = false)
     private LocalDateTime updateDt;
 }

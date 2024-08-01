@@ -1,4 +1,4 @@
-package com.green.gajigaji.budget.jpa;
+package com.green.gajigaji.member.jpa;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
