@@ -4,6 +4,7 @@ import com.green.gajigaji.party.jpa.Party;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity(name = "PartyJoin")
 @Getter
@@ -32,6 +33,7 @@ public class Join extends UpdateDt{
     @Column(nullable = false)
     private String joinMsg;
 
+    @ColumnDefault("0")
     @Column(nullable = false)
     private int joinGb;
 
