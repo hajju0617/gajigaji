@@ -5,6 +5,7 @@ import com.green.gajigaji.party.jpa.UpdateDt;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,12 +23,13 @@ public class Plan extends UpdateDt {
     private Party party;
 
     @Column(nullable = false)
-    private LocalDate planStartDt;
+    private String  planStartDt;
 
     @Column(nullable = false)
-    private LocalDateTime planStartTime;
+    private String planStartTime;
 
-    @Column(nullable = false)
+    @ColumnDefault("0")
+    @Column(nullable = true)
     private int planCompleted;
 
     @Column(nullable = false)
