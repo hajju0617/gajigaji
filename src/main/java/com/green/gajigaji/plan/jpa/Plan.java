@@ -26,7 +26,7 @@ public class Plan extends UpdateDt {
     private String planStartTime;
 
     @ColumnDefault("0")
-    @Column(nullable = true)
+    @Column
     private int planCompleted;
 
     @Column(nullable = false)
