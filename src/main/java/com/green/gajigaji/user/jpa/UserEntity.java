@@ -1,6 +1,6 @@
 package com.green.gajigaji.user.jpa;
 
-import com.green.gajigaji.plan.jpa.InputDt;
+import com.green.gajigaji.common.jpa.InputDt;
 import com.green.gajigaji.security.SignInProviderType;
 import com.green.gajigaji.user.model.SignUpReq;
 import jakarta.persistence.*;
@@ -8,10 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.catalina.User;
-
-
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
