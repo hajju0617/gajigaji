@@ -9,6 +9,7 @@ import com.green.gajigaji.common.model.CustomFileUtils;
 import com.green.gajigaji.security.AuthenticationFacade;
 import com.green.gajigaji.security.MyUser;
 import com.green.gajigaji.security.MyUserDetails;
+import com.green.gajigaji.security.SignInProviderType;
 import com.green.gajigaji.security.jwt.JwtTokenProviderV2;
 import com.green.gajigaji.user.jpa.UserEntity;
 import com.green.gajigaji.user.usercommon.CommonUser;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Provider;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -77,6 +79,7 @@ public class UserService {
         UserEntity userEntity = new UserEntity(p);
         userEntity.setUserBirth(CommonUser.convertToDate(p.getUserBirth()));
         userEntity.setUserPic(saveFileName);
+        userEntity.setProviderType(SignInProviderType.LOCAL);
         if(a == null){
             userEntity.setUserRole("ROLE_USER");
         } else {

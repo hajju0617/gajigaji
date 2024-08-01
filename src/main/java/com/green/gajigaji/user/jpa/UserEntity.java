@@ -1,6 +1,6 @@
 package com.green.gajigaji.user.jpa;
 
-import com.green.gajigaji.plan.jpa.UpdatedAt;
+import com.green.gajigaji.plan.jpa.InputDt;
 import com.green.gajigaji.security.SignInProviderType;
 import com.green.gajigaji.user.model.SignUpReq;
 import jakarta.persistence.*;
@@ -19,14 +19,14 @@ import java.util.Date;
 @Entity(name = "userMaster")
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserEntity extends UpdatedAt {
+public class UserEntity extends InputDt {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userSeq;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(length = 10, nullable = false)
     private SignInProviderType providerType;
 
     @Column(length = 50, nullable = false)
@@ -80,7 +80,7 @@ public class UserEntity extends UpdatedAt {
         this.setUserGender(p.getUserGender());
         this.setUserPhone(p.getUserPhone());
         this.setUserIntro(p.getUserIntro());
-        this.setInputDt(LocalDateTime.now());
+
     }
 
 }
