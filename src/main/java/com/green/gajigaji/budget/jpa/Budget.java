@@ -1,5 +1,6 @@
 package com.green.gajigaji.budget.jpa;
 
+import com.green.gajigaji.common.jpa.UpdateDt;
 import com.green.gajigaji.member.jpa.Member;
 import com.green.gajigaji.party.jpa.Party;
 import jakarta.persistence.*;
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 @Entity(name = "partyBudget")
 @Getter
 @Setter
-public class Budget extends UpdateDt{
+public class Budget extends UpdateDt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long budgetSeq;

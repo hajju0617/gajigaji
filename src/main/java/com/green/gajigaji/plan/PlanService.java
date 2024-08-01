@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.green.gajigaji.plan.exception.ConstMessage.*;
@@ -38,8 +39,9 @@ public class PlanService {
             plan.setParty(party);
             plan.setPlanStartDt(p.getPlanStartDt());
             plan.setPlanStartTime(p.getPlanStartTime());
-
-            mapper.postPlan(p);
+            plan.setPlanTitle(p.getPlanTitle());
+            plan.setPlanContents(p.getPlanContents());
+            repository.save(plan);
             return ResultDto.resultDto(HttpStatus.OK, 1, POST_SUCCESS_MESSAGE);
         }
     }

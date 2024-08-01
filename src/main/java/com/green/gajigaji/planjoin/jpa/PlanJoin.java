@@ -1,7 +1,7 @@
 package com.green.gajigaji.planjoin.jpa;
 
+import com.green.gajigaji.common.jpa.UpdateDt;
 import com.green.gajigaji.member.jpa.Member;
-import com.green.gajigaji.member.jpa.UpdateDt;
 import com.green.gajigaji.plan.jpa.Plan;
 import jakarta.persistence.*;
 import lombok.Getter;
