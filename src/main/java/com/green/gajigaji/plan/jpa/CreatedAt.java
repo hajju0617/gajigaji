@@ -18,5 +18,5 @@ public class CreatedAt {
 
     @Column(nullable = false)
     @CreatedDate
-    private LocalDateTime createdAt;
+    private LocalDateTime inputDt;
 }

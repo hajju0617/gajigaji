@@ -159,7 +159,7 @@ public class PartyServiceImpl implements PartyService{
         long userSeq = authenticationFacade.getLoginUserId();
         check.exception(partySeq);
 
-        // 모임 상태 변경 (PartyAuthGb = 1)
+        // 모임 상태 변경 (PartyAuthGb = 2)
         mapper.updatePartyAuthGb1(partySeq, userSeq);
         return ResultDto.resultDto(HttpStatus.OK,1,"모임 생성을 승인 하였습니다.");
     }

@@ -18,5 +18,5 @@ public class UpdatedAt extends CreatedAt {
 
     @LastModifiedDate
     @Column(nullable = false)
-    private LocalDateTime updatedAt;
+    private LocalDateTime updateDt;
 }

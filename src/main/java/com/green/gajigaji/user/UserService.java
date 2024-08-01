@@ -10,6 +10,7 @@ import com.green.gajigaji.security.AuthenticationFacade;
 import com.green.gajigaji.security.MyUser;
 import com.green.gajigaji.security.MyUserDetails;
 import com.green.gajigaji.security.jwt.JwtTokenProviderV2;
+import com.green.gajigaji.user.jpa.UserEntity;
 import com.green.gajigaji.user.usercommon.CommonUser;
 import com.green.gajigaji.user.model.*;
 import jakarta.servlet.http.Cookie;
@@ -17,7 +18,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +42,7 @@ public class UserService {
     private final AuthenticationFacade authenticationFacade;
     private final AppProperties appProperties;
     private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
 
 
     @Transactional
@@ -71,12 +72,19 @@ public class UserService {
         String hashPw = passwordEncoder.encode(p.getUserPw());
         p.setUserPw(hashPw);
 
+
+
+        UserEntity userEntity = new UserEntity(p);
+        userEntity.setUserBirth(CommonUser.convertToDate(p.getUserBirth()));
+        userEntity.setUserPic(saveFileName);
         if(a == null){
-            p.setUserRole("ROLE_USER");
+            userEntity.setUserRole("ROLE_USER");
         } else {
-            p.setUserRole("ROLE_ADMIN");
+            userEntity.setUserRole("ROLE_ADMIN");
         }
-        int result = mapper.postSignUp(p);
+        userRepository.save(userEntity);
+
+//        int result = mapper.postSignUp(p);
 
         try {
             String path = String.format("user/%d", p.getUserSeq());
@@ -88,7 +96,7 @@ public class UserService {
             e.printStackTrace();
             throw new CustomException(CommonErrorCode.INTERNAL_SERVER_ERROR); //구체적 예외처리 하기
         }
-        return p.getUserSeq();
+        return userEntity.getUserSeq();
     }
 
     public SignInRes postSignIn(HttpServletResponse res, SignInReq p) {
@@ -112,7 +120,7 @@ public class UserService {
         log.info("appProperties.getJwt().getRefreshTokenCookieName() : {}", appProperties.getJwt().getRefreshTokenCookieName());
         cookieUtils.setCookie(res, appProperties.getJwt().getRefreshTokenCookieName(), refreshToken, refreshTokenMaxAge);
 
-        return SignInRes.builder()
+        return SignInRes.builder()                      // 프론트쪽 요청
                 .userNickname(user.getUserNickname())
                 .userPic(user.getUserPic())
                 .userSeq(user.getUserSeq())
@@ -139,7 +147,7 @@ public class UserService {
             throw new CustomException(EXPIRED_TOKEN);
         }
 
-        UserDetails auth = jwtTokenProvider.getUserDetailsFromToken(refreshToken);
+        org.springframework.security.core.userdetails.UserDetails auth = jwtTokenProvider.getUserDetailsFromToken(refreshToken);
         MyUser myUser = ((MyUserDetails)auth).getMyUser();
 
         String accessToken = jwtTokenProvider.generateAccessToken(myUser);
@@ -182,12 +190,12 @@ public class UserService {
         return mapper.deleteUser(userPk);
     }
 
-    public UserEntity getDetailUserInfo() {
+    public UserDetails getDetailUserInfo() {
         long userPk = authenticationFacade.getLoginUserId();
-        UserEntity userEntity = mapper.getDetailUserInfo(userPk);
-        log.info("userEntity : {}", userEntity);
+        UserDetails userDetails = mapper.getDetailUserInfo(userPk);
+        log.info("userEntity : {}", userDetails);
 
-        return userEntity;
+        return userDetails;
     }
 
     public int duplicatedCheck(String str, int num) {   // 1 : 이메일, 2 : 닉네임
