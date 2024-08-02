@@ -1,7 +1,7 @@
 package com.green.gajigaji.security.jwt;
 
 import com.green.gajigaji.common.exception.CustomException;
-import com.green.gajigaji.common.exception.MemberErrorCode;
+import com.green.gajigaji.user.usercommon.UserErrorMessage;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -31,6 +31,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
         //response.sendError(HttpServletResponse.SC_UNAUTHORIZED); //401에러 리턴
-        resolver.resolveException(request, response, null, new CustomException(MemberErrorCode.UNAUTHENTICATED));
+        resolver.resolveException(request, response, null, new CustomException(UserErrorMessage.UNAUTHENTICATED));
     }
 }

@@ -14,6 +14,7 @@ import com.green.gajigaji.security.jwt.JwtTokenProviderV2;
 import com.green.gajigaji.user.jpa.UserEntity;
 import com.green.gajigaji.user.usercommon.CommonUser;
 import com.green.gajigaji.user.model.*;
+import com.green.gajigaji.user.usercommon.UserErrorMessage;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,7 +30,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.green.gajigaji.common.GlobalConst.*;
-import static com.green.gajigaji.common.exception.MemberErrorCode.EXPIRED_TOKEN;
 import static com.green.gajigaji.user.usercommon.UserErrorMessage.*;
 
 
@@ -106,7 +106,7 @@ public class UserService {
         SimpleInfo user = mapper.getSimpleUserInfo(p.getUserEmail());
 
         if(user == null || !(p.getUserEmail().equals(user.getUserEmail())) || !(passwordEncoder.matches(p.getUserPw(), user.getUserPw()))) {
-            throw new CustomException(LOGIN_MESSAGE);
+            throw new CustomException(INCORRECT_ID_PW);
         }
 
         MyUser myUser = MyUser.builder()

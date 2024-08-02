@@ -9,12 +9,17 @@ import static com.green.gajigaji.common.GlobalConst.*;
 @Getter
 @RequiredArgsConstructor
 public enum UserErrorMessage implements ErrorCode {
+    INCORRECT_ID_PW(HttpStatus.BAD_REQUEST, "아이디, 비밀번호를 확인해 주세요.", FAILURE),
+    UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "권한이 없습니다.", FAILURE),
+    UNAUTHENTICATED(HttpStatus.UNAUTHORIZED, "로그인을 해주세요.", FAILURE),
+    EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "토큰이 만료되었습니다.", FAILURE),
+    INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.", FAILURE),
+
     TRY_AGAIN_MESSAGE(HttpStatus.INTERNAL_SERVER_ERROR, "나중에 다시 시도해 주세요", ERROR),
     FILE_ERROR_MESSAGE(HttpStatus.BAD_REQUEST, "파일을 첨부하지 않았거나 처리 도중 오류발생", ERROR),
     NUMBER_DUPLICATION_MESSAGE(HttpStatus.CONFLICT, "이미 가입되어 있는 번호", FAILURE),
     PIC_INPUT_MESSAGE(HttpStatus.BAD_REQUEST, "프로필 사진은 필수값", FAILURE),
     NOT_FOUND_MESSAGE(HttpStatus.NOT_FOUND, "존재하지 않는 유저", FAILURE),
-    LOGIN_MESSAGE(HttpStatus.BAD_REQUEST, "아이디 또는 비밀번호 확인", FAILURE),
     EMAIL_DUPLICATION_MESSAGE(HttpStatus.CONFLICT, "중복된 이메일", FAILURE),
     NICKNAME_DUPLICATION_MESSAGE(HttpStatus.CONFLICT, "중복된 닉네임", FAILURE),
     PASSWORD_CHECK_MESSAGE(HttpStatus.BAD_REQUEST, "비밀번호가 틀림", FAILURE),

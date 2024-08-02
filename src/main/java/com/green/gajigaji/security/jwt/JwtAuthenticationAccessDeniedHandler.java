@@ -1,7 +1,7 @@
 package com.green.gajigaji.security.jwt;
 
 import com.green.gajigaji.common.exception.CustomException;
-import com.green.gajigaji.common.exception.MemberErrorCode;
+import com.green.gajigaji.user.usercommon.UserErrorMessage;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,7 +25,7 @@ public class JwtAuthenticationAccessDeniedHandler implements AccessDeniedHandler
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException)
             throws IOException, ServletException {
 //        response.sendError(HttpServletResponse.SC_FORBIDDEN);   // 403 에러 리턴
-        resolver.resolveException(request, response, null, new CustomException(MemberErrorCode.UNAUTHORIZED));
+        resolver.resolveException(request, response, null, new CustomException(UserErrorMessage.UNAUTHORIZED));
     }
 
 }
