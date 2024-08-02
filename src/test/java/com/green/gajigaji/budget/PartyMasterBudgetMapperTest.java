@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 @ActiveProfiles("tdd")
 @MybatisTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class BudgetMapperTest {
+class PartyMasterBudgetMapperTest {
 
     @Autowired
     private BudgetMapper mapper;

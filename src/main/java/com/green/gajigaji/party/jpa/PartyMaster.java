@@ -8,10 +8,10 @@ import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Year;
 
-@Entity(name = "partyMaster")
+@Entity
 @Getter
 @Setter
-public class Party extends UpdateDt {
+public class PartyMaster extends UpdateDt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long partySeq;

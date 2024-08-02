@@ -1,23 +1,27 @@
 package com.green.gajigaji.plan.jpa;
 
 import com.green.gajigaji.common.jpa.UpdateDt;
-import com.green.gajigaji.party.jpa.Party;
+import com.green.gajigaji.party.jpa.PartyMaster;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
-@Entity(name = "planMaster")
+@Entity
 @Setter
 @Getter
-public class Plan extends UpdateDt {
+@DynamicInsert
+@DynamicUpdate
+public class PlanMaster extends UpdateDt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long planSeq;
 
     @ManyToOne
     @JoinColumn(name = "plan_party_seq", nullable = false)
-    private Party party;
+    private PartyMaster partyMaster;
 
     @Column(nullable = false)
     private String  planStartDt;
@@ -25,9 +29,9 @@ public class Plan extends UpdateDt {
     @Column(nullable = false)
     private String planStartTime;
 
-    @ColumnDefault("0")
+    @ColumnDefault("1")
     @Column
-    private int planCompleted;
+    private String planCompleted;
 
     @Column(nullable = false)
     private String planTitle;
@@ -37,6 +41,5 @@ public class Plan extends UpdateDt {
 
     @Column(nullable = false)
     private String planLocation;
-
 
 }
