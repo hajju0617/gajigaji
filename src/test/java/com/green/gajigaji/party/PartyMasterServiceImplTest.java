@@ -19,7 +19,7 @@ import static org.mockito.BDDMockito.given;
 
 @ExtendWith(SpringExtension.class)
 @Import({ PartyServiceImpl.class })
-class PartyServiceImplTest {
+class PartyMasterServiceImplTest {
 
     @Value("${file.directory}") String uploadPath;
     @MockBean PartyMapper mapper;

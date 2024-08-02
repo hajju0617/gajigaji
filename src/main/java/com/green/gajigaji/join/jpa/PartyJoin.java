@@ -1,14 +1,14 @@
 package com.green.gajigaji.join.jpa;
 
 import com.green.gajigaji.common.jpa.UpdateDt;
-import com.green.gajigaji.party.jpa.Party;
+import com.green.gajigaji.party.jpa.PartyMaster;
 import com.green.gajigaji.user.jpa.UserEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
-@Entity(name = "PartyJoin")
+@Entity
 @Getter
 @Setter
 @Table(
@@ -19,14 +19,14 @@ import org.hibernate.annotations.ColumnDefault;
         }
 )
 
-public class Join extends UpdateDt {
+public class PartyJoin extends UpdateDt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long JoinSeq;
 
     @ManyToOne
     @JoinColumn(name = "join_party_seq", nullable = false)
-    private Party party;
+    private PartyMaster partyMaster;
 
     @ManyToOne
     @JoinColumn(name = "join_user_seq", nullable = false)
