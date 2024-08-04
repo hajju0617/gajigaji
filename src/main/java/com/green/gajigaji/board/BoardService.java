@@ -2,6 +2,7 @@ package com.green.gajigaji.board;
 
 
 import com.green.gajigaji.board.model.*;
+import com.green.gajigaji.common.exception.CustomException;
 import com.green.gajigaji.common.model.CustomFileUtils;
 import io.jsonwebtoken.io.IOException;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 
-import static jdk.internal.jimage.decompressor.CompressedResourceHeader.getSize;
 
 @Service
 @Slf4j
@@ -115,23 +115,31 @@ public class BoardService {
     }
 
     public BoardGetPage getBoard(BoardGetReq p) {
-        BoardGetRes board = mapper.getBoard(p.getBoardPartySeq());
-        List<String> pics = mapper.getFileNamesByBoardSeq(p.getBoardPartySeq());
-        board.setPics(pics);
-        return null;
+        try{
+            List<BoardGetRes> board = mapper.getBoard(p);
+            for(BoardGetRes boards : board) {
+                List<String> pics = mapper.getFileNamesByBoardSeq(boards.getBoardSeq());
+                boards.setPics(pics);
+            }
+            long totalElements = mapper.getTotalCount(p.getBoardPartySeq());
+            return new BoardGetPage(board,p.getSize(), totalElements);
+        }catch (Exception e) {
+            throw new RuntimeException("게시글 목록 조회 중 오류 발생", e);
+        }
     }
 
-    //PK만 받아
     public BoardGetRes getBoardDetail(long boardSeq) {
-        mapper.incrementBoardHit(boardSeq);
-        List<BoardGetRes> list = mapper.getBoardDetail(boardSeq);
-        long totalElements = mapper.getTotalCount();
-
-        for (BoardGetRes board : list) {
-            List<String> pics = mapper.getFileNamesByBoardSeq(board.getBoardSeq());
+        try {
+            mapper.incrementBoardHit(boardSeq);
+            BoardGetRes board = mapper.getBoardDetail(boardSeq);
+            if (board == null) {
+                throw new RuntimeException("해당 게시글을 찾을 수 없습니다");
+            }
+            List<String> pics = mapper.getFileNamesByBoardSeq(boardSeq);
             board.setPics(pics);
+            return board;
+        } catch (Exception e) {
+            throw new RuntimeException("게시글 상세 조회 중 오류 발생", e);
         }
-
-        return new BoardGetRes();
     }
 }
