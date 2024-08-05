@@ -1,10 +1,8 @@
 package com.green.gajigaji.user;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.green.gajigaji.common.model.ResultDto;
 import com.green.gajigaji.user.model.*;
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -67,10 +65,8 @@ public class UserController {
             long result = service.postSignUp(userPic, p, a);
 
             return ResultDto.<Long>builder()
-                    .status(HttpStatus.OK)
-                    .code(SUCCESS)
-                    .resultMsg(SUCCESS_MESSAGE)
-                    .resultData(result)
+                    .status(HttpStatus.OK).code(SUCCESS)
+                    .resultMsg(SUCCESS_MESSAGE).resultData(result)
                     .build();
     }
 
@@ -99,10 +95,8 @@ public class UserController {
         Map<String, String> map = service.getAccessToken(req);
 
         return ResultDto.<Map<String, String>>builder()
-                .code(SUCCESS)
-                .resultMsg("Access Token 발급")
-                .resultData(map)
-                .build();
+                .code(SUCCESS).resultMsg("Access Token 발급")
+                .resultData(map).build();
     }
 
     @PatchMapping("/update/pw")
@@ -173,9 +167,9 @@ public class UserController {
                             "<p>  2 : 실패 </p> " +
                             "<p>  3 : 에러 </p> "
     )
-    public ResultDto<UserEntity> getDetailUserInfo() {
-        UserEntity result = service.getDetailUserInfo();
-        return ResultDto.<UserEntity>builder()
+    public ResultDto<UserDetails> getDetailUserInfo() {
+        UserDetails result = service.getDetailUserInfo();
+        return ResultDto.<UserDetails>builder()
                 .status(HttpStatus.OK).code(SUCCESS)
                 .resultMsg(SUCCESS_MESSAGE).resultData(result).build();
     }
@@ -197,10 +191,8 @@ public class UserController {
         log.info("str : {}", str);
         int result = service.duplicatedCheck(str, num);
         return ResultDto.<Integer>builder()
-                .status(HttpStatus.OK).code(SUCCESS)
-                .resultMsg(IS_NOT_DUPLICATE)
-                .resultData(result)
-                .build();
+                .status(HttpStatus.OK).code(SUCCESS).resultMsg(IS_NOT_DUPLICATE)
+                .resultData(result).build();
     }
 
 

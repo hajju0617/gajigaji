@@ -10,7 +10,7 @@ public interface UserMapper {
 
     SimpleInfo getSimpleUserInfo(String userEmail);
 
-    UserEntity getDetailUserInfo(long userSeq);
+    UserDetails getDetailUserInfo(long userSeq);
     String getUserPw(long userSeq);
 
     int patchPassword(UpdatePasswordReq p);

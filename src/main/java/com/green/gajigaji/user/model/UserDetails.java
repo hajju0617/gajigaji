@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.util.Date;
 
 @Getter
-public class UserEntity {
+public class UserDetails {
     @Schema(example = "1", description = "유저 PK 값")
     private long userSeq;
     @Schema(example = "abc123@naver.com", description = "유저 이메일")
