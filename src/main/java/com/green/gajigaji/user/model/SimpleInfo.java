@@ -2,6 +2,8 @@ package com.green.gajigaji.user.model;
 
 import lombok.Getter;
 
+import java.util.List;
+
 @Getter
 public class SimpleInfo {
 
@@ -22,5 +24,5 @@ public class SimpleInfo {
 
     private String userAddr;
     private String userPhone;
-    private String userRole;
+    private List<String> userRole;
 }

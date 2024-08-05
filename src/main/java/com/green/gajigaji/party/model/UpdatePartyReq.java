@@ -7,7 +7,9 @@ import lombok.Data;
 @Data
 public class UpdatePartyReq {
 
+    @JsonIgnore
     @Schema(example = "1", description = "유저PK")private long userSeq;
+
     @Schema(example = "1", description = "모임PK")private long partySeq;
     @Schema(example = "축구 모임", description = "모임명")private String partyName;
     @Schema(example = "스포츠", description = "카테고리-분야")private int partyGenre;

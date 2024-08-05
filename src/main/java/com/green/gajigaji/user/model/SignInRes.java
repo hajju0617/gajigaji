@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @Builder
 @AllArgsConstructor
@@ -34,5 +36,5 @@ public class SignInRes {
 
 
     private String accessToken;
-    private String userRole;
+    private List<String> userRoles;
 }

@@ -111,7 +111,7 @@ public class UserService {
 
         MyUser myUser = MyUser.builder()
                 .userId(user.getUserSeq())
-                .role(user.getUserRole())
+                .roles(user.getUserRole())
                 .build();
         log.info("user.getUserRole() : {}", user.getUserRole());
 
@@ -135,7 +135,7 @@ public class UserService {
                 .userPhone(user.getUserPhone())
                 .userGenderNm(user.getUserGenderNm())
                 .accessToken(accessToken)
-                .userRole(user.getUserRole())
+                .userRoles(user.getUserRole())
                 .build();
     }
 
@@ -164,6 +164,7 @@ public class UserService {
         p.setUserSeq(authenticationFacade.getLoginUserId());
 //        UserEntity user = mapper.getDetailUserInfo(p.getUserSeq());
         String userPw = mapper.getUserPw(p.getUserSeq());
+
 
 
         if (!(passwordEncoder.matches(p.getUserPw(), userPw)) || !(p.getUserNewPw().equals(p.getUserPwCheck()))) {

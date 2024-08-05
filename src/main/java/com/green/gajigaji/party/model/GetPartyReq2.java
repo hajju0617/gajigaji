@@ -7,8 +7,10 @@ import lombok.Data;
 
 @Data
 public class GetPartyReq2 {
+    @JsonIgnore
     @Schema(example = "1", description = "유저 PK")
     private long userSeq;
+
     @Schema(example = "1", description = "확인할 페이지")
     private int page;
     @JsonIgnore
