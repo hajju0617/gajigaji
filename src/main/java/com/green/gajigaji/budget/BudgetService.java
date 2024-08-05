@@ -1,9 +1,17 @@
 package com.green.gajigaji.budget;
 
+import com.green.gajigaji.budget.jpa.BudgetRepository;
+import com.green.gajigaji.budget.jpa.PartyBudget;
 import com.green.gajigaji.budget.model.*;
 import com.green.gajigaji.common.CheckMapper;
 import com.green.gajigaji.common.model.CustomFileUtils;
 import com.green.gajigaji.common.model.ResultDto;
+import com.green.gajigaji.member.jpa.MemberRepository;
+import com.green.gajigaji.member.jpa.PartyMember;
+import com.green.gajigaji.party.jpa.PartyMaster;
+import com.green.gajigaji.party.jpa.PartyRepository;
+import com.green.gajigaji.plan.jpa.PlanMaster;
+import com.green.gajigaji.plan.jpa.PlanRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,10 +28,12 @@ import static com.green.gajigaji.budget.exception.ConstMessage.*;
 @Service
 @RequiredArgsConstructor
 public class BudgetService {
-
     private final BudgetMapper mapper;
     private final CustomFileUtils customFileUtils;
     private final CheckMapper checkMapper;
+    private final BudgetRepository repository;
+    private final PartyRepository partyRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional
     public ResultDto<Integer> postBudget(MultipartFile budgetPic, PostBudgetReq p) {
@@ -41,8 +51,18 @@ public class BudgetService {
         } else {
             String saveFileName = customFileUtils.makeRandomFileName(budgetPic);
             p.setBudgetPic(saveFileName);
-            mapper.postBudget(p);
-            String path = String.format("budget/%d", p.getBudgetSeq());
+            PartyMaster partyMaster = partyRepository.getReferenceById(p.getBudgetPartySeq());
+            PartyMember partyMember = memberRepository.getReferenceById(p.getBudgetMemberSeq());
+            PartyBudget partyBudget = new PartyBudget();
+            partyBudget.setPartyMaster(partyMaster);
+            partyBudget.setPartyMember(partyMember);
+            partyBudget.setBudgetGb(p.getBudgetGb());
+            partyBudget.setBudgetAmount(p.getBudgetAmount());
+            partyBudget.setBudgetDt(p.getBudgetDt());
+            partyBudget.setBudgetText(p.getBudgetText());
+            partyBudget.setBudgetPic(saveFileName);
+            repository.save(partyBudget);
+            String path = String.format("budget/%d", partyBudget.getBudgetSeq());
             customFileUtils.makeFolders(path);
             String target = String.format("%s/%s", path, saveFileName);
             try {
@@ -100,7 +120,7 @@ public class BudgetService {
         }
     }
 
-    public ResultDto<Long> deleteBudget(long budgetSeq) {
+    public ResultDto<Long> deleteBudget(Long budgetSeq) {
         if (checkMapper.checkBudgetSeq(budgetSeq) == null) {
             return ResultDto.resultDto(HttpStatus.BAD_REQUEST, 2, NOT_FOUND_BUDGET);
         } else {

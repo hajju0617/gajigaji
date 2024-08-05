@@ -6,12 +6,16 @@ import com.green.gajigaji.party.jpa.PartyMaster;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
+@DynamicInsert
+@DynamicUpdate
 public class PartyBudget extends UpdateDt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +36,7 @@ public class PartyBudget extends UpdateDt {
     private int budgetAmount;
 
     @Column(nullable = false)
-    private LocalDateTime budgetDt;
+    private String budgetDt;
 
     @Column
     private String budgetText;

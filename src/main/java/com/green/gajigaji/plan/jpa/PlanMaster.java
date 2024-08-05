@@ -24,7 +24,7 @@ public class PlanMaster extends UpdateDt {
     private PartyMaster partyMaster;
 
     @Column(nullable = false)
-    private String  planStartDt;
+    private String planStartDt;
 
     @Column(nullable = false)
     private String planStartTime;
