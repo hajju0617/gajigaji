@@ -1,5 +1,76 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.gajigaji.ranking.RankingMapper">
+    <select id="getRankingTotal">
+        SELECT partySeq, partyName
+        , president, presidentPic
+        , partyGenre, partyGenreNm
+        , partyLocation, partyLocationNm
+        , totalPoints
+        FROM ranking_data
+        ORDER BY totalPoints DESC
+        LIMIT #{limit}
+    </select>
 
+    <select id="getRankingLocation">
+        SELECT partySeq, partyName
+        , president, presidentPic
+        , partyGenre, partyGenreNm
+        , partyLocation, partyLocationNm
+        , totalPoints
+        FROM ranking_data
+        WHERE partyLocation = #{partyLocation}
+        ORDER BY totalPoints DESC
+        LIMIT #{limit}
+    </select>
+
+    <select id="getRankingGenre">
+        SELECT partySeq, partyName
+        , president, presidentPic
+        , partyGenre, partyGenreNm
+        , partyLocation, partyLocationNm
+        , totalPoints
+        FROM ranking_data
+        WHERE partyGenre = #{partyGenre}
+        ORDER BY totalPoints DESC
+        LIMIT #{limit}
+    </select>
+
+    <select id="getRankingThisMonth">
+        SELECT partySeq, partyName
+        , president, presidentPic
+        , partyGenre, partyGenreNm
+        , partyLocation, partyLocationNm
+        , totalPoints
+        FROM ranking_data
+        WHERE DATE_FORMAT(inputDt, '%Y%m%d') >= DATE_FORMAT(NOW(), '%Y%m01')
+        AND DATE_FORMAT(NOW() + INTERVAL 1 MONTH, '%Y%m01') > DATE_FORMAT(inputDt, '%Y%m%d')
+        <if test="partyLocation != 0">
+            AND partyLocation = #{partyLocation}
+        </if>
+        <if test="partyGenre != 0">
+            AND partyGenre = #{partyGenre}
+        </if>
+        ORDER BY totalPoints DESC
+        LIMIT #{limit}
+    </select>
+
+    <select id="getRankingLastMonth">
+        SELECT partySeq, partyName
+        , president, presidentPic
+        , partyGenre, partyGenreNm
+        , partyLocation, partyLocationNm
+        , totalPoints
+        FROM ranking_data
+        WHERE DATE_FORMAT(inputDt, '%Y%m%d') >= DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y%m01')
+        AND DATE_FORMAT(NOW(), '%Y%m01') > DATE_FORMAT(inputDt, '%Y%m%d')
+        <if test="partyLocation != 0">
+            AND partyLocation = #{partyLocation}
+        </if>
+        <if test="partyGenre != 0">
+            AND partyGenre = #{partyGenre}
+        </if>
+        ORDER BY totalPoints DESC
+        LIMIT #{limit}
+    </select>
 </mapper>
