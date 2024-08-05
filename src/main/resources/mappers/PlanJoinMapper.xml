@@ -16,12 +16,4 @@
         WHERE plmember_plan_seq = #{plmemberPlanSeq}
         AND plmember_member_seq = #{memberSeq}
     </delete>
-<!--    -->
-<!--    <select id="getMemberSeq">-->
-<!--        SELECT A.member_seq AS plmemberMemberSeq-->
-<!--        FROM party_member A-->
-<!--        JOIN user_master B-->
-<!--        ON A.member_user_seq = B.user_seq-->
-<!--        WHERE B.user_seq = #{memberSeq}-->
-<!--    </select>-->
 </mapper>

@@ -6,6 +6,8 @@ import com.green.gajigaji.plan.jpa.PlanMaster;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,6 +15,8 @@ import java.time.LocalDateTime;
 @Entity
 @Setter
 @Getter
+@DynamicInsert
+@DynamicUpdate
 @Table(
         uniqueConstraints = {
                 @UniqueConstraint(
@@ -32,22 +36,4 @@ public class PlanMember extends UpdateDt {
     @ManyToOne
     @JoinColumn(name = "plmember_member_seq", nullable = false)
     private PartyMember partyMember;
-
-    @Column(nullable = false)
-    private LocalDate planStartDt;
-
-    @Column(nullable = false)
-    private LocalDateTime planStartTime;
-
-    @Column(nullable = false)
-    private int planCompleted;
-
-    @Column(nullable = false)
-    private String planTitle;
-
-    @Column(nullable = false)
-    private String planContents;
-
-    @Column(nullable = false)
-    private String planLocation;
 }

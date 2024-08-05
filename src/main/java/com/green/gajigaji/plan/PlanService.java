@@ -105,11 +105,11 @@ public class PlanService {
         }
     }
 
-    public ResultDto<Integer> deletePlan(long planSeq) {
+    public ResultDto<Integer> deletePlan(Long planSeq) {
         if (checkMapper.checkPlanSeq(planSeq) == null) {
             return ResultDto.resultDto(HttpStatus.BAD_REQUEST, 2, NOT_FOUND_PLAN);
         } else {
-            mapper.deletePlan(planSeq);
+            repository.deleteById(planSeq);
             return ResultDto.resultDto(HttpStatus.OK, 1, DELETE_SUCCESS_MESSAGE);
         }
     }
