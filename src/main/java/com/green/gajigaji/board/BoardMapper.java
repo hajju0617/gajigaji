@@ -14,11 +14,11 @@ public interface BoardMapper {
 
     int deleteBoard(long boardSeq, long boardMemberSeq, long boardPartySeq);
     int patchBoard(BoardPatchReq p);
-    long getTotalCount();
+    long getTotalCount(@Param("boardPartySeq") Long boardPartySeq);
     List<String> getFileNamesByBoardSeq(long boardSeq);
 
     int incrementBoardHit(long boardSeq);
-    BoardGetRes getBoard(long boardPartySeq);
-    List<BoardGetRes> getBoardDetail(long boardSeq);
+    List<BoardGetRes> getBoard(BoardGetReq p);
+    BoardGetRes getBoardDetail(long boardSeq);
 }
 
