@@ -55,35 +55,35 @@ public class SecurityConfiguration {
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
         )       .httpBasic(http -> http.disable()).formLogin(form -> form.disable()).csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-//                        auth.requestMatchers(
-//                                "/api/user/sign_up"
-//                                ,"/api/user/sign_in").permitAll()
-//                                .requestMatchers(HttpMethod.GET, "/api/party").permitAll()
-//                                .requestMatchers(HttpMethod.GET, "/api/review").permitAll()
-//                                .requestMatchers(
-//                                "/api/party/**"
-//                                ,"/api/party"
-//                                ,"/api/board/**"
-//                                ,"api/board"
-//                                ,"api/join"
-//                                ,"/api/join/**"
-//                                ,"/api/plan/**"
-//                                ,"api/plan"
-//                                ,"/api/review/**"
-//                                ,"api/review"
-//                                ,"/api/member/**"
-//                                ,"/api/member"
-//                                ,"/api/budget/**"
-//                                ,"/api/budget"
-//                                ,"/api/user/**"
-//                                ,"/api/user"
-//                                ,"/mailSend"
-//                                ,"/mailauthCheck"
-//                                ,"/findpw"
-//                                )
-//                                .authenticated()   // 로그인이 안 되어 있을때 접근 할 수 없는 곳
-//                                .requestMatchers("/admin", "/admin/**").hasRole("ADMIN")
+                .authorizeHttpRequests(auth ->
+                        auth.requestMatchers(
+                                "/api/user/sign_up"
+                                ,"/api/user/sign_in").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/party").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/review").permitAll()
+                                .requestMatchers(
+                                "/api/party/**"
+                                ,"/api/party"
+                                ,"/api/board/**"
+                                ,"api/board"
+                                ,"api/join"
+                                ,"/api/join/**"
+                                ,"/api/plan/**"
+                                ,"api/plan"
+                                ,"/api/review/**"
+                                ,"api/review"
+                                ,"/api/member/**"
+                                ,"/api/member"
+                                ,"/api/budget/**"
+                                ,"/api/budget"
+                                ,"/api/user/**"
+                                ,"/api/user"
+                                ,"/mailSend"
+                                ,"/mailauthCheck"
+                                ,"/findpw"
+                                )
+                                .authenticated()   // 로그인이 안 되어 있을때 접근 할 수 없는 곳
+                                .requestMatchers("/admin", "/admin/**").hasRole("ADMIN")
                                 .anyRequest().permitAll()
                 ).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint)

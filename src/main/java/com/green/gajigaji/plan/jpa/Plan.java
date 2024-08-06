@@ -1,16 +1,16 @@
 package com.green.gajigaji.plan.jpa;
 
+import com.green.gajigaji.common.jpa.UpdateDt;
+import com.green.gajigaji.party.jpa.Party;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity(name = "planMaster")
 @Setter
 @Getter
-public class Plan {
+public class Plan extends UpdateDt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long planSeq;
@@ -20,12 +20,13 @@ public class Plan {
 //    private Party party;
 
     @Column(nullable = false)
-    private LocalDate planStartDt;
+    private String  planStartDt;
 
     @Column(nullable = false)
-    private LocalDateTime planStartTime;
+    private String planStartTime;
 
-    @Column(nullable = false)
+    @ColumnDefault("0")
+    @Column
     private int planCompleted;
 
     @Column(nullable = false)
@@ -36,4 +37,6 @@ public class Plan {
 
     @Column(nullable = false)
     private String planLocation;
+
+
 }
