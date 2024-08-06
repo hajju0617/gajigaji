@@ -36,7 +36,7 @@ public class PlanService {
             Party party = partyRepository.findPartyByPartySeq(p.getPlanPartySeq());
             Plan plan = new Plan();
             plan.setPlanSeq(p.getPlanSeq());
-            plan.setParty(party);
+            //plan.setParty(party);
             plan.setPlanStartDt(p.getPlanStartDt());
             plan.setPlanStartTime(p.getPlanStartTime());
             plan.setPlanTitle(p.getPlanTitle());
