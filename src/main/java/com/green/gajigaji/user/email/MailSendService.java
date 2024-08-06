@@ -86,7 +86,7 @@ public class MailSendService {
         String toMail = userEmail;
         String title = "이메일 인증.";
         String content =
-                "안녕하세요." + 	//html 형식으로 작성 !
+                "안녕하세요." + 	//html 형식으로 작성
                         "<br><br>" +
                         "인증 번호는 " + authNumber + "입니다." +
                         "<br>" +
@@ -116,7 +116,7 @@ public class MailSendService {
         String toMail = p.getUserEmail();
         String title = "임시 비밀번호 발급."; // 이메일 제목
         String content =
-                "안녕하세요." + 	//html 형식으로 작성 !
+                "안녕하세요." +
                         "<br><br>" +
                         "임시 비밀번호는 " + temp + "입니다." +
                         "<br>" +

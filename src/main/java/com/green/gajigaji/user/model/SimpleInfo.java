@@ -24,5 +24,5 @@ public class SimpleInfo {
 
     private String userAddr;
     private String userPhone;
-    private List<String> userRole;
+    private String userRole;
 }

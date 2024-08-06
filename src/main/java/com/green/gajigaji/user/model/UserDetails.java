@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 public class UserDetails {
@@ -33,4 +34,6 @@ public class UserDetails {
     private String userEmailAuthStatus;
     @Schema(example = "asdfqwer123.jpg", description = "유저 프로필 사진")
     private String userPic;
+    @Schema(description = "유저 권한")
+    private String userRole;
 }

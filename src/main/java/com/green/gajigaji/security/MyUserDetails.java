@@ -24,11 +24,7 @@ public class MyUserDetails implements UserDetails { // , OAuth2User
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> list = new ArrayList<>();
-        for(String role : myUser.getRoles()) {
-            list.add(new SimpleGrantedAuthority(role));
-        }
-        return list;
+        return Collections.singletonList(new SimpleGrantedAuthority(myUser.getRole()));
     }
 
     @Override

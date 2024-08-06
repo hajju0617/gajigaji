@@ -60,18 +60,22 @@ public class SecurityConfiguration {
                                 "/api/user/sign_up"
                                 ,"/api/user/sign_in").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/party").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/party/detail").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/party/location").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/review").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/user/findid").permitAll()
+                                .requestMatchers(HttpMethod.PATCH, "/findpw").permitAll()
                                 .requestMatchers(
                                 "/api/party/**"
                                 ,"/api/party"
                                 ,"/api/board/**"
-                                ,"api/board"
-                                ,"api/join"
+                                ,"/api/board"
+                                ,"/api/join"
                                 ,"/api/join/**"
                                 ,"/api/plan/**"
-                                ,"api/plan"
+                                ,"/api/plan"
                                 ,"/api/review/**"
-                                ,"api/review"
+                                ,"/api/review"
                                 ,"/api/member/**"
                                 ,"/api/member"
                                 ,"/api/budget/**"
@@ -80,7 +84,6 @@ public class SecurityConfiguration {
                                 ,"/api/user"
                                 ,"/mailSend"
                                 ,"/mailauthCheck"
-                                ,"/findpw"
                                 )
                                 .authenticated()   // 로그인이 안 되어 있을때 접근 할 수 없는 곳
                                 .requestMatchers("/admin", "/admin/**").hasRole("ADMIN")

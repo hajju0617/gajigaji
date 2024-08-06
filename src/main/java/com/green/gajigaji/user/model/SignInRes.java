@@ -36,5 +36,5 @@ public class SignInRes {
 
 
     private String accessToken;
-    private List<String> userRoles;
+    private String userRole;
 }

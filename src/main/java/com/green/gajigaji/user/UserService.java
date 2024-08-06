@@ -90,7 +90,7 @@ public class UserService {
 //        int result = mapper.postSignUp(p);
 
         try {
-            String path = String.format("user/%d", p.getUserSeq());
+            String path = String.format("user/%d", userEntity.getUserSeq());
             customFileUtils.makeFolders(path);
             String target = String.format("%s/%s", path, saveFileName);
             customFileUtils.transferTo(userPic, target);
@@ -111,7 +111,7 @@ public class UserService {
 
         MyUser myUser = MyUser.builder()
                 .userId(user.getUserSeq())
-                .roles(user.getUserRole())
+                .role(user.getUserRole())
                 .build();
         log.info("user.getUserRole() : {}", user.getUserRole());
 
@@ -135,7 +135,7 @@ public class UserService {
                 .userPhone(user.getUserPhone())
                 .userGenderNm(user.getUserGenderNm())
                 .accessToken(accessToken)
-                .userRoles(user.getUserRole())
+                .userRole(user.getUserRole())
                 .build();
     }
 
