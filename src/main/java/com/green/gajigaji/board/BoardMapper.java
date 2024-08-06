@@ -10,13 +10,15 @@ import java.util.List;
 public interface BoardMapper {
     int postBoard(BoardPostReq p);
     int postBoardPics(BoardPicPostDto p);
-    int deleteBoardPics(@Param("boardSeq") long boardSeq, @Param("fileName") String fileName);
-    int deleteBoard(@Param("boardSeq") long boardSeq, @Param("boardMemberSeq") long boardMemberSeq, @Param("boardPartySeq") long boardPartySeq);
+    int deleteBoardPics(long boardSeq,String fileName);
+
+    int deleteBoard(long boardSeq, long boardMemberSeq, long boardPartySeq);
     int patchBoard(BoardPatchReq p);
-    List<BoardGetRes> getBoardDetail(BoardGetReq data);
-    long getTotalCount();
+    long getTotalCount(@Param("boardPartySeq") Long boardPartySeq);
     List<String> getFileNamesByBoardSeq(long boardSeq);
-    int incrementBoardHit(@Param("boardSeq") long boardSeq , @Param("boardPartySeq") long boardPartySeq, @Param("boardMemberSeq") long boardMemberSeq);
-    BoardGetRes getBoard(@Param("boardSeq") long boardSeq , @Param("boardPartySeq") long boardPartySeq, @Param("boardMemberSeq") long boardMemberSeq);
+
+    int incrementBoardHit(long boardSeq);
+    List<BoardGetRes> getBoard(BoardGetReq p);
+    BoardGetRes getBoardDetail(long boardSeq);
 }
 

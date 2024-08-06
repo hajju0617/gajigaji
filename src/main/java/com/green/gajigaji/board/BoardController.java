@@ -35,6 +35,7 @@ public class BoardController {
                 .resultData(result)
                 .build();
     }
+
     @DeleteMapping
     @Operation(summary = "게시글 삭제")
     public ResultDto<Integer> deleteBoard(@RequestBody BoardDeleteReq p ) {
@@ -61,28 +62,31 @@ public class BoardController {
                 .build();
     }
     @GetMapping
-    @Operation(summary = "게시글 조회" )
-    public ResultDto<BoardGetPage> getBoard(@RequestParam(name = "page", defaultValue = "0") int page, @RequestParam(name = "boardPartySeq", defaultValue = "0") int boardPartySeq) {
-        BoardGetReq data = new BoardGetReq(0, page, GlobalConst.PAGING_SIZE);
-        data.setBoardPartySeq(boardPartySeq);
-        BoardGetPage list = service.getBoardDetail(data);
+    @Operation(summary = "게시글 목록 조회")
+    public ResultDto<BoardGetPage> getBoard(@RequestParam(defaultValue = "0") int page,
+                                            @RequestParam(defaultValue = "10") int size,
+                                            @RequestParam(required = false) int boardPartySeq) {
+        BoardGetReq p = new BoardGetReq(boardPartySeq, page, size);
+        BoardGetPage result = service.getBoard(p);
+
         return ResultDto.<BoardGetPage>builder()
                 .status(HttpStatus.OK)
                 .code(1)
                 .resultMsg("정상처리 되었습니다")
-                .resultData(list)
+                .resultData(result)
                 .build();
     }
+
     @GetMapping("/{boardSeq}")
     @Operation(summary = "게시글 상세 조회")
+    public ResultDto<BoardGetRes> getBoardDetail(@PathVariable long boardSeq) {
+        BoardGetRes result = service.getBoardDetail(boardSeq);
 
-    public ResultDto<BoardGetRes> getBoardDetail(@ParameterObject @ModelAttribute BoardGetReq data) {
-        BoardGetRes board = service.getBoard(data);
         return ResultDto.<BoardGetRes>builder()
                 .status(HttpStatus.OK)
                 .code(1)
                 .resultMsg("정상처리 되었습니다")
-                .resultData(board)
+                .resultData(result)
                 .build();
     }
 }
