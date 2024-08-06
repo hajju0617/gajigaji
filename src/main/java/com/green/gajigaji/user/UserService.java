@@ -220,6 +220,8 @@ public class UserService {
 
         String fileName = customFileUtils.makeRandomFileName(p.getPic());
         p.setPicName(fileName);
+        p.setUserSeq(userPk);
+
         mapper.updateUserPic(p);
 
         try {

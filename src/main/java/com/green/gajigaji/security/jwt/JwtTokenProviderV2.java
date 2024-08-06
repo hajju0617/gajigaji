@@ -76,6 +76,7 @@ public class JwtTokenProviderV2 {
     }
 
     public UserDetails getUserDetailsFromToken(String token) {
+
         try {
             Claims claims = getClaims(token);
             String json = (String)claims.get("signedUser");

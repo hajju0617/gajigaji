@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.green.gajigaji.common.exception.CommonErrorCode;
 import com.green.gajigaji.common.exception.CustomException;
 import com.green.gajigaji.user.UserMapper;
+import com.green.gajigaji.user.email.model.TimeCheckInstance;
 import com.green.gajigaji.user.model.FindPasswordReq;
 import com.green.gajigaji.user.usercommon.UserErrorMessage;
 import lombok.RequiredArgsConstructor;

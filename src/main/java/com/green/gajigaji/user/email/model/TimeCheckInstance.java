@@ -1,4 +1,4 @@
-package com.green.gajigaji.user.email;
+package com.green.gajigaji.user.email.model;
 
 import lombok.Getter;
 

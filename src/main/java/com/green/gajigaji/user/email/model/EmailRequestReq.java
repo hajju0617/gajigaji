@@ -1,4 +1,4 @@
-package com.green.gajigaji.user.email;
+package com.green.gajigaji.user.email.model;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;

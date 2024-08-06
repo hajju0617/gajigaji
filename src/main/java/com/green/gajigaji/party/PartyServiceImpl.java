@@ -39,15 +39,16 @@ public class PartyServiceImpl implements PartyService{
     //throws Exceoption은 PartyExceptionHandler의 Exception이 받음. return : 서버에러 입니다.
     //p의 partyLocation 값은 아래 "getPartyLocation" 주석을 참고하시오.
     public ResultDto<PostPartyRes> postParty(@Nullable MultipartFile partyPic, PostPartyReq p) throws Exception{
-//        long userPk = authenticationFacade.getLoginUserId();
-//        p.setUserSeq(userPk);
+        long userPk = authenticationFacade.getLoginUserId();
+        p.setUserSeq(userPk);
         /** 일부러 에러를 터트려서 원하는 값을 return 함. (설명을 리턴 값 번호 + 에러가 발생한 이유로 정리함.)
          * exception 부분 마우스 올리면 추가 주석 나옴. (('CRUD 약자' + '번호' + '메소드명') + 설명 있음)
-         */  check.exception(partyPic,p);
+         */
+        check.exception(partyPic,p);
 
         // 랜덤 파일 이름 생성, p에 주입
         String saveFileName = customFileUtils.makeRandomFileName(partyPic);
-        p.setPartyPic(saveFileName);
+         p.setPartyPic(saveFileName);
 
         // 모임 만듬
         mapper.postParty(p);
@@ -131,6 +132,8 @@ public class PartyServiceImpl implements PartyService{
 
     //모임 정보 수정
     public ResultDto<UpdatePartyRes> updateParty(@Nullable MultipartFile partyPic, UpdatePartyReq p) throws Exception {
+        long userPk = authenticationFacade.getLoginUserId();
+        p.setUserSeq(userPk);
         check.exception(partyPic, p);
 
         // 랜덤 이름, 파일 위치 설정
@@ -138,14 +141,17 @@ public class PartyServiceImpl implements PartyService{
         String saveFileName = customFileUtils.makeRandomFileName(partyPic);
         String target = String.format("%s/%s", path, saveFileName);
 
+
         // 파일 삭제, 폴더 만들기, 파일 생성
         customFileUtils.deleteFolder(path);
         customFileUtils.makeFolders(path);
         customFileUtils.transferTo(partyPic, target);
 
+
         // 모임 정보 수정
         p.setPartyPic(saveFileName);
         mapper.updateParty(p);
+
 
         //  return 할 사진 이름 넣기
         UpdatePartyRes res = new UpdatePartyRes();
