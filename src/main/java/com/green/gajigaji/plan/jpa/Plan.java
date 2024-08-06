@@ -15,9 +15,9 @@ public class Plan extends UpdateDt {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long planSeq;
 
-    @ManyToOne
-    @JoinColumn(name = "plan_party_seq", nullable = false)
-    private Party party;
+//    @ManyToOne
+//    @JoinColumn(name = "plan_party_seq", nullable = false)
+//    private Party party;
 
     @Column(nullable = false)
     private String  planStartDt;

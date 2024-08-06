@@ -20,4 +20,9 @@ public interface ReviewMapper {
     void deleteReviewFavs(long reviewSeq);
     int deleteReviewFav(GetReviewFavToggleReq p);
     int insertReviewFav(GetReviewFavToggleReq p);
+
+    //JWT
+    List<Long> checkAuthReviewSeq(long userSeq);
+    List<Long> checkAuthPlmemberSeq(long userSeq);
+    int checkAuthUserSeq(long userSeq);
 }
