@@ -38,7 +38,6 @@ public class ReviewController {
                             "<p> 2 : 실패, ResultMsg</p>")
     public ResultDto<PostReviewRes> postReview(@RequestPart(value = "pics", required = false) List<MultipartFile> pics
             , @RequestPart PostReviewReq p){
-
             PostReviewRes result = service.postReview(pics, p);
             return ResultDto.resultDto(HttpStatus.OK, SUCCESS,"리뷰 등록 완료" ,result);
     }
@@ -53,7 +52,6 @@ public class ReviewController {
                             "<p> 1 : 성공 (DB에서 영향을 받은 행 갯수 리턴)</p>" +
                             "<p> 2 : 실패, ResultMsg</p>")
     public ResultDto<Integer> deleteReview(@RequestParam(name = "reviewSeq", required = true) long reviewSeq) {
-
         int result = service.deleteReview(reviewSeq);
         return ResultDto.resultDto(HttpStatus.OK,SUCCESS,"삭제 완료(result = 영향받은 행 수)", result);
     }
