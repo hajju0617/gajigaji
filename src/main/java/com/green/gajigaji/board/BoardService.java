@@ -13,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -112,23 +114,32 @@ public class BoardService {
         }
     }
 
-    public BoardGetRes getBoard(BoardGetReq p) {
-        mapper.incrementBoardHit(p.getBoardSeq(), p.getBoardPartySeq(), p.getBoardMemberSeq());
-        BoardGetRes board = mapper.getBoard(p.getBoardSeq(), p.getBoardPartySeq(), p.getBoardMemberSeq());
-        List<String> pics = mapper.getFileNamesByBoardSeq(p.getBoardSeq());
-        board.setPics(pics);
-        return board;
+    public BoardGetPage getBoard(BoardGetReq p) {
+        try{
+            List<BoardGetRes> board = mapper.getBoard(p);
+            for(BoardGetRes boards : board) {
+                List<String> pics = mapper.getFileNamesByBoardSeq(boards.getBoardSeq());
+                boards.setPics(pics);
+            }
+            long totalElements = mapper.getTotalCount(p.getBoardPartySeq());
+            return new BoardGetPage(board, p.getSize(), totalElements);
+        }catch (Exception e) {
+            throw new RuntimeException("게시글 목록 조회 중 오류 발생", e);
+        }
     }
 
-    public BoardGetPage getBoardDetail(BoardGetReq data) {
-        List<BoardGetRes> list = mapper.getBoardDetail(data);
-        long totalElements = mapper.getTotalCount();
-
-        for (BoardGetRes board : list) {
-            List<String> pics = mapper.getFileNamesByBoardSeq(board.getBoardSeq());
+    public BoardGetRes getBoardDetail(long boardSeq) {
+        try {
+            mapper.incrementBoardHit(boardSeq);
+            BoardGetRes board = mapper.getBoardDetail(boardSeq);
+            if (board == null) {
+                throw new RuntimeException("해당 게시글을 찾을 수 없습니다");
+            }
+            List<String> pics = mapper.getFileNamesByBoardSeq(boardSeq);
             board.setPics(pics);
+            return board;
+        } catch (Exception e) {
+            throw new RuntimeException("게시글 상세 조회 중 오류 발생", e);
         }
-
-        return new BoardGetPage(list, data.getSize(), totalElements);
     }
 }
