@@ -2,17 +2,18 @@ package com.green.gajigaji.plan;
 
 import com.green.gajigaji.common.CheckMapper;
 import com.green.gajigaji.common.model.ResultDto;
-import com.green.gajigaji.party.jpa.Party;
+import com.green.gajigaji.party.jpa.PartyMaster;
 import com.green.gajigaji.party.jpa.PartyRepository;
-import com.green.gajigaji.plan.jpa.Plan;
+import com.green.gajigaji.plan.jpa.PlanMaster;
 import com.green.gajigaji.plan.jpa.PlanRepository;
 import com.green.gajigaji.plan.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.green.gajigaji.plan.exception.ConstMessage.*;
@@ -33,15 +34,16 @@ public class PlanService {
                 p.getPlanTitle() == null || p.getPlanContents() == null) {
             return ResultDto.resultDto(HttpStatus.BAD_REQUEST, 2, NULL_ERROR_MESSAGE);
         } else {
-            Party party = partyRepository.findPartyByPartySeq(p.getPlanPartySeq());
-            Plan plan = new Plan();
-            plan.setPlanSeq(p.getPlanSeq());
-            //plan.setParty(party);
-            plan.setPlanStartDt(p.getPlanStartDt());
-            plan.setPlanStartTime(p.getPlanStartTime());
-            plan.setPlanTitle(p.getPlanTitle());
-            plan.setPlanContents(p.getPlanContents());
-            repository.save(plan);
+            PartyMaster partyMaster = partyRepository.findPartyByPartySeq(p.getPlanPartySeq());
+            PlanMaster planMaster = new PlanMaster();
+            planMaster.setPlanSeq(p.getPlanSeq());
+            planMaster.setPartyMaster(partyMaster);
+            planMaster.setPlanStartDt(p.getPlanStartDt());
+            planMaster.setPlanStartTime(p.getPlanStartTime());
+            planMaster.setPlanTitle(p.getPlanTitle());
+            planMaster.setPlanContents(p.getPlanContents());
+            planMaster.setPlanCompleted("1");
+            repository.save(planMaster);
             return ResultDto.resultDto(HttpStatus.OK, 1, POST_SUCCESS_MESSAGE);
         }
     }
@@ -55,11 +57,12 @@ public class PlanService {
         }
     }
 
+    @Transactional
     public ResultDto<Integer> patchPlanCompleted(long planSeq) {
         if (checkMapper.checkPlanSeq(planSeq) == null) {
             return ResultDto.resultDto(HttpStatus.BAD_REQUEST, 2, NOT_FOUND_PLAN);
         } else {
-            mapper.patchPlanCompleted(planSeq);
+            repository.updatePlanByPlanSeq(planSeq);
             return ResultDto.resultDto(HttpStatus.OK, 1, PATCH_SUCCESS_MESSAGE);
         }
     }
@@ -68,7 +71,21 @@ public class PlanService {
         if (checkMapper.checkPlanPartySeq(planPartySeq) == null) {
             return ResultDto.resultDto(HttpStatus.BAD_REQUEST, 2, NOT_FOUND_PARTY);
         } else {
-            return ResultDto.resultDto(HttpStatus.OK, 1, GET_SUCCESS_MESSAGE, mapper.getPlanAll(planPartySeq));
+            List<GetPlanResInterface> list = repository.findAllByParty(planPartySeq);
+            List<GetPlanRes> results = new ArrayList<>();
+            for(GetPlanResInterface getPlanResInterface : list) {
+                GetPlanRes item = new GetPlanRes();
+                results.add(item);
+                item.setPlanSeq(getPlanResInterface.getPlanSeq());
+                item.setPlanStartDt(getPlanResInterface.getPlanStartDt());
+                item.setPlanStartTime(getPlanResInterface.getPlanStartTime());
+                item.setPlanCompleted(getPlanResInterface.getPlanCompleted());
+                item.setCdNm(getPlanResInterface.getCdGbNm());
+                item.setPlanTitle(getPlanResInterface.getPlanTitle());
+                item.setPlanContents(getPlanResInterface.getPlanContents());
+                item.setPlanLocation(getPlanResInterface.getPlanLocation());
+            }
+            return ResultDto.resultDto(HttpStatus.OK, 1, GET_SUCCESS_MESSAGE, results);
         }
     }
 
@@ -88,11 +105,11 @@ public class PlanService {
         }
     }
 
-    public ResultDto<Integer> deletePlan(long planSeq) {
+    public ResultDto<Integer> deletePlan(Long planSeq) {
         if (checkMapper.checkPlanSeq(planSeq) == null) {
             return ResultDto.resultDto(HttpStatus.BAD_REQUEST, 2, NOT_FOUND_PLAN);
         } else {
-            mapper.deletePlan(planSeq);
+            repository.deleteById(planSeq);
             return ResultDto.resultDto(HttpStatus.OK, 1, DELETE_SUCCESS_MESSAGE);
         }
     }
