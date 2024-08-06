@@ -6,8 +6,10 @@ import com.green.gajigaji.party.model.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -64,14 +66,20 @@ public class PartyController {
     }
 
     @GetMapping
-    @Operation(summary = "모임들 불러오기", description =
+    @Operation(summary = "모임들 불러오기/검색", description =
             "<strong> 모임들을 불러옵니다</strong><p></p>")
     @ApiResponse(description =
             "<p> ResponseCode 응답 코드 </p>" +
                     "<p> 1 : 성공 </p>" +
                     "<p> 2 : 실패 </p>")
-    public ResultDto<List<GetPartyRes>> getParty() {
-        return service.getParty();
+    public ResultDto<GetPartyPage> getParty(
+            @RequestParam(name = "search", defaultValue = "1") Integer search
+            , @Nullable @RequestParam(name = "searchData") String searchData
+            , @Nullable @RequestParam(name = "page") Integer page
+            , @Nullable @RequestParam(name = "size") Integer size) {
+
+        GetPartySearchReq p = new GetPartySearchReq(page, size, search, searchData);
+        return service.getParty(p);
     }
 
     @GetMapping("/detail")

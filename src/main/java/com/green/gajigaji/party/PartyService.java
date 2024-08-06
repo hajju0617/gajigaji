@@ -12,7 +12,7 @@ public interface PartyService {
 
     ResultDto<PostPartyRes> postParty(@Nullable MultipartFile partyPic, PostPartyReq p) throws Exception;
     ResultDto<List<GetPartyLocationRes>> getPartyLocation(int cdSub, int cdGb);
-    ResultDto<List<GetPartyRes>> getParty();
+    ResultDto<GetPartyPage> getParty(GetPartySearchReq p);
     ResultDto<GetPartyRes> getPartyDetail(Long partySeq);
     ResultDto<GetPartyRes2> getPartyMine(GetPartyReq2 p);
     ResultDto<GetPartyRes2> getPartyLeader(GetPartyReq2 p);
