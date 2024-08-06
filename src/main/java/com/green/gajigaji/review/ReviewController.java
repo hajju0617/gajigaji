@@ -100,14 +100,13 @@ public class ReviewController {
     public ResultDto<GetReviewUserPageRes> getReviewUser(@RequestParam(name = "search", defaultValue = "1") Integer search
            , @Nullable @RequestParam(name = "searchData") String searchData
            , @Nullable @RequestParam(name = "page") Integer page
-           , @Nullable @RequestParam(name = "size") Integer size
-           , @RequestParam(name = "userSeq") long userSeq) {
+           , @Nullable @RequestParam(name = "size") Integer size) {
 
         if(searchData == null) { searchData = ""; }
         if(page == null || page < 0) { page = 0; }
         if(size == null || size < 0) { size = 0; }
 
-        GetReviewUserReq p = new GetReviewUserReq(page, size, search, userSeq, searchData);
+        GetReviewUserReq p = new GetReviewUserReq(page, size, search, searchData);
         GetReviewUserPageRes result = service.getReviewUser(p);
         return ResultDto.resultDto(HttpStatus.OK,SUCCESS, "리뷰 조회 완료", result);
     }
