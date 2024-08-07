@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+
 import java.util.Date;
 
 @Getter
@@ -56,13 +58,15 @@ public class UserEntity extends InputDt {
     private String userIntro;
 
     @Column(length = 6, nullable = false)
-    private int userGb;
+    @ColumnDefault(value = "1")
+    private int userGb = 1;
 
     @Column(length = 100, nullable = false)
     private String userPic;
 
     @Column(length = 6, nullable = false)
-    private int userState;
+    @ColumnDefault(value = "1")
+    private int userState = 1;
 
     @Column(length = 15, nullable = false)
     private String userRole;
@@ -76,7 +80,6 @@ public class UserEntity extends InputDt {
         this.setUserGender(p.getUserGender());
         this.setUserPhone(p.getUserPhone());
         this.setUserIntro(p.getUserIntro());
-
     }
 
 }

@@ -61,7 +61,7 @@ app:
     secret: ${JWT_SECRET}
     header-schema-name: authorization
     token-type: Bearer
-    access-token-expiry: 600000
+    access-token-expiry: 3600000
     # 1800000 (ms) : 30분
 
     # RT(Refresh-Token) - 만료시간(ms) - 15일

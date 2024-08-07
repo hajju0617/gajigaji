@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @Import({ PartyServiceImpl.class })
-class PartyServiceTest {
+class PartyMasterServiceTest {
 
     @MockBean
     PartyMapper mapper;

@@ -38,7 +38,6 @@ public class ReviewController {
                             "<p> 2 : 실패, ResultMsg</p>")
     public ResultDto<PostReviewRes> postReview(@RequestPart(value = "pics", required = false) List<MultipartFile> pics
             , @RequestPart PostReviewReq p){
-
             PostReviewRes result = service.postReview(pics, p);
             return ResultDto.resultDto(HttpStatus.OK, SUCCESS,"리뷰 등록 완료" ,result);
     }
@@ -53,7 +52,6 @@ public class ReviewController {
                             "<p> 1 : 성공 (DB에서 영향을 받은 행 갯수 리턴)</p>" +
                             "<p> 2 : 실패, ResultMsg</p>")
     public ResultDto<Integer> deleteReview(@RequestParam(name = "reviewSeq", required = true) long reviewSeq) {
-
         int result = service.deleteReview(reviewSeq);
         return ResultDto.resultDto(HttpStatus.OK,SUCCESS,"삭제 완료(result = 영향받은 행 수)", result);
     }
@@ -102,14 +100,13 @@ public class ReviewController {
     public ResultDto<GetReviewUserPageRes> getReviewUser(@RequestParam(name = "search", defaultValue = "1") Integer search
            , @Nullable @RequestParam(name = "searchData") String searchData
            , @Nullable @RequestParam(name = "page") Integer page
-           , @Nullable @RequestParam(name = "size") Integer size
-           , @RequestParam(name = "userSeq") long userSeq) {
+           , @Nullable @RequestParam(name = "size") Integer size) {
 
         if(searchData == null) { searchData = ""; }
         if(page == null || page < 0) { page = 0; }
         if(size == null || size < 0) { size = 0; }
 
-        GetReviewUserReq p = new GetReviewUserReq(page, size, search, userSeq, searchData);
+        GetReviewUserReq p = new GetReviewUserReq(page, size, search, searchData);
         GetReviewUserPageRes result = service.getReviewUser(p);
         return ResultDto.resultDto(HttpStatus.OK,SUCCESS, "리뷰 조회 완료", result);
     }

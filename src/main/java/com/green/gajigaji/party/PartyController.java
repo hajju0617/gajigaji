@@ -3,6 +3,7 @@ package com.green.gajigaji.party;
 
 import com.green.gajigaji.common.model.ResultDto;
 import com.green.gajigaji.party.model.*;
+import com.green.gajigaji.security.AuthenticationFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,6 +25,7 @@ import java.util.List;
 @Tag(name = "party", description = "party CRUD")
 public class PartyController {
     private final PartyService service;
+    private final AuthenticationFacade authenticationFacade;
 
     @PostMapping
     @Operation(summary = "모임 생성+모임장 등록  (포스트맨 사용하세요)", description =
@@ -98,11 +100,12 @@ public class PartyController {
             "<p> ResponseCode 응답 코드 </p>" +
                     "<p> 1 : 성공 </p>" +
                     "<p> 2 : 실패 </p>")
-    public ResultDto<GetPartyRes2> getPartyMine(@RequestParam long userSeq
-            , @RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size) {
+    public ResultDto<GetPartyRes2> getPartyMine(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size) {
+
+        long userPk = authenticationFacade.getLoginUserId();
         if(page <= 0){page = 1;}
         GetPartyReq2 req2 = new GetPartyReq2(page, size);
-        req2.setUserSeq(userSeq);
+        req2.setUserSeq(userPk);
         return service.getPartyMine(req2);
     }
 
@@ -116,10 +119,10 @@ public class PartyController {
                     "<p> 1 : 성공 </p>" +
                     "<p> 2 : 실패 </p>")
     @GetMapping("/leader")
-    public ResultDto<GetPartyRes2> getPartyLeader(@RequestParam long userSeq
-            , @RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size) {
+    public ResultDto<GetPartyRes2> getPartyLeader(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size) {
+        long userPk = authenticationFacade.getLoginUserId();
         GetPartyReq2 req2 = new GetPartyReq2(page, size);
-        req2.setUserSeq(userSeq);
+        req2.setUserSeq(userPk);
         return service.getPartyLeader(req2);
     }
 
@@ -175,9 +178,9 @@ public class PartyController {
             "<p> ResponseCode 응답 코드 </p>" +
                     "<p> 1 : 성공 </p>" +
                     "<p> 2 : 실패 </p>")
-    public ResultDto<Integer> updatePartyAuthGb2(@RequestParam(name ="partySeq") Long partySeq
-            , @RequestParam(name = "userSeq") Long userSeq){
-        return service.updatePartyAuthGb2(partySeq,userSeq);
+    public ResultDto<Integer> updatePartyAuthGb2(@RequestParam(name ="partySeq") Long partySeq){
+        long userPk = authenticationFacade.getLoginUserId();
+        return service.updatePartyAuthGb2(partySeq,userPk);
     }
 
 

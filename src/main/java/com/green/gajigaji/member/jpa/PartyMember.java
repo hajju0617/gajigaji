@@ -1,16 +1,20 @@
 package com.green.gajigaji.member.jpa;
 
 import com.green.gajigaji.common.jpa.UpdateDt;
-import com.green.gajigaji.party.jpa.Party;
+import com.green.gajigaji.party.jpa.PartyMaster;
 import com.green.gajigaji.user.jpa.UserEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
-@Entity(name = "partyMember")
+@Entity
 @Getter
 @Setter
+@DynamicInsert
+@DynamicUpdate
 @Table(
         uniqueConstraints = {
                 @UniqueConstraint(
@@ -18,7 +22,7 @@ import org.hibernate.annotations.ColumnDefault;
                 )
         }
 )
-public class Member extends UpdateDt {
+public class PartyMember extends UpdateDt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberSeq;
@@ -29,7 +33,7 @@ public class Member extends UpdateDt {
 
     @ManyToOne
     @JoinColumn(name = "member_party_seq", nullable = false)
-    private Party party;
+    private PartyMaster partyMaster;
 
     @Column(nullable = false)
     private String memberRole;

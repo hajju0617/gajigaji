@@ -18,7 +18,8 @@ public enum ReviewErrorCode implements ErrorCode {
     REVIEW_DELETE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "리뷰 삭제 중 오류가 발생했습니다.", ERROR),
     REVIEW_PICS_POST_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "리뷰 사진 등록 중 오류가 발생했습니다.", ERROR),
     UNIDENTIFIED_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "의도치않은 오류가 발생했습니다.", ERROR),
-    NOT_FOUND_REVIEW(HttpStatus.NOT_FOUND, "리뷰가 존재하지 않습니다.", FAILURE);
+    NOT_FOUND_REVIEW(HttpStatus.NOT_FOUND, "리뷰가 존재하지 않습니다.", FAILURE),
+    NOT_FOUND_MESSAGE(HttpStatus.NOT_FOUND, "존재하지 않는 유저", FAILURE);
 
 
     private final HttpStatus httpStatus;

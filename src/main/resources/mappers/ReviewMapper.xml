@@ -2,6 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.green.gajigaji.review.ReviewMapper">
 
+    <select id="checkAuthPlmemberSeq">
+        SELECT C.plmember_seq
+        FROM user_master A
+        JOIN party_member B
+        ON A.user_seq = B.member_user_seq
+        JOIN plan_member C
+        ON B.member_seq = C.plmember_member_seq
+        WHERE A.user_seq = #{userSeq};
+    </select>
+
+    <select id="checkAuthReviewSeq">
+        SELECT D.review_seq
+        FROM user_master A
+        JOIN party_member B
+        ON A.user_seq = B.member_user_seq
+        JOIN plan_member C
+        ON B.member_seq = C.plmember_member_seq
+        JOIN review_master D
+        ON C.plmember_seq = D.review_plmember_seq
+        WHERE A.user_seq = #{userSeq}
+    </select>
+
+    <select id="checkAuthUserSeq">
+        SELECT 1
+        FROM user_master
+        WHERE user_seq = #{userSeq}
+    </select>
+
     <insert id="postReview" keyProperty="reviewSeq" useGeneratedKeys="true">
         INSERT INTO review_master
         (review_plan_seq, review_plmember_seq, review_contents , review_rating)

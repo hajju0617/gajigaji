@@ -1,5 +1,6 @@
 package com.green.gajigaji.common.exception;
 
+import com.green.gajigaji.user.usercommon.UserErrorMessage;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import lombok.extern.slf4j.Slf4j;
@@ -43,16 +44,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(SignatureException.class)
     public ResponseEntity<Object> handleSignatureException() {
-        return handleExceptionInternal(MemberErrorCode.UNAUTHENTICATED);
+        return handleExceptionInternal(UserErrorMessage.UNAUTHENTICATED);
     }
 
     @ExceptionHandler(MalformedJwtException.class)
     public ResponseEntity<Object> handleMalformedJwtException() {
-        return handleExceptionInternal(MemberErrorCode.INVALID_TOKEN);  // 올바르지 않은 토큰입니다.
+        return handleExceptionInternal(UserErrorMessage.INVALID_TOKEN);  // 올바르지 않은 토큰입니다.
     }
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity<Object> handleExpiredJwtException() {
-        return handleExceptionInternal(MemberErrorCode.EXPIRED_TOKEN);  // 토큰 만료
+        return handleExceptionInternal(UserErrorMessage.EXPIRED_TOKEN);  // 토큰 만료
     }
 
     @ExceptionHandler(Exception.class)  // 모든 Exception을 잡는다고 보면 됨  (CustomException 을 제외한)

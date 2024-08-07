@@ -26,7 +26,7 @@ import static org.mockito.BDDMockito.given;
         properties = {
                 "file.directory=D:/Yerim/project_2nd_tdd"
         })
-class BudgetServiceTest {
+class PartyMasterBudgetServiceTest {
 
     @Value("${file.directory}") String uploadPath;
     @MockBean

@@ -1,5 +1,6 @@
 package com.green.gajigaji.review.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,14 +11,14 @@ public class GetReviewUserReq {
     private int search;
     private String searchData;
 
-    @NotBlank(message = "유저 PK는 필수값입니다.")
+    @JsonIgnore
     private long userSeq;
 
     private Integer page;
     private Integer size;
     private int startIdx;
 
-    public GetReviewUserReq(Integer page, Integer size, int search, long userSeq, String searchData){
+    public GetReviewUserReq(Integer page, Integer size, int search, String searchData){
         this.page = page;
         this.size = size;
         if(page != 0 && size != 0) {
@@ -26,7 +27,6 @@ public class GetReviewUserReq {
             startIdx = 0;
         }
         this.search = search;
-        this.userSeq = userSeq;
         this.searchData = searchData;
     }
 }

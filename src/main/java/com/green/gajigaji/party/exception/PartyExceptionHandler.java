@@ -12,6 +12,8 @@ import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MultipartFile;
@@ -174,7 +176,7 @@ public class PartyExceptionHandler {
         ex.printStackTrace();
         return ResultDto.resultDto(HttpStatus.BAD_REQUEST,2, "정보를 제대로 입력해주세요.");
     }
-/*
+
     //2.런타임
     @ExceptionHandler(RuntimeException.class)
     public ResultDto<String> handleRuntimeException(RuntimeException ex) {
@@ -194,5 +196,4 @@ public class PartyExceptionHandler {
         return ResultDto.resultDto(HttpStatus.INTERNAL_SERVER_ERROR,2, "(party) 서버에러입니다.");
     }
 
- */
 }

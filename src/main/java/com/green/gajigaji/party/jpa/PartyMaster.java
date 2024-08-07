@@ -5,13 +5,17 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.Year;
 
-@Entity(name = "partyMaster")
+@Entity
 @Getter
 @Setter
-public class Party extends UpdateDt {
+@DynamicInsert
+@DynamicUpdate
+public class PartyMaster extends UpdateDt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long partySeq;
