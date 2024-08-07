@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.green.gajigaji.partyMaster.PartyMapper">
+<mapper namespace="com.green.gajigaji.party.PartyMapper">
 
     <insert id="postParty" keyProperty="partySeq" useGeneratedKeys="true">
         INSERT INTO party_master
@@ -40,39 +40,7 @@
         WHERE cd_sub = #{cdSub}
         AND cd_main = 'LO'
     </select>
-<!--
-    <select id="getParty">
-        SELECT
-        A.party_seq AS partySeq,
-        A.party_name AS partyName,
-        A.party_genre AS partyGenre,
-        A.party_location AS partyLocation,
-        F_COMMON_CD(LPAD(FLOOR(A.party_location / 100), 2, '0'), 'LO-00') AS partyLocation1,
-        F_COMMON_CD(LPAD(A.party_location % 100, 2, '0'), CONCAT('LO-', LPAD(FLOOR(A.party_location / 100), 2, '0'))) AS partyLocation2,
-        A.party_min_age AS partyMinAge,
-        A.party_max_age AS partyMaxAge,
-        A.party_gender AS partyGender,
-        (SELECT COUNT(*) FROM party_member WHERE member_party_seq = A.party_seq) AS partyNowMem,
-        A.party_maximum AS partyMaximum,
-        A.party_join_gb AS partyJoinGb,
-        A.party_intro AS partyIntro,
-        A.party_join_form AS partyJoinForm,
-        A.party_auth_gb AS partyAuthGb,
-        A.party_pic AS partyPic,
-        A.input_dt AS inputDt,
-        A.update_dt AS updateDt,
-        C.user_seq AS userSeq,
-        C.user_name AS userName,
-        C.user_pic AS userPic
-        FROM party_master A
-        JOIN party_member B ON A.party_seq = B.member_party_seq
-        JOIN user_master C ON B.member_user_seq = C.user_seq
-        WHERE B.member_user_seq = C.user_seq AND B.member_party_seq = A.party_seq AND B.member_role = 1
-        GROUP BY
-        A.party_seq, A.party_name, A.party_genre, A.party_min_age, A.party_max_age, A.party_gender, A.party_maximum,
-        A.party_join_gb, A.party_intro, A.party_join_form, A.party_auth_gb, A.party_pic, A.input_dt, C.user_seq
-        ORDER BY A.input_dt DESC;
-  -->
+
 
 <!--        SELECT -->
 <!--        A.party_seq AS partySeq, A.party_name AS partyName, A.party_genre AS partyGenre, A.party_location AS partyLocation,-->
@@ -192,6 +160,41 @@
 <!--        ORDER BY C.input_dt DESC-->
 <!--        LIMIT #{startIdx}, #{size}-->
     </select>
+
+    <select id="getParty">
+    SELECT
+    A.party_seq AS partySeq,
+    A.party_name AS partyName,
+    A.party_genre AS partyGenre,
+    A.party_location AS partyLocation,
+    F_COMMON_CD(LPAD(FLOOR(A.party_location / 100), 2, '0'), 'LO-00') AS partyLocation1,
+    F_COMMON_CD(LPAD(A.party_location % 100, 2, '0'), CONCAT('LO-', LPAD(FLOOR(A.party_location / 100), 2, '0'))) AS partyLocation2,
+    A.party_min_age AS partyMinAge,
+    A.party_max_age AS partyMaxAge,
+    A.party_gender AS partyGender,
+    (SELECT COUNT(*) FROM party_member WHERE member_party_seq = A.party_seq) AS partyNowMem,
+    A.party_maximum AS partyMaximum,
+    A.party_join_gb AS partyJoinGb,
+    A.party_intro AS partyIntro,
+    A.party_join_form AS partyJoinForm,
+    A.party_auth_gb AS partyAuthGb,
+    A.party_pic AS partyPic,
+    A.input_dt AS inputDt,
+    A.update_dt AS updateDt,
+    C.user_seq AS userSeq,
+    C.user_name AS userName,
+    C.user_pic AS userPic
+    FROM party_master A
+    JOIN party_member B ON A.party_seq = B.member_party_seq
+    JOIN user_master C ON B.member_user_seq = C.user_seq
+    WHERE B.member_user_seq = C.user_seq AND B.member_party_seq = A.party_seq AND B.member_role = 1
+    GROUP BY
+    A.party_seq, A.party_name, A.party_genre, A.party_min_age, A.party_max_age, A.party_gender, A.party_maximum,
+    A.party_join_gb, A.party_intro, A.party_join_form, A.party_auth_gb, A.party_pic, A.input_dt, C.user_seq
+    ORDER BY A.input_dt DESC;
+    </select>
+
+
     <select id="getPartyes">
         A.party_seq AS partySeq,
         A.party_name AS partyName,
@@ -232,12 +235,48 @@
         ORDER BY A.input_dt DESC
         LIMIT #{startIdx}, #{size} ;
     </select>
+
+    <select id="getTotalElements">
+        SELECT COUNT(*)
+        FROM review_master A
+        JOIN plan_member B ON A.review_plmember_seq = B.plmember_seq
+        JOIN party_member C ON B.plmember_member_seq = C.member_seq
+        JOIN user_master D ON C.member_user_seq = D.user_seq
+        JOIN party_master E ON C.member_party_seq = E.party_seq
+        LEFT JOIN (
+        SELECT A.member_seq, B.USER_NAME, A.member_party_seq
+        FROM party_member A
+        JOIN user_master B ON A.member_user_seq = B.user_seq
+        WHERE A.member_role = '1'
+        ) F ON F.member_party_seq = E.party_seq
+        WHERE 1 = 1
+        <if test="userSeq != 0"> AND D.user_seq = #{userSeq}</if>
+        <if test="search == 1">
+            AND (
+            TRIM(REPLACE(E.party_name, ' ', '')) LIKE CONCAT('%', #{searchData}, '%')
+            OR F.USER_NAME LIKE CONCAT('%', #{searchData}, '%')
+            OR D.user_name LIKE CONCAT('%', #{searchData}, '%')
+            )
+        </if>
+        <if test="search == 2">
+            AND TRIM(REPLACE(E.party_name, ' ', '')) LIKE CONCAT('%', #{searchData}, '%')
+        </if>
+        <if test="search == 3">
+            AND F.USER_NAME LIKE CONCAT('%', #{searchData}, '%')
+        </if>
+        <if test="search == 4">
+            AND D.user_name LIKE CONCAT('%', #{searchData}, '%')
+        </if>
+
+    </select>
+
     <select id="getPicses">
         SELECT party_pic as partyPic
         FROM party_master
         WHERE party_seq = #{partySeq}
         ORDER BY party_seq desc
     </select>
+
     <select id="getPartyMineCount">
         SELECT COUNT(C.party_seq)
         FROM user_master A

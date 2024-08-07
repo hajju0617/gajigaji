@@ -25,6 +25,8 @@ public class PartyServiceImpl implements PartyService{
     private final ReviewMapper reviewMapper ;
 
     private final PartyExceptionHandler check;
+    private final PartyMapper partyMapper;
+
     /** "PartyExceptionHandler"는 "GlobalExceptionHandler"보다 순위가 높음. @Order(1) == 1순위임.
      * "PartyExceptionHandler"의 범위는 (basePackages = "com.green.gajigaji.party")이다.
      * "PartyExceptionHandler"는 (MsgException,MsgExceptionNull,ReturnDto,NullReqValue,RuntimeException,NullPointerException,Exception)의 '에러' 발생시
@@ -84,11 +86,16 @@ public class PartyServiceImpl implements PartyService{
         return ResultDto.resultDto(HttpStatus.OK,1,"지역들을 불러왔습니다.",mapper.getPartyLocationAll(cdSub));
     }
 
+    public ResultDto<List<GetPartyRes>> getParty() {
+        // 모임 정보들 return
+        return ResultDto.resultDto(HttpStatus.OK,1, "모임들을 불러왔습니다.", mapper.getParty());
+    }
 
     //모임들 불러오기 (누구나 요청가능)
     //따로 에러처리 안함 (기본적인 에러는 "PartyExceptionHandler"에서 처리함.)
-    public ResultDto<GetPartyPage> getParty(GetPartySearchReq p) {
-        long page = reviewMapper.getTotalElements(p.getSearch(), p.getSearchData(), 0) ;
+
+    public ResultDto<GetPartyPage> getPartyes(GetPartySearchReq p) {
+        long page = partyMapper.getTotalElements(p.getSearch(), p.getSearchData(), 0) ;
         try{
             List<GetPartyRes> party = mapper.getPartyes(p);
             for(GetPartyRes partys : party) {
@@ -105,6 +112,8 @@ public class PartyServiceImpl implements PartyService{
 
         //    return ResultDto.resultDto(HttpStatus.OK,1, "모임들을 불러왔습니다.", mapper.getParty(p));
     }
+
+
 
 
     //모임 하나 불러오기

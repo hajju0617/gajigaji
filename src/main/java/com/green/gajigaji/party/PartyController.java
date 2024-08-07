@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -66,23 +65,31 @@ public class PartyController {
                                          ,@RequestParam(name = "cdGb") int cdGb) {
         return service.getPartyLocation(cdSub,cdGb);
     }
+    @GetMapping("/party")
+    @Operation(summary = "모임들 불러오기" , description = "모임 불러오기")
+    public ResultDto<List<GetPartyRes>> getParty() {
+        return service.getParty();
+    }
 
-    @GetMapping
+
+    @GetMapping("/partyes")
     @Operation(summary = "모임들 불러오기/검색", description =
             "<strong> 모임들을 불러옵니다</strong><p></p>")
     @ApiResponse(description =
             "<p> ResponseCode 응답 코드 </p>" +
                     "<p> 1 : 성공 </p>" +
                     "<p> 2 : 실패 </p>")
-    public ResultDto<GetPartyPage> getParty(
+    public ResultDto<GetPartyPage> getPartyes(
             @RequestParam(name = "search", defaultValue = "1") Integer search
             , @Nullable @RequestParam(name = "searchData") String searchData
             , @Nullable @RequestParam(name = "page") Integer page
             , @Nullable @RequestParam(name = "size") Integer size) {
 
         GetPartySearchReq p = new GetPartySearchReq(page, size, search, searchData);
-        return service.getParty(p);
+        return service.getPartyes(p);
     }
+
+
 
     @GetMapping("/detail")
     @Operation(summary = "모임 하나 불러오기" , description = "모임 불러오기")
