@@ -53,10 +53,10 @@ public class PartyMaster extends UpdateDt {
 
     @ColumnDefault("1")
     @Column(nullable = false)
-    private int PartyAuthGb;
+    private int partyAuthGb;
 
     @Column(nullable = false)
-    private String PartyPic;
+    private String partyPic;
 
 
 }
