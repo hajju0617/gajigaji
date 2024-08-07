@@ -10,7 +10,7 @@ public interface CheckMapper {
 
     int checkPartySeq(Long partySeq);
     int checkUserSeq(Long userSeq);
-    int checkPartyName(String partyName);
+    int checkPartyName(String partyName, Long partySeq);
 
     int checkJoinApplicationOfUser(Long partySeq, Long userSeq);
     int checkMemberForPartySeqAndUserSeq(Long partySeq, Long userSeq);

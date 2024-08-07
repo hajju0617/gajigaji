@@ -129,6 +129,7 @@ public class PartyServiceImpl implements PartyService{
 
     //모임 정보 수정
     public ResultDto<UpdatePartyRes> updateParty(@Nullable MultipartFile partyPic, UpdatePartyReq p) throws Exception {
+        p.setUserSeq(authenticationFacade.getLoginUserId());
         check.exception(partyPic, p);
 
         // 랜덤 이름, 파일 위치 설정

@@ -40,7 +40,7 @@ public class PartyExceptionHandler {
      */
     public void exception(@Nullable MultipartFile partyPic, PostPartyReq p) {
         exception(partyPic);
-        exception(p.getPartyName());
+        exception(p.getPartyName(), p.getPartySeq());
         exceptionUser(p.getUserSeq());
     }
 
@@ -66,7 +66,7 @@ public class PartyExceptionHandler {
      */
     public void exception(@Nullable MultipartFile partyPic, UpdatePartyReq p) {
         exception(partyPic);
-        exception(p.getPartyName());
+        exception(p.getPartyName(), p.getPartySeq());
         exceptionLeader(p.getPartySeq(), p.getUserSeq());
     }
 
@@ -125,9 +125,9 @@ public class PartyExceptionHandler {
     public void exception(@Nullable MultipartFile partyPic) {
         if (partyPic == null || partyPic.isEmpty()) {throw new MsgExceptionNull("2,사진은 필수입니다.");}
     }
-    public void exception(String partyName) {
+    public void exception(String partyName, Long partySeq) {
         if (partyName == null) {throw new NullReqValue();}
-        if (mapper.checkPartyName(partyName) != 0){
+        if (mapper.checkPartyName(partyName, partySeq) != 0){
             throw new MsgException("2,이미 존재하는 모임명칭입니다.");
         }
     }

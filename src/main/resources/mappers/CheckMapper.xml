@@ -24,6 +24,7 @@
         SELECT COUNT(party_name)
         FROM party_master
         WHERE party_name = #{partyName}
+        AND party_seq != #{partySeq}
     </select>
 
     <select id="checkJoinApplicationOfUser">
