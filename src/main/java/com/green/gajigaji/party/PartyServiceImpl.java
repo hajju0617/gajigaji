@@ -2,7 +2,6 @@ package com.green.gajigaji.party;
 
 import com.green.gajigaji.common.model.CustomFileUtils;
 import com.green.gajigaji.common.model.ResultDto;
-import com.green.gajigaji.party.exception.PartyExceptionHandler;
 import com.green.gajigaji.party.model.*;
 import com.green.gajigaji.security.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,6 @@ public class PartyServiceImpl implements PartyService{
     private final CustomFileUtils customFileUtils;
     private final AuthenticationFacade authenticationFacade;
 
-    private final PartyExceptionHandler check;
     /** "PartyExceptionHandler"는 "GlobalExceptionHandler"보다 순위가 높음. @Order(1) == 1순위임.
      * "PartyExceptionHandler"의 범위는 (basePackages = "com.green.gajigaji.party")이다.
      * "PartyExceptionHandler"는 (MsgException,MsgExceptionNull,ReturnDto,NullReqValue,RuntimeException,NullPointerException,Exception)의 '에러' 발생시
@@ -44,8 +42,6 @@ public class PartyServiceImpl implements PartyService{
         /** 일부러 에러를 터트려서 원하는 값을 return 함. (설명을 리턴 값 번호 + 에러가 발생한 이유로 정리함.)
          * exception 부분 마우스 올리면 추가 주석 나옴. (('CRUD 약자' + '번호' + '메소드명') + 설명 있음)
          */
-        check.exception(partyPic,p);
-
         // 랜덤 파일 이름 생성, p에 주입
         String saveFileName = customFileUtils.makeRandomFileName(partyPic);
          p.setPartyPic(saveFileName);
@@ -94,7 +90,6 @@ public class PartyServiceImpl implements PartyService{
 
     //모임 하나 불러오기
     public ResultDto<GetPartyRes> getPartyDetail(Long partySeq) {
-        check.exception(partySeq);
 
         // 모임 하나의 정보 return
         return ResultDto.resultDto(HttpStatus.OK,1, "하나의 모임을 불러왔습니다.", mapper.getPartyDetail(partySeq));
@@ -103,7 +98,6 @@ public class PartyServiceImpl implements PartyService{
 
     //나의 모임들 불러오기(내가 모임장인 모임은 제외)
     public ResultDto<GetPartyRes2> getPartyMine(GetPartyReq2 p) {
-        check.exceptionUser(p.getUserSeq());
 
         // 총 페이지, 모임 수 계산
         int TotalElements = mapper.getPartyMineCount(p.getUserSeq());
@@ -118,7 +112,6 @@ public class PartyServiceImpl implements PartyService{
 
     //내가 모임장인 모임들 불러오기
     public ResultDto<GetPartyRes2> getPartyLeader(GetPartyReq2 p) {
-        check.exceptionUser(p.getUserSeq());
 
         // 총 페이지, 모임 수 계산
         int TotalElements = mapper.getPartyLeaderCount(p.getUserSeq());
@@ -134,7 +127,6 @@ public class PartyServiceImpl implements PartyService{
     public ResultDto<UpdatePartyRes> updateParty(@Nullable MultipartFile partyPic, UpdatePartyReq p) throws Exception {
         long userPk = authenticationFacade.getLoginUserId();
         p.setUserSeq(userPk);
-        check.exception(partyPic, p);
 
         // 랜덤 이름, 파일 위치 설정
         String path = String.format("party/%d", p.getPartySeq());
@@ -174,7 +166,6 @@ public class PartyServiceImpl implements PartyService{
 
     //모임 삭제 (활성화 -> 휴먼으로 모임의 상태만 변경함.)
     public ResultDto<Integer> updatePartyAuthGb2(Long partySeq, Long userSeq) {
-        check.exception(partySeq, userSeq);
 
         // 모임 상태 변경 (PartyAuthGb = 2)
         mapper.updatePartyAuthGb2(partySeq);
