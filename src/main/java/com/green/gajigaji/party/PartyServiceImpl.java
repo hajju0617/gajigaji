@@ -160,17 +160,17 @@ public class PartyServiceImpl implements PartyService{
     }
 
 
-    /** (중요!!) userSeq <- 나중에 멤버장이 아닌, 관리자가 접근했을 때 승인해주게 해야함!
-     * 관리자를 어떻게 설정하는지에 따라서 코드 변경 하세용. */
-    //모임 생성 승인 (모임장이 자신의 모임을 승인함. 관리자 나오면 수정해야함.)
-    public ResultDto<Integer> updatePartyAuthGb1(Long partySeq) {
-        long userSeq = authenticationFacade.getLoginUserId();
-        check.exception(partySeq);
-
-        // 모임 상태 변경 (PartyAuthGb = 2)
-        mapper.updatePartyAuthGb1(partySeq, userSeq);
-        return ResultDto.resultDto(HttpStatus.OK,1,"모임 생성을 승인 하였습니다.");
-    }
+//    /** (중요!!) userSeq <- 나중에 멤버장이 아닌, 관리자가 접근했을 때 승인해주게 해야함!
+//     * 관리자를 어떻게 설정하는지에 따라서 코드 변경 하세용. */
+//    //모임 생성 승인 (모임장이 자신의 모임을 승인함. 관리자 나오면 수정해야함.)
+//    public ResultDto<Integer> updatePartyAuthGb1(Long partySeq) {
+//        long userSeq = authenticationFacade.getLoginUserId();
+//        check.exception(partySeq);
+//
+//        // 모임 상태 변경 (PartyAuthGb = 2)
+//        mapper.updatePartyAuthGb1(partySeq, userSeq);
+//        return ResultDto.resultDto(HttpStatus.OK,1,"모임 생성을 승인 하였습니다.");
+//    }
 
     //모임 삭제 (활성화 -> 휴먼으로 모임의 상태만 변경함.)
     public ResultDto<Integer> updatePartyAuthGb2(Long partySeq, Long userSeq) {

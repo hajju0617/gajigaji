@@ -11,6 +11,7 @@ import com.green.gajigaji.user.usercommon.UserErrorMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -167,5 +168,42 @@ public class MailSendService {
 //        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
+    }
+
+    public void handlePartyRequest(String email, String text) {
+        String setFrom = "hajju0617@naver.com";
+        String toMail = email;
+        String title = "안녕하세요 가지가지입니다";
+        String content = "<img src='cid:partyImage'>" +
+                "<br><br>" +
+                "안녕하세요 가까운 지역, 가까운 지인 " +
+                "<br>" +
+                "가지가지 웹사이트를 운영하고 있는 관리자입니다." +
+                "<br>" +
+                "모임 생성에 대한 심사 결과를 알려드립니다." +
+                "<br><br>" +
+                text;
+        partyMailSend(setFrom, toMail, title, content);
+    }
+
+    //이메일을 전송합니다.
+    public void partyMailSend(String setFrom, String toMail, String title, String content) {
+        MimeMessage message = mailSender.createMimeMessage();//JavaMailSender 객체를 사용하여 MimeMessage 객체를 생성
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message,true,"utf-8");//이메일 메시지와 관련된 설정을 수행
+            // true를 전달하여 multipart 형식의 메시지를 지원하고, "utf-8"을 전달하여 문자 인코딩을 설정
+            helper.setFrom(setFrom);
+            helper.setTo(toMail);
+            helper.setSubject(title);
+            helper.setText(content,true);
+
+            ClassPathResource imageResource = new ClassPathResource("static/static/media/gajigaji.png");
+            helper.addInline("partyImage", imageResource);
+
+            mailSender.send(message);
+        } catch (MessagingException e) {//이메일 서버에 연결할 수 없거나, 잘못된 이메일 주소를 사용하거나, 인증 오류가 발생하는 등 오류
+            // 이러한 경우 MessagingException이 발생
+            e.printStackTrace();//e.printStackTrace()는 예외를 기본 오류 스트림에 출력하는 메서드
+        }
     }
 }
