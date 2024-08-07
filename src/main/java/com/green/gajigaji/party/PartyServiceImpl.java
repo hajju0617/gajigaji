@@ -21,18 +21,6 @@ public class PartyServiceImpl implements PartyService{
     private final CustomFileUtils customFileUtils;
     private final AuthenticationFacade authenticationFacade;
 
-    /** "PartyExceptionHandler"는 "GlobalExceptionHandler"보다 순위가 높음. @Order(1) == 1순위임.
-     * "PartyExceptionHandler"의 범위는 (basePackages = "com.green.gajigaji.party")이다.
-     * "PartyExceptionHandler"는 (MsgException,MsgExceptionNull,ReturnDto,NullReqValue,RuntimeException,NullPointerException,Exception)의 '에러' 발생시
-     *  어노테이션 @ExceptionHandler('에러'.class)으로 사용자가 '에러'에 대응하게 설정한 값들을 리턴해줌.
-     * check.exception('값')은 잘못된 '값'에 대해서 사용자가 설정한 커스텀 에러를 터트림(커스텀 에러 : MsgException,MsgExceptionNull,ReturnDto,NullReqValue)
-     * 커스텀 에러중 "MsgException","MsgExceptionNull","ReturnDto"는 내가 원하는 메세지를 출력하기 위한 에러임.
-     *  ex1) MsgException("2,정보를 제대로 입력해주세요.") HttpStatus.BAD_REQUEST 반환하기 위해서 사용.
-     *       -> ResultDto.resultDto(HttpStatus.BAD_REQUEST,2, "정보를 제대로 입력해주세요.");
-     *  ex2) MsgExceptionNull("2,사진은 필수입니다.")는 HttpStatus.NOT_FOUND 반환하기 위해서 사용.
-     *       -> ResultDto.resultDto(HttpStatus.NOT_FOUND,2, "사진은 필수입니다.");
-     */
-
     //모임 신청 + 모임장 등록 (모임을 신청한 유저를 모임장으로 등록함)
     //throws Exceoption은 PartyExceptionHandler의 Exception이 받음. return : 서버에러 입니다.
     //p의 partyLocation 값은 아래 "getPartyLocation" 주석을 참고하시오.
