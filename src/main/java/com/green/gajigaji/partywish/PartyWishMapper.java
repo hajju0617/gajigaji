@@ -1,7 +1,6 @@
 package com.green.gajigaji.partywish;
 
 import com.green.gajigaji.partywish.model.PartyWishGetListRes;
-import com.green.gajigaji.partywish.model.PartyWishToggleReq;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.green.gajigaji.partywish;
 
 import com.green.gajigaji.partywish.model.PartyWishGetListRes;
-import com.green.gajigaji.partywish.model.PartyWishToggleReq;
+
 import com.green.gajigaji.security.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.green.gajigaji.user.usercommon.UserErrorMessage.*;
 
 @Slf4j
 @Service
