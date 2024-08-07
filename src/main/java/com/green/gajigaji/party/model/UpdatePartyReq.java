@@ -12,8 +12,8 @@ public class UpdatePartyReq {
 
     @Schema(example = "1", description = "모임PK")private long partySeq;
     @Schema(example = "축구 모임", description = "모임명")private String partyName;
-    @Schema(example = "스포츠", description = "카테고리-분야")private int partyGenre;
-    @Schema(example = "101", description = "카테고리-지역")private int partyLocation;
+    @Schema(example = "1", description = "카테고리-분야")private int partyGenre;
+    @Schema(example = "0101", description = "카테고리-지역")private int partyLocation;
     @Schema(example = "1", description = "카테고리-성별")private int partyGender;
     @Schema(example = "2010", description = "최소년도")private int partyMinAge;
     @Schema(example = "1990", description = "최대년도")private int partyMaxAge;
