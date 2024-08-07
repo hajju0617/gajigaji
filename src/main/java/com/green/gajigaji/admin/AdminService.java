@@ -17,7 +17,6 @@ import javax.mail.Part;
 @Service
 @Slf4j
 public class AdminService {
-    private final AdminMapper mapper;
     private final MailSendService mailSendService;
     private final PartyRepository partyRepository;
 
