@@ -124,7 +124,7 @@ public class BudgetService {
         if (checkMapper.checkBudgetSeq(budgetSeq) == null) {
             return ResultDto.resultDto(HttpStatus.BAD_REQUEST, 2, NOT_FOUND_BUDGET);
         } else {
-            mapper.deleteBudget(budgetSeq);
+            repository.deleteById(budgetSeq);
             return ResultDto.resultDto(HttpStatus.OK, 1, DELETE_SUCCESS_MESSAGE);
         }
     }

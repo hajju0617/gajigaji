@@ -48,6 +48,7 @@ public class PlanService {
         }
     }
 
+    @Transactional
     public ResultDto<Integer> patchPlan(PatchPlanReq p) {
         if (checkMapper.checkPlanSeq(p.getPlanSeq()) == null) {
             return ResultDto.resultDto(HttpStatus.BAD_REQUEST, 2, NOT_FOUND_PLAN);

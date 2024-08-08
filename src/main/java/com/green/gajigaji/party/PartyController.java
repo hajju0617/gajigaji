@@ -161,20 +161,20 @@ public class PartyController {
         return service.updateParty(partyPic, p);
     }
 
-    //관리자가 모임 등록을 승인해주는 코드,관리자가 누군지 추가하고 권한줘야함. 현재는 모임장이 모임 생성 승인가능ㅋㅋ
-    @PreAuthorize("hasAnyRole('ADMIN')")
-    @PatchMapping("/authGb1")
-    @Operation(summary = "모임 생성 승인" , description =
-            "<strong>  사이트 관리자가 모임 생성을 승인함 (현재는 모임장이 승인) <strong><p></p>" +
-            "<p><strong> partySeq      </strong> : 모임PK (long) </p>" +
-            "<p><strong> userSeq      </strong> : 관리자 유저PK (long) </p>")
-    @ApiResponse(description =
-            "<p> ResponseCode 응답 코드 </p>" +
-                    "<p> 1 : 성공 </p>" +
-                    "<p> 2 : 실패 </p>")
-    public ResultDto<Integer> updatePartyAuthGb1(@RequestParam(name = "partySeq") Long partySeq) {
-        return service.updatePartyAuthGb1(partySeq);
-    }
+//    //관리자가 모임 등록을 승인해주는 코드,관리자가 누군지 추가하고 권한줘야함. 현재는 모임장이 모임 생성 승인가능ㅋㅋ
+//    @PreAuthorize("hasAnyRole('ADMIN')")
+//    @PatchMapping("/authGb1")
+//    @Operation(summary = "모임 생성 승인" , description =
+//            "<strong>  사이트 관리자가 모임 생성을 승인함 (현재는 모임장이 승인) <strong><p></p>" +
+//            "<p><strong> partySeq      </strong> : 모임PK (long) </p>" +
+//            "<p><strong> userSeq      </strong> : 관리자 유저PK (long) </p>")
+//    @ApiResponse(description =
+//            "<p> ResponseCode 응답 코드 </p>" +
+//                    "<p> 1 : 성공 </p>" +
+//                    "<p> 2 : 실패 </p>")
+//    public ResultDto<Integer> updatePartyAuthGb1(@RequestParam(name = "partySeq") Long partySeq) {
+//        return service.updatePartyAuthGb1(partySeq);
+//    }
 
     @PatchMapping("/authGb2")
     @Operation(summary = "모임 삭제(휴먼,복구 기능은 X)" , description =

@@ -20,10 +20,12 @@
         FROM user_master
         WHERE user_seq = #{userSeq}
     </select>
+
     <select id="checkPartyName">
         SELECT COUNT(party_name)
         FROM party_master
         WHERE party_name = #{partyName}
+        AND party_seq != #{partySeq}
     </select>
 
     <select id="checkJoinApplicationOfUser">

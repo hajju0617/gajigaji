@@ -1,8 +1,10 @@
 package com.green.gajigaji.party.jpa;
 
+import com.green.gajigaji.admin.model.UpdatePartyGb;
 import com.green.gajigaji.common.jpa.UpdateDt;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
@@ -15,6 +17,7 @@ import java.time.Year;
 @Setter
 @DynamicInsert
 @DynamicUpdate
+@NoArgsConstructor
 public class PartyMaster extends UpdateDt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,10 +56,14 @@ public class PartyMaster extends UpdateDt {
 
     @ColumnDefault("1")
     @Column(nullable = false)
-    private int PartyAuthGb;
+    private int partyAuthGb;
 
     @Column(nullable = false)
-    private String PartyPic;
+    private String partyPic;
 
+    public PartyMaster(UpdatePartyGb p) {
+        this.setPartySeq(p.getPartySeq());
+        this.setPartyAuthGb(p.getNum());
+    }
 
 }

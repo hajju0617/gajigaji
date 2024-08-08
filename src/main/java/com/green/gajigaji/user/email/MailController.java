@@ -2,6 +2,8 @@ package com.green.gajigaji.user.email;
 
 
 import com.green.gajigaji.common.model.ResultDto;
+import com.green.gajigaji.user.email.model.EmailCheckReq;
+import com.green.gajigaji.user.email.model.EmailRequestReq;
 import com.green.gajigaji.user.model.FindPasswordReq;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -17,8 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.green.gajigaji.common.GlobalConst.SUCCESS;
 import static com.green.gajigaji.common.GlobalConst.SUCCESS_MESSAGE;
-import static com.green.gajigaji.user.usercommon.UserErrorMessage.*;
-
 
 
 @RestController

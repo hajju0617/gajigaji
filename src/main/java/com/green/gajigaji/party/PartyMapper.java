@@ -24,7 +24,7 @@ public interface PartyMapper {
     long getTotalElements(int search, String searchData, long partySeq);
 
     int updateParty(UpdatePartyReq p);
-    int updatePartyAuthGb1(Long partySeq, Long userSeq);
+//    int updatePartyAuthGb1(Long partySeq, Long userSeq);
     void updatePartyAuthGb2(Long partySeq);
 
 }
