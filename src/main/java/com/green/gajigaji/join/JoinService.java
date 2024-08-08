@@ -4,7 +4,6 @@ package com.green.gajigaji.join;
 import com.green.gajigaji.common.CheckMapper;
 import com.green.gajigaji.common.model.ResultDto;
 import com.green.gajigaji.common.myexception.ReturnDto;
-import com.green.gajigaji.join.exception.JoinExceptionHandler;
 import com.green.gajigaji.join.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +18,6 @@ import java.util.List;
 public class JoinService {
     private final JoinMapper mapper;
     private final CheckMapper checkMapper;
-    private final JoinExceptionHandler check;
     /** "JoinExceptionHandler"는 "GlobalExceptionHandler"보다 순위가 높음. @Order(1) == 1순위임.
      * "JoinExceptionHandler"의 범위는 (basePackages = "com.green.gajigaji.member")이다.
      * "JoinExceptionHandler"는 (MsgException,MsgExceptionNull,ReturnDto,NullReqValue,RuntimeException,NullPointerException,Exception)의 '에러' 발생시
@@ -40,7 +38,7 @@ public class JoinService {
          */
         // (특이사항) 해당 "check.exception"는 "joinMapper.deleteJoin(partySeq,p.getJoinUserSeq())"가 포함되어 있음.
         // 차단당한 유저가 재가입을 희망할 경우 DB 무결성을 위해 해당 메소드가 필요함.
-        check.exception(joinPartySeq,p);
+
         // 모임 신청서 작성
         p.setJoinPartySeq(joinPartySeq);
         mapper.postJoin(p);
@@ -50,8 +48,6 @@ public class JoinService {
 
     //모임 신청서들 불러오기 (모임장이 신청된 신청서들 확인용)
     public ResultDto<List<GetJoinRes>> getJoin(Long joinPartySeq, Long leaderUserSeq) {
-        check.exceptionLeader(joinPartySeq,leaderUserSeq);
-
         // 모임 신청서들 정보 return
         return ResultDto.resultDto(HttpStatus.OK,1, " 모임 신청서들을 불러옵니다.", mapper.getJoin(joinPartySeq));
     }
@@ -59,8 +55,6 @@ public class JoinService {
 
     //모임 신청서 하나 불러오기 (신청한 유저가 자신의 신청서 확인용)
     public ResultDto<GetJoinRes> getJoinDetail(Long joinPartySeq, Long joinUserSeq) {
-        check.exception(joinPartySeq, joinUserSeq);
-
         // 자신의 신청서 정보 return
         return ResultDto.resultDto(HttpStatus.OK,1, " 모임 신청서를 불러옵니다.", mapper.getJoinDetail(joinPartySeq, joinUserSeq));
     }
@@ -69,8 +63,6 @@ public class JoinService {
     //모임 신청서 내용 수정하기 (신청한 유저가 자신의 신청서의 내용을 수정함)
     public ResultDto<Integer> updateJoin(Long joinPartySeq, UpdateJoinReq p) {
         p.setJoinPartySeq(joinPartySeq);
-        check.exception(joinPartySeq, p.getJoinUserSeq());
-
         // 모임 신청서 수정
         mapper.updateJoin(p);
         return ResultDto.resultDto(HttpStatus.OK,1, " 모임 신청서를 수정합니다.");
@@ -81,7 +73,6 @@ public class JoinService {
     //흐름도 : 에러 확인 -> 신청서 거절함? -> 이전에 추방당한 멤버임? -> 새로운 멤버 등록자임?
     public ResultDto<Integer> updateJoinGb(Long joinPartySeq, UpdateJoinGbReq p) {
         p.setJoinPartySeq(joinPartySeq);
-        check.exception(joinPartySeq, p);
 
         // 신청서 수정 (getJoinGb가 1:승인, 2:거절)
         mapper.updateJoinGb(p);
@@ -102,7 +93,6 @@ public class JoinService {
 
     //모임 신청서 삭제 (신청한 유저가 자신의 신청서를 삭제함)
     public ResultDto<Integer> deleteJoin(Long joinPartySeq, Long joinUserSeq) {
-        check.exception(joinPartySeq, joinUserSeq);
         return ResultDto.resultDto(HttpStatus.OK,1, " 모임 신청서를 삭제합니다.", mapper.deleteJoin(joinPartySeq, joinUserSeq));
     }
 
