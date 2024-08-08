@@ -17,9 +17,11 @@ import java.util.List;
 @Service
 @Slf4j
 public class PartyServiceImpl implements PartyService{
+
     private final PartyMapper mapper;
     private final CustomFileUtils customFileUtils;
     private final AuthenticationFacade authenticationFacade;
+    private final PartyMapper partyMapper;
 
     //모임 신청 + 모임장 등록 (모임을 신청한 유저를 모임장으로 등록함)
     //throws Exceoption은 PartyExceptionHandler의 Exception이 받음. return : 서버에러 입니다.
@@ -73,11 +75,29 @@ public class PartyServiceImpl implements PartyService{
     }
 
 
+
+
     //모임들 불러오기 (누구나 요청가능)
     //따로 에러처리 안함 (기본적인 에러는 "PartyExceptionHandler"에서 처리함.)
     public ResultDto<List<GetPartyRes>> getParty() {
         // 모임 정보들 return
         return ResultDto.resultDto(HttpStatus.OK,1, "모임들을 불러왔습니다.", mapper.getParty());
+    }
+
+    public ResultDto<GetPartyPage> getPartyes(GetPartySearchReq p) {
+        long page = partyMapper.getTotalElements(p.getSearch(), p.getSearchData(), 0) ;
+        try{
+            List<GetPartyRes> party = mapper.getPartyes(p);
+            for(GetPartyRes partys : party) {
+                String pics = mapper.getPicses(partys.getPartySeq()) ;
+                partys.setPartyPic(pics) ;
+            }
+            GetPartyPage getPartyPage = new GetPartyPage(party, p.getSize(), page) ;
+            return ResultDto.resultDto(HttpStatus.OK, 1, "검색결과를 불러왔습니다.", getPartyPage) ;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException() ;
+        }
     }
 
 
