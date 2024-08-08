@@ -67,6 +67,11 @@ public class PartyServiceImpl implements PartyService{
         return ResultDto.resultDto(HttpStatus.OK,1,"지역들을 불러왔습니다.",mapper.getPartyLocationAll(cdSub));
     }
 
+    @Override
+    public ResultDto<GetPartyPage> getPartyes(GetPartySearchReq p) {
+        return null;
+    }
+
 
     //모임들 불러오기 (누구나 요청가능)
     //따로 에러처리 안함 (기본적인 에러는 "PartyExceptionHandler"에서 처리함.)

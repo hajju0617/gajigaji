@@ -17,6 +17,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,7 +38,7 @@ public class UserController {
     private final CookieUtils cookieUtils;
     private final AppProperties appProperties;
 
-    @PostMapping("/sign_up")
+    @PostMapping(value = "/sign_up")
     @Operation(summary = "회원가입" , description =
             "<strong > 유저 회원가입 </strong> <p></p>" +
             "<p><strong> userEmail</strong> : 유저 이메일 (long) </p>" +
