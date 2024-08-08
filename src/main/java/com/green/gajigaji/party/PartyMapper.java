@@ -12,13 +12,16 @@ public interface PartyMapper {
 
     List<GetPartyLocationRes> getPartyLocation(int cdSub, int cdGb);
     List<GetPartyLocationRes> getPartyLocationAll(int cdSub);
-    List<GetPartyRes> getParty();
+    List<GetPartyRes> getPartyes(GetPartySearchReq p);
     GetPartyRes getPartyDetail(Long partySeq);
+    List<GetPartyRes> getParty();
 
     List<GetPartyRes2List> getPartyMine(GetPartyReq2 p);
     int getPartyMineCount(long userSeq);
     List<GetPartyRes2List> getPartyLeader(GetPartyReq2 p);
     int getPartyLeaderCount(long userSeq);
+    String getPicses(long partySeq);
+    long getTotalElements(int search, String searchData, long partySeq);
 
     int updateParty(UpdatePartyReq p);
 //    int updatePartyAuthGb1(Long partySeq, Long userSeq);

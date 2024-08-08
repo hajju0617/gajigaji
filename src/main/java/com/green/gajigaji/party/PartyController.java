@@ -7,6 +7,7 @@ import com.green.gajigaji.security.AuthenticationFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -64,17 +65,31 @@ public class PartyController {
                                          ,@RequestParam(name = "cdGb") int cdGb) {
         return service.getPartyLocation(cdSub,cdGb);
     }
+    @GetMapping("/party")
+    @Operation(summary = "모임들 불러오기" , description = "모임 불러오기")
+    public ResultDto<List<GetPartyRes>> getParty() {
+        return service.getParty();
+    }
 
-    @GetMapping
-    @Operation(summary = "모임들 불러오기", description =
+
+    @GetMapping("/partyes")
+    @Operation(summary = "모임들 불러오기/검색", description =
             "<strong> 모임들을 불러옵니다</strong><p></p>")
     @ApiResponse(description =
             "<p> ResponseCode 응답 코드 </p>" +
                     "<p> 1 : 성공 </p>" +
                     "<p> 2 : 실패 </p>")
-    public ResultDto<List<GetPartyRes>> getParty() {
-        return service.getParty();
+    public ResultDto<GetPartyPage> getPartyes(
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "size", defaultValue = "10") Integer size,
+            @RequestParam(value = "search", required = false) Integer search,
+            @RequestParam(value = "searchData", required = false) String searchData) {
+
+        GetPartySearchReq p = new GetPartySearchReq(page, size, search, searchData);
+        return service.getPartyes(p);
     }
+
+
 
     @GetMapping("/detail")
     @Operation(summary = "모임 하나 불러오기" , description = "모임 불러오기")

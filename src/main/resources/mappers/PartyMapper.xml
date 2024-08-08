@@ -41,40 +41,8 @@
         AND cd_main = 'LO'
     </select>
 
-    <select id="getParty">
-        SELECT
-        A.party_seq AS partySeq,
-        A.party_name AS partyName,
-        A.party_genre AS partyGenre,
-        A.party_location AS partyLocation,
-        F_COMMON_CD(LPAD(FLOOR(A.party_location / 100), 2, '0'), 'LO-00') AS partyLocation1,
-        F_COMMON_CD(LPAD(A.party_location % 100, 2, '0'), CONCAT('LO-', LPAD(FLOOR(A.party_location / 100), 2, '0'))) AS partyLocation2,
-        A.party_min_age AS partyMinAge,
-        A.party_max_age AS partyMaxAge,
-        A.party_gender AS partyGender,
-        (SELECT COUNT(*) FROM party_member WHERE member_party_seq = A.party_seq) AS partyNowMem,
-        A.party_maximum AS partyMaximum,
-        A.party_join_gb AS partyJoinGb,
-        A.party_intro AS partyIntro,
-        A.party_join_form AS partyJoinForm,
-        A.party_auth_gb AS partyAuthGb,
-        A.party_pic AS partyPic,
-        A.input_dt AS inputDt,
-        A.update_dt AS updateDt,
-        C.user_seq AS userSeq,
-        C.user_name AS userName,
-        C.user_pic AS userPic
-        FROM party_master A
-        JOIN party_member B ON A.party_seq = B.member_party_seq
-        JOIN user_master C ON B.member_user_seq = C.user_seq
-        WHERE B.member_user_seq = C.user_seq AND B.member_party_seq = A.party_seq AND B.member_role = 1
-        GROUP BY
-        A.party_seq, A.party_name, A.party_genre, A.party_min_age, A.party_max_age, A.party_gender, A.party_maximum,
-        A.party_join_gb, A.party_intro, A.party_join_form, A.party_auth_gb, A.party_pic, A.input_dt, C.user_seq
-        ORDER BY A.input_dt DESC;
 
-<!--        -->
-<!--        SELECT-->
+<!--        SELECT -->
 <!--        A.party_seq AS partySeq, A.party_name AS partyName, A.party_genre AS partyGenre, A.party_location AS partyLocation,-->
 <!--        F_COMMON_CD(LPAD(FLOOR(A.party_location / 100), 2, '0'), 'LO-00') AS partyLocation1,-->
 <!--        F_COMMON_CD(LPAD(FLOOR(A.party_location / 100), 2, '0'), CONCAT('LO-', LPAD(A.party_location % 100, 2, '0'))) AS partyLocation2,-->
@@ -90,7 +58,8 @@
 <!--        A.party_seq, A.party_name, A.party_genre, A.party_min_age, A.party_max_age, A.party_gender, A.party_maximum,-->
 <!--        A.party_join_gb, A.party_intro, A.party_join_form, A.party_auth_gb, A.party_pic, A.input_dt, C.user_seq-->
 <!--        ORDER BY A.input_dt DESC-->
-    </select>
+<!--    </select> -->
+
     <select id="getPartyDetail">
         SELECT
         A.party_seq AS partySeq,
@@ -191,6 +160,114 @@
 <!--        ORDER BY C.input_dt DESC-->
 <!--        LIMIT #{startIdx}, #{size}-->
     </select>
+
+    <select id="getParty">
+    SELECT
+    A.party_seq AS partySeq,
+    A.party_name AS partyName,
+    A.party_genre AS partyGenre,
+    A.party_location AS partyLocation,
+    F_COMMON_CD(LPAD(FLOOR(A.party_location / 100), 2, '0'), 'LO-00') AS partyLocation1,
+    F_COMMON_CD(LPAD(A.party_location % 100, 2, '0'), CONCAT('LO-', LPAD(FLOOR(A.party_location / 100), 2, '0'))) AS partyLocation2,
+    A.party_min_age AS partyMinAge,
+    A.party_max_age AS partyMaxAge,
+    A.party_gender AS partyGender,
+    (SELECT COUNT(*) FROM party_member WHERE member_party_seq = A.party_seq) AS partyNowMem,
+    A.party_maximum AS partyMaximum,
+    A.party_join_gb AS partyJoinGb,
+    A.party_intro AS partyIntro,
+    A.party_join_form AS partyJoinForm,
+    A.party_auth_gb AS partyAuthGb,
+    A.party_pic AS partyPic,
+    A.input_dt AS inputDt,
+    A.update_dt AS updateDt,
+    C.user_seq AS userSeq,
+    C.user_name AS userName,
+    C.user_pic AS userPic
+    FROM party_master A
+    JOIN party_member B ON A.party_seq = B.member_party_seq
+    JOIN user_master C ON B.member_user_seq = C.user_seq
+    WHERE B.member_user_seq = C.user_seq AND B.member_party_seq = A.party_seq AND B.member_role = 1
+    GROUP BY
+    A.party_seq, A.party_name, A.party_genre, A.party_min_age, A.party_max_age, A.party_gender, A.party_maximum,
+    A.party_join_gb, A.party_intro, A.party_join_form, A.party_auth_gb, A.party_pic, A.input_dt, C.user_seq
+    ORDER BY A.input_dt DESC;
+    </select>
+
+
+    <select id="getPartyes">
+        SELECT
+        A.party_seq AS partySeq,
+        A.party_name AS partyName,
+        A.party_genre AS partyGenre,
+        A.party_location AS partyLocation,
+        F_COMMON_CD(LPAD(FLOOR(A.party_location / 100), 2, '0'), 'LO-00') AS partyLocation1,
+        F_COMMON_CD(LPAD(A.party_location % 100, 2, '0'), CONCAT('LO-', LPAD(FLOOR(A.party_location / 100), 2, '0'))) AS partyLocation2,
+        A.party_min_age AS partyMinAge,
+        A.party_max_age AS partyMaxAge,
+        A.party_gender AS partyGender,
+        (SELECT COUNT(*) FROM party_member WHERE member_party_seq = A.party_seq) AS partyNowMem,
+        A.party_maximum AS partyMaximum,
+        A.party_join_gb AS partyJoinGb,
+        A.party_intro AS partyIntro,
+        A.party_join_form AS partyJoinForm,
+        A.party_auth_gb AS partyAuthGb,
+        A.party_pic AS partyPic,
+        A.input_dt AS inputDt,
+        A.update_dt AS updateDt,
+        C.user_seq AS userSeq,
+        C.user_name AS userName,
+        C.user_pic AS userPic
+        FROM party_master A
+        JOIN party_member B ON A.party_seq = B.member_party_seq
+        JOIN user_master C ON B.member_user_seq = C.user_seq
+        WHERE
+        B.member_user_seq = C.user_seq AND B.member_party_seq = A.party_seq AND B.member_role = 1
+        <if test="search != null and search == 1">
+            AND party_name like concat('%',#{searchData},'%')
+        </if>
+        <if test="search != null and search == 2">
+            AND party_location like concat('%',#{searchData},'%')
+        </if>
+        <if test="search != null and search == 3">
+            AND user_name like concat('%',#{searchData},'%')
+        </if>
+        GROUP BY
+        A.party_seq, A.party_name, A.party_genre, A.party_min_age, A.party_max_age, A.party_gender, A.party_maximum,
+        A.party_join_gb, A.party_intro, A.party_join_form, A.party_auth_gb, A.party_pic, A.input_dt, C.user_seq
+        ORDER BY A.input_dt DESC
+        LIMIT #{startIdx}, #{size} ;
+    </select>
+
+    <select id="getTotalElements">
+        SELECT COUNT(*)
+        FROM party_master A
+        INNER JOIN party_member B
+        ON B.member_party_seq = A.party_seq
+        INNER JOIN user_master C
+        ON B.member_user_seq = C.user_seq
+
+        WHERE 1=1
+        <if test="partySeq != 0">
+            AND A.party_seq = #{partySeq}
+        </if>
+        <if test="search == 1">
+            AND (TRIM(REPLACE(A.party_name,' ','')) LIKE CONCAT('%', #{searchData}, '%')
+            OR C.user_name LIKE CONCAT('%', #{searchData}, '%'))
+        </if>
+        <if test="search == 2">
+            AND TRIM(REPLACE(A.party_name,' ','')) LIKE CONCAT('%', #{searchData}, '%')
+        </if>
+    </select>
+
+
+    <select id="getPicses">
+        SELECT party_pic as partyPic
+        FROM party_master
+        WHERE party_seq = #{partySeq}
+        ORDER BY party_seq desc
+    </select>
+
     <select id="getPartyMineCount">
         SELECT COUNT(C.party_seq)
         FROM user_master A
