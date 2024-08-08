@@ -3,7 +3,7 @@
 <mapper namespace="com.green.gajigaji.ranking.RankingMapper">
     <select id="getRankingTotal">
         SELECT partySeq, partyName
-        , president, presidentPic
+        , presidentSeq, president, presidentPic
         , partyGenre, partyGenreNm
         , partyLocation, partyLocationNm
         , totalPoints
@@ -14,7 +14,7 @@
 
     <select id="getRankingLocation">
         SELECT partySeq, partyName
-        , president, presidentPic
+        , presidentSeq, president, presidentPic
         , partyGenre, partyGenreNm
         , partyLocation, partyLocationNm
         , totalPoints
@@ -26,7 +26,7 @@
 
     <select id="getRankingGenre">
         SELECT partySeq, partyName
-        , president, presidentPic
+        , presidentSeq, president, presidentPic
         , partyGenre, partyGenreNm
         , partyLocation, partyLocationNm
         , totalPoints
@@ -38,7 +38,7 @@
 
     <select id="getRankingThisMonth">
         SELECT partySeq, partyName
-        , president, presidentPic
+        , presidentSeq, president, presidentPic
         , partyGenre, partyGenreNm
         , partyLocation, partyLocationNm
         , totalPoints
@@ -57,7 +57,7 @@
 
     <select id="getRankingLastMonth">
         SELECT partySeq, partyName
-        , president, presidentPic
+        , presidentSeq, president, presidentPic
         , partyGenre, partyGenreNm
         , partyLocation, partyLocationNm
         , totalPoints
