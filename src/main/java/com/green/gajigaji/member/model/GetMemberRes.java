@@ -7,7 +7,7 @@ import lombok.Data;
 public class GetMemberRes {
     @Schema(example = "1", description = "멤버 PK")
     private Long memberSeq;
-    @Schema(example = "00홍길동", description = "유저 이름")
+    @Schema(example = "홍길동", description = "유저 이름")
     private String userName;
     @Schema(example = "ran123.jpg", description = "유저 사진")
     private String userPic;
