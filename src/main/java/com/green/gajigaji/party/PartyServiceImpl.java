@@ -128,10 +128,8 @@ public class PartyServiceImpl implements PartyService {
 
             // 모임 정보 수정
             p.setPartyPic(saveFileName);
-            return ResultDto.resultDto(HttpStatus.OK, 1, "모임을 수정하였습니다.", mapper.updateParty(p));
-        } else {
-            return ResultDto.resultDto(HttpStatus.OK, 1, "모임을 수정하였습니다.", mapper.updateParty(p));
         }
+        return ResultDto.resultDto(HttpStatus.OK, 1, "모임을 수정하였습니다.", mapper.updateParty(p));
     }
 
 
