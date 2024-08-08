@@ -80,10 +80,10 @@ public class PartyController {
                     "<p> 1 : 성공 </p>" +
                     "<p> 2 : 실패 </p>")
     public ResultDto<GetPartyPage> getPartyes(
-            @RequestParam(name = "search", defaultValue = "1") Integer search
-            , @Nullable @RequestParam(name = "searchData") String searchData
-            , @Nullable @RequestParam(name = "page") Integer page
-            , @Nullable @RequestParam(name = "size") Integer size) {
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "size", defaultValue = "10") Integer size,
+            @RequestParam(value = "search", required = false) Integer search,
+            @RequestParam(value = "searchData", required = false) String searchData) {
 
         GetPartySearchReq p = new GetPartySearchReq(page, size, search, searchData);
         return service.getPartyes(p);
