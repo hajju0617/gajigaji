@@ -1,12 +1,16 @@
 package com.green.gajigaji.user;
 
 
+import com.green.gajigaji.common.model.AppProperties;
+import com.green.gajigaji.common.model.CookieUtils;
 import com.green.gajigaji.common.model.ResultDto;
 import com.green.gajigaji.user.model.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Nullable;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -30,6 +34,8 @@ import static com.green.gajigaji.user.usercommon.UserMessage.IS_NOT_DUPLICATE;
 @RequestMapping("api/user")
 public class UserController {
     private final UserService service;
+    private final CookieUtils cookieUtils;
+    private final AppProperties appProperties;
 
     @PostMapping("/sign_up")
     @Operation(summary = "회원가입" , description =
@@ -261,5 +267,13 @@ public class UserController {
                     .status(HttpStatus.OK).code(SUCCESS)
                     .resultMsg(SUCCESS_MESSAGE).resultData(result)
                     .build();
+    }
+
+    @DeleteMapping("/logout")
+    public ResultDto<Integer> logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        int result = service.logout(httpServletRequest, httpServletResponse);
+        return ResultDto.<Integer>builder()
+                .status(HttpStatus.OK).code(SUCCESS)
+                .resultMsg(SUCCESS_MESSAGE).resultData(result).build();
     }
 }

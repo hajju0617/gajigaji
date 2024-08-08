@@ -8,8 +8,8 @@ import java.util.List;
 
 @Getter
 public class UserDetails {
-    @Schema(example = "1", description = "유저 PK 값")
-    private long userSeq;
+//    @Schema(example = "1", description = "유저 PK 값")
+//    private long userSeq;
     @Schema(example = "abc123@naver.com", description = "유저 이메일")
     private String userEmail;
     @Schema(example = "가나다", description = "유저 이름")

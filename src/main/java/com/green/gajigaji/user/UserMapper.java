@@ -24,7 +24,7 @@ public interface UserMapper {
 
     void updateUserPic(UpdateUserPicReq p);
 
-    int updateUserInfo(String userNickname, String userAddr, String userFav, String userPhone, String userIntro, long userSeq);
+    int updateUserInfo(UpdateUserInfoReq p);
 
     String findUserId(FindUserReq p);
 

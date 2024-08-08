@@ -25,7 +25,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.security.Provider;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -151,6 +150,8 @@ public class UserService {
         }
 
         org.springframework.security.core.userdetails.UserDetails auth = jwtTokenProvider.getUserDetailsFromToken(refreshToken);
+
+
         MyUser myUser = ((MyUserDetails)auth).getMyUser();
 
         String accessToken = jwtTokenProvider.generateAccessToken(myUser);
@@ -241,8 +242,9 @@ public class UserService {
 
     public int updateUserInfo(UpdateUserInfoReq p) {
         long userPk = authenticationFacade.getLoginUserId();
+        p.setUserSeq(userPk);
 
-        int result = mapper.updateUserInfo(p.getUserNickname(), p.getUserAddr(), p.getUserFav(), p.getUserPhone(), p.getUserIntro(), userPk);
+        int result = mapper.updateUserInfo(p);
         if(result == 0) {
             throw new CustomException(TRY_AGAIN_MESSAGE);
         }
@@ -255,5 +257,14 @@ public class UserService {
             throw new CustomException(NOT_FOUND_MESSAGE);
         }
         return CommonUser.maskEmail(userEmail);
+    }
+
+    public int logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        Cookie token = cookieUtils.getCookie(httpServletRequest, appProperties.getJwt().getRefreshTokenCookieName());
+        if(token == null) {
+            throw new CustomException(MISSING_REFRESH_TOKEN_MESSAGE);
+        }
+        cookieUtils.deleteCookie(httpServletResponse, appProperties.getJwt().getRefreshTokenCookieName());
+        return 1;
     }
 }

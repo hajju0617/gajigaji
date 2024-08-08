@@ -23,14 +23,10 @@ public class AdminService {
 
 
     public int updatePartyAuthGb(UpdatePartyGb p) {
-//        long userSeq = authenticationFacade.getLoginUserId();
+
         if(!partyRepository.existsByPartySeq(p.getPartySeq())) {
             throw new CustomException(PartyErrorMessage.NOT_FOUND_PARTY);
         }
-
-//        if(mapper.existsParty(p.getPartySeq()) == 0) {
-//            throw new CustomException(PartyErrorMessage.NOT_FOUND_PARTY);
-//        }
 
         mailSendService.handlePartyRequest(p.getUserEmail(), p.getText());
         return partyRepository.updatePartyAuthGb(p.getPartySeq(), p.getNum());
