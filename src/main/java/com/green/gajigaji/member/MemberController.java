@@ -24,8 +24,6 @@ import java.util.List;
 public class MemberController {
     private final MemberService service;
 
-
-
     @GetMapping("/{partySeq}")
     @Operation(summary = "멤버들 정보 불러오기", description =
             "<strong> 입력한 모임의 모든 멤버의 정보를 불러옵니다</strong><p></p>" +

@@ -16,7 +16,7 @@ public interface PartyService {
     ResultDto<GetPartyRes> getPartyDetail(Long partySeq);
     ResultDto<GetPartyRes2> getPartyMine(GetPartyReq2 p);
     ResultDto<GetPartyRes2> getPartyLeader(GetPartyReq2 p);
-    ResultDto<UpdatePartyRes> updateParty(@Nullable MultipartFile partyPic, UpdatePartyReq p) throws Exception;
+    ResultDto<Integer> updateParty(@Nullable MultipartFile partyPic, UpdatePartyReq p) throws Exception;
 //    ResultDto<Integer> updatePartyAuthGb1(Long partySeq);
     ResultDto<Integer> updatePartyAuthGb2(Long partySeq, Long userSeq);
 

@@ -94,10 +94,9 @@ public class PartyController {
                     "<p> 2 : 실패 </p>")
     public ResultDto<GetPartyRes2> getPartyMine(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size) {
 
-        long userPk = authenticationFacade.getLoginUserId();
         if(page <= 0){page = 1;}
         GetPartyReq2 req2 = new GetPartyReq2(page, size);
-        req2.setUserSeq(userPk);
+        req2.setUserSeq(authenticationFacade.getLoginUserId());
         return service.getPartyMine(req2);
     }
 
@@ -112,14 +111,11 @@ public class PartyController {
                     "<p> 2 : 실패 </p>")
     @GetMapping("/leader")
     public ResultDto<GetPartyRes2> getPartyLeader(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size) {
-        long userPk = authenticationFacade.getLoginUserId();
         GetPartyReq2 req2 = new GetPartyReq2(page, size);
-        req2.setUserSeq(userPk);
+        req2.setUserSeq(authenticationFacade.getLoginUserId());
         return service.getPartyLeader(req2);
     }
-
-
-
+    
     @PatchMapping()
     @Operation(summary = "모임 수정 (포스트맨 사용하세요)" , description =
                 "<strong>  기존 모임 정보를 수정함 <strong><p></p>" +
@@ -141,7 +137,7 @@ public class PartyController {
                     "<p> 1 : 성공 </p>" +
                     "<p> 2 : 실패 </p>")
 
-    public ResultDto<UpdatePartyRes> updateParty(@RequestPart(required = false) MultipartFile partyPic
+    public ResultDto<Integer> updateParty(@RequestPart(required = false) MultipartFile partyPic
                                                 , @RequestPart UpdatePartyReq p) throws Exception{
         return service.updateParty(partyPic, p);
     }
@@ -171,10 +167,7 @@ public class PartyController {
                     "<p> 1 : 성공 </p>" +
                     "<p> 2 : 실패 </p>")
     public ResultDto<Integer> updatePartyAuthGb2(@RequestParam(name ="partySeq") Long partySeq){
-        long userPk = authenticationFacade.getLoginUserId();
-        return service.updatePartyAuthGb2(partySeq,userPk);
+        return service.updatePartyAuthGb2(partySeq, authenticationFacade.getLoginUserId());
     }
-
-
 
 }

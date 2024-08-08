@@ -233,11 +233,10 @@
         AND A.user_seq = #{userSeq}
     </select>
 
-
-
     <update id="updateParty">
         UPDATE party_master
-        SET party_name = #{partyName}
+        SET
+        party_name = #{partyName}
         , party_genre = #{partyGenre}
         , party_location = #{partyLocation}
         , party_min_age = #{partyMinAge}
@@ -246,7 +245,9 @@
         , party_maximum = #{partyMaximum}
         , party_intro = #{partyIntro}
         , party_join_form = #{partyJoinForm}
-        , party_pic = #{partyPic}
+        <if test="partyPic !=null">
+            ,party_pic = #{partyPic}
+        </if>
         WHERE party_seq = #{partySeq}
     </update>
     <update id="updatePartyAuthGb1">
@@ -266,9 +267,4 @@
         SET party_auth_gb = 2
         WHERE party_seq = #{partySeq}
     </update>
-
-
-
-
-
 </mapper>
