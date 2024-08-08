@@ -57,7 +57,7 @@
 
     <select id="getRankingLastMonth">
         SELECT partySeq, partyName
-        , president, presidentPic
+        , presidentSeq, president, presidentPic
         , partyGenre, partyGenreNm
         , partyLocation, partyLocationNm
         , totalPoints
