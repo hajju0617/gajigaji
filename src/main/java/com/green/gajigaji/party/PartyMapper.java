@@ -12,7 +12,7 @@ public interface PartyMapper {
 
     List<GetPartyLocationRes> getPartyLocation(int cdSub, int cdGb);
     List<GetPartyLocationRes> getPartyLocationAll(int cdSub);
-    List<GetPartyRes> getPartyes(GetPartySearchReq p);
+    List<GetPartyRes> getPartyes(GetPartySearchReq req);
     GetPartyRes getPartyDetail(Long partySeq);
     List<GetPartyRes> getParty();
 

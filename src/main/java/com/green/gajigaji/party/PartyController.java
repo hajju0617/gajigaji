@@ -65,7 +65,7 @@ public class PartyController {
                                          ,@RequestParam(name = "cdGb") int cdGb) {
         return service.getPartyLocation(cdSub,cdGb);
     }
-    @GetMapping("/party")
+    @GetMapping
     @Operation(summary = "모임들 불러오기" , description = "모임 불러오기")
     public ResultDto<List<GetPartyRes>> getParty() {
         return service.getParty();
