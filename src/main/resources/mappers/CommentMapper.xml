@@ -5,7 +5,7 @@
 <mapper namespace="com.green.gajigaji.comment.CommentMapper">
 
     <select id="getBoardComment">
-        SELECT comment_seq AS commentSeq,
+        SELECT A.comment_seq AS commentSeq,
         A.comment_board_seq AS commentBoardSeq,
         A.comment_member_seq AS commentMemberSeq,
         C.user_name AS userName,
@@ -16,7 +16,7 @@
         INNER JOIN party_member B
         ON A.comment_member_seq = B.member_seq
         INNER JOIN user_master C
-        ON B.member_seq = C.user_seq
+        ON B.member_user_seq = C.user_seq
         WHERE comment_board_seq = #{boardSeq}
         limit #{startIdx}, #{size}
     </select>
