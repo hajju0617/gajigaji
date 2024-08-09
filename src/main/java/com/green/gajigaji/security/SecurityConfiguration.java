@@ -65,6 +65,7 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.GET,  "/api/user/access-token","/api/review").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/user/findid").permitAll()
                                 .requestMatchers(HttpMethod.PATCH, "/findpw").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/review/party").permitAll()
 
                                 .requestMatchers(
                                 "/api/party/**"

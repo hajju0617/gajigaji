@@ -111,6 +111,31 @@ public class ReviewController {
         return ResultDto.resultDto(HttpStatus.OK,SUCCESS, "리뷰 조회 완료", result);
     }
 
+
+    @GetMapping("/party")
+    @Operation(summary = "모임 별 리뷰 검색", description =
+            "<strong> 모임 상세조회 리뷰 </strong><p></p>" +
+                    "<p><strong> partySeq   </strong> : 모임 PK (Integer) </p>" +
+                    "<p><strong> page   </strong> : 페이지 번호 (Integer) (NULL 허용, 디폴트값 : 1)</p>" +
+                    "<p><strong> size   </strong> : 페이지별 게시글 수 (Integer) (NULL 허용, 디폴트값 : 10)</p>")
+    @ApiResponse(
+            description =
+                    "<p> ResponseCode 응답 코드 </p>" +
+                            "<p> 1 : 성공 (사진,리뷰내용 List 형식으로 리턴)</p>" +
+                            "<p> 2 : 실패, ResultMsg</p>")
+    public ResultDto<GetReviewPartyPageRes> getReviewParty(
+            @RequestParam(name = "partySeq") long partySeq
+            , @Nullable @RequestParam(name = "page") Integer page
+            , @Nullable @RequestParam(name = "size") Integer size) {
+
+        if(page == null || page < 0) { page = 0; }
+        if(size == null || size < 0) { size = 0; }
+
+        GetReviewPartyReq p = new GetReviewPartyReq(page, size, partySeq);
+        GetReviewPartyPageRes result = service.getPartyReview(p);
+        return ResultDto.resultDto(HttpStatus.OK,SUCCESS, "리뷰 조회 완료", result);
+    }
+
     @PatchMapping
     @Operation(summary = "리뷰 수정", description =
             "<strong> 유저 리뷰 수정 (PostMan으로 테스트)</strong><p></p>" +
