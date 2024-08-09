@@ -102,17 +102,17 @@ public class UserService {
     }
 
     public SignInRes postSignIn(HttpServletResponse res, SignInReq p) {
-        SimpleInfo user = mapper.getSimpleUserInfo(p.getUserEmail());
+        SimpleInfo userInfo = mapper.getSimpleUserInfo(p.getUserEmail());
 
-        if(user == null || !(p.getUserEmail().equals(user.getUserEmail())) || !(passwordEncoder.matches(p.getUserPw(), user.getUserPw()))) {
+        if(userInfo == null || !(p.getUserEmail().equals(userInfo.getUserEmail())) || !(passwordEncoder.matches(p.getUserPw(), userInfo.getUserPw()))) {
             throw new CustomException(INCORRECT_ID_PW);
         }
 
         MyUser myUser = MyUser.builder()
-                .userId(user.getUserSeq())
-                .role(user.getUserRole())
+                .userId(userInfo.getUserSeq())
+                .role(userInfo.getUserRole())
                 .build();
-        log.info("user.getUserRole() : {}", user.getUserRole());
+        log.info("userInfo.getUserRole() : {}", userInfo.getUserRole());
 
         String accessToken = jwtTokenProvider.generateAccessToken(myUser);
         String refreshToken = jwtTokenProvider.generateRefreshToken(myUser);
@@ -123,18 +123,18 @@ public class UserService {
         cookieUtils.setCookie(res, appProperties.getJwt().getRefreshTokenCookieName(), refreshToken, refreshTokenMaxAge);
 
         return SignInRes.builder()                      // 프론트쪽 요청
-                .userNickname(user.getUserNickname())
-                .userPic(user.getUserPic())
-                .userSeq(user.getUserSeq())
-                .userBirth(user.getUserBirth())
-                .userName(user.getUserName())
-                .userGender(user.getUserGender())
-                .userEmail(user.getUserEmail())
-                .userAddr(user.getUserAddr())
-                .userPhone(user.getUserPhone())
-                .userGenderNm(user.getUserGenderNm())
+                .userNickname(userInfo.getUserNickname())
+                .userPic(userInfo.getUserPic())
+                .userSeq(userInfo.getUserSeq())
+                .userBirth(userInfo.getUserBirth())
+                .userName(userInfo.getUserName())
+                .userGender(userInfo.getUserGender())
+                .userEmail(userInfo.getUserEmail())
+                .userAddr(userInfo.getUserAddr())
+                .userPhone(userInfo.getUserPhone())
+                .userGenderNm(userInfo.getUserGenderNm())
                 .accessToken(accessToken)
-                .userRole(user.getUserRole())
+                .userRole(userInfo.getUserRole())
                 .build();
     }
 

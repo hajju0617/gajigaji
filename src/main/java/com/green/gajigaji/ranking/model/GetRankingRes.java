@@ -6,6 +6,7 @@ import lombok.Data;
 public class GetRankingRes {
     private long partySeq;
     private String partyName;
+    private String partyPic;
     private long presidentSeq;
     private String president;
     private String presidentPic;

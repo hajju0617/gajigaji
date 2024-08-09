@@ -1,5 +1,6 @@
 package com.green.gajigaji.user.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -20,4 +21,9 @@ public class SignInReq {
     @Schema(example = "abcd1234!", description = "유저 비밀번호")
     @NotBlank(message = PW_INPUT_MESSAGE)
     private String userPw;
+
+    @JsonIgnore
+    private String providerType;
+
+
 }
