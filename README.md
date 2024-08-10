@@ -9,13 +9,13 @@
 |:---:|:---:|:---:|:---:|
 |<img src="https://github.com/user-attachments/assets/ca5cfd04-56e2-4155-a3ec-37d91df1c8f8" width="140" height="180">|<img src="https://github.com/user-attachments/assets/045b96b3-0788-4006-996e-7938d277c04c" width="140" height="180">|<img src="https://github.com/user-attachments/assets/ca5cfd04-56e2-4155-a3ec-37d91df1c8f8" width="140" height="180">|<img src="https://github.com/user-attachments/assets/38d83670-c36d-451d-bf9a-7f78631c0fe7" width="140" height="180">|
 
-- 김영록
-  - 
-- 송예림 (초기 팀장)
+#### - 김영록
   - ㅇㅇ
-- 이재문
+##### - 송예림 (초기 팀장)
+  - ㅇㅇ
+###### - 이재문
   -  ㅇㅇ
-- 하주원 (최종 팀장)
+####### - 하주원 (최종 팀장)
 - 공용코드 : common
 
 
