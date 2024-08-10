@@ -7,7 +7,10 @@
 ### 🌿 팀원 소개
 |[김영록](https://github.com/starnyar)|[송예림](https://github.com/hobbang7531)|[이재문](https://github.com/jaemoooooon)|[하주원](https://github.com/hajju0617)|
 |:---:|:---:|:---:|:---:|
-|![1](https://github.com/user-attachments/assets/ca5cfd04-56e2-4155-a3ec-37d91df1c8f8)|![2](https://github.com/user-attachments/assets/6168673f-1f93-41b6-87e1-57096b558e97)|![3](https://github.com/user-attachments/assets/ca5cfd04-56e2-4155-a3ec-37d91df1c8f8)|![4](https://github.com/user-attachments/assets/e719871f-5b81-46e9-956a-aaa441adcdbb)|
+|<img src="https://github.com/user-attachments/assets/ca5cfd04-56e2-4155-a3ec-37d91df1c8f8" width="140" height="180">|<img src="https://github.com/user-attachments/assets/045b96b3-0788-4006-996e-7938d277c04c" width="140" height="180">|<img src="https://github.com/user-attachments/assets/ca5cfd04-56e2-4155-a3ec-37d91df1c8f8" width="140" height="180">|<img src="https://github.com/user-attachments/assets/38d83670-c36d-451d-bf9a-7f78631c0fe7" width="140" height="180">|
+
+
+
 
 
 🌿 맡은 기능
