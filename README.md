@@ -11,15 +11,23 @@
 
 - 공용코드 : common
 ##### 김영록
-  - dd
+- review
+- ranking
 ##### 송예림 (초기 팀장)
-- ㅇㅇ
+- budget
+- plan
+- planjoin
 ##### 이재문
 - board
 - comment
 ##### 하주원 (최종 팀장)
+- user
+- security
+- partywish
+- admin
 
 
 
 
-🌿 맡은 기능
+🌿 
+party, member, join
