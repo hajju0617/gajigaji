@@ -7,7 +7,7 @@
 ### 🌿 팀원 소개
 |[김영록](https://github.com/starnyar)|[송예림](https://github.com/hobbang7531)|[이재문](https://github.com/jaemoooooon)|[하주원](https://github.com/hajju0617)|
 |:---:|:---:|:---:|:---:|
-|<img src="https://github.com/user-attachments/assets/ca5cfd04-56e2-4155-a3ec-37d91df1c8f8" width="180" height="220">|<img src="https://github.com/user-attachments/assets/cf1c459b-ec96-4e07-8332-9fb5693c900d" width="180" height="220">|<img src="https://github.com/user-attachments/assets/ca5cfd04-56e2-4155-a3ec-37d91df1c8f8" width="180" height="220">|<img src="https://github.com/user-attachments/assets/38d83670-c36d-451d-bf9a-7f78631c0fe7" width="180" height="220">|
+|<img src="https://github.com/user-attachments/assets/ca5cfd04-56e2-4155-a3ec-37d91df1c8f8" width="180" height="240">|<img src="https://github.com/user-attachments/assets/cf1c459b-ec96-4e07-8332-9fb5693c900d" width="180" height="240">|<img src="https://github.com/user-attachments/assets/ca5cfd04-56e2-4155-a3ec-37d91df1c8f8" width="180" height="240">|<img src="https://github.com/user-attachments/assets/38d83670-c36d-451d-bf9a-7f78631c0fe7" width="180" height="240">|
 
 - 공용코드 : common
 ##### 김영록
