@@ -6,5 +6,6 @@
 ---
 ### 🌿 팀원 소개
 |[김영록](https://github.com/starnyar)|[송예림](https://github.com/hobbang7531)|[이재문](https://github.com/jaemoooooon)|[하주원](https://github.com/hajju0617)|
-
+|:---:|:---:|:---:|:---:|
+|||||||![하주원1](https://github.com/user-attachments/assets/20985533-8cfe-4c34-8869-5d242838f43b)|
 🌿 맡은 기능
