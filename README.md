@@ -22,6 +22,7 @@
 - comment
 ##### 하주원 (최종 팀장)
 - user
+- email
 - security
 - partywish
 - admin
