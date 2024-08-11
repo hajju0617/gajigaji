@@ -28,9 +28,13 @@
 - admin
 
 
+tmp - party, member, join
 
 
 
+🌿 시연 영상
 
-🌿 
-party, member, join
+🌿 기술 스택
+
+🌿 느낌점 (후기)
+
