@@ -10,7 +10,6 @@ import lombok.ToString;
 public class GetReviewAllReq{
     private Integer search;
     private String searchData;
-    private long partySeq;
     private Integer page;
     private Integer size;
     private int startIdx;

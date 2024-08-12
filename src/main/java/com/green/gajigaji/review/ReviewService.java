@@ -163,7 +163,7 @@ public class ReviewService {
             }
 
             GetReviewUserPageRes pageRes = new GetReviewUserPageRes(
-                    mapper.getTotalElements(p.getSearch(), p.getSearchData(), p.getUserSeq())
+                    mapper.getTotalElementsByUser(p.getSearch(), p.getSearchData(), p.getUserSeq())
                     , p.getSize()
                     , res
             );
@@ -174,24 +174,17 @@ public class ReviewService {
     }
     
     // 모임pk별 조회, 비회원도 가능한 모임 상세조회라서 JWT필요없음
-    public GetReviewPartyPageRes getPartyReview(GetReviewPartyReq p) {
+    public List<GetReviewPartyRes> getPartyReview(long partySeq, int limit) {
 
         try {
-            List<GetReviewPartyRes> list = mapper.getReviewParty(p);
+            List<GetReviewPartyRes> list = mapper.getReviewParty(partySeq, limit);
 
             for (GetReviewPartyRes idx : list) {
                 List<String> pics = mapper.getPicFiles(idx.getReviewSeq());
                 idx.setPics(pics);
             }
 
-            GetReviewPartyPageRes pageRes = new GetReviewPartyPageRes(
-                    mapper.getTotalElementsByPartySeq(p.getPartySeq())
-                    , p.getSize()
-                    , list
-            );
-
-            return pageRes;
-
+            return list;
         } catch (Exception e) {
             throw new CustomException(ReviewErrorCode.UNIDENTIFIED_ERROR);
         }

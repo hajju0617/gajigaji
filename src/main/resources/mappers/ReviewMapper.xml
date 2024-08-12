@@ -161,9 +161,7 @@
         ON G.review_fav_review_seq = A.review_seq
         WHERE C.party_seq = #{partySeq}
         ORDER BY A.review_seq DESC
-        <if test="size != 0">
-            LIMIT #{startIdx}, #{size}
-        </if>
+        LIMIT #{limit}
     </select>
 
     <select id="getPic">
@@ -196,8 +194,31 @@
         FROM party_member A JOIN user_master B ON A.member_user_seq = b.user_seq WHERE A.member_role = '1') F
         ON F.member_party_seq = E.party_seq
         WHERE 1 = 1
-        <if test="userSeq != 0 and userSeq != null"> AND D.user_seq = #{userSeq}</if>
-        <if test="partySeq != 0 and partySeq != null"> AND E.party_seq = #{partySeq}</if>
+        <if test="search == 1">
+            AND (TRIM(REPLACE(E.party_name,' ','')) LIKE concat('%',#{searchData},'%')
+            || F.USER_NAME LIKE concat('%',#{searchData},'%')
+            || D.user_name LIKE concat('%',#{searchData},'%'))
+        </if>
+        <if test="search == 2"> AND TRIM(REPLACE(E.party_name,' ','')) LIKE concat('%',#{searchData},'%')</if>
+        <if test="search == 3"> AND F.USER_NAME LIKE concat('%',#{searchData},'%')</if>
+        <if test="search == 4"> AND D.user_name LIKE concat('%',#{searchData},'%')</if>
+    </select>
+
+    <select id="getTotalElementsByUser">
+        SELECT COUNT(*)
+        FROM review_master A
+        JOIN plan_member B
+        ON A.review_plmember_seq = B.plmember_seq
+        JOIN party_member C
+        ON B.plmember_member_seq = C.member_seq
+        JOIN user_master D
+        ON C.member_user_seq = D.user_seq
+        JOIN party_master E
+        ON C.member_party_seq = E.party_seq
+        LEFT JOIN (SELECT A.member_seq, B.USER_NAME, A.member_party_seq
+        FROM party_member A JOIN user_master B ON A.member_user_seq = b.user_seq WHERE A.member_role = '1') F
+        ON F.member_party_seq = E.party_seq
+        WHERE D.user_seq = #{userSeq}
         <if test="search == 1">
             AND (TRIM(REPLACE(E.party_name,' ','')) LIKE concat('%',#{searchData},'%')
             || F.USER_NAME LIKE concat('%',#{searchData},'%')

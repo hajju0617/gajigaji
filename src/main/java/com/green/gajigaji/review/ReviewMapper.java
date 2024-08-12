@@ -13,8 +13,8 @@ public interface ReviewMapper {
     int deleteReviewPics(long reviewSeq);
     List<GetReviewAllRes> getReviewAll(GetReviewAllReq p);
     List<GetReviewUserRes> getReviewUser(GetReviewUserReq p);
-    List<GetReviewPartyRes> getReviewParty(GetReviewPartyReq p);
-    long getTotalElements(int search, String searchData, long userSeq);
+    List<GetReviewPartyRes> getReviewParty(long partySeq, int limit);
+    long getTotalElementsByUser(int search, String searchData, long userSeq);
     long getTotalElements(int search, String searchData);
     long getTotalElementsByPartySeq(long partySeq);
     void patchReview(PatchReviewReq p);

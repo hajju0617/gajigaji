@@ -3,7 +3,7 @@ package com.green.gajigaji.review.model;
 import lombok.Data;
 
 @Data
-public class GetReviewPartyReq {
+public class GetReviewPartyReq {//미사용중
     private long partySeq;
     private Integer page;
     private Integer size;

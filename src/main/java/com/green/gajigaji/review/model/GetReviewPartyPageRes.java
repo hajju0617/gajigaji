@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class GetReviewPartyPageRes {
+public class GetReviewPartyPageRes {//미사용중
     private long totalElements;
     private long totalPages;
     private List<GetReviewPartyRes> list;

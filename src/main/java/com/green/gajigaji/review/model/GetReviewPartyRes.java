@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class GetReviewPartyRes {
+public class GetReviewPartyRes {//미사용중
     private long partySeq;
     private String partyName;
     private String planContents;

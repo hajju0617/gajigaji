@@ -30,6 +30,7 @@ public class GetPartyRes {
     @Schema(example = "1", description = "모임장 유저 PK")private long userSeq;
     @Schema(example = "김철수", description = "모임장 이름")private String userName;
     @Schema(example = "사진 url용 주소", description = "모임장 사진")private String userPic;
+    @Schema(example = "abc@naver.com", description = "모임장 유저 이메일")private String userEmail;
 
 
 }
