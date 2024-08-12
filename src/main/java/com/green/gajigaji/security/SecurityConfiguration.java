@@ -66,6 +66,7 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.POST, "/api/user/findid").permitAll()
                                 .requestMatchers(HttpMethod.PATCH, "/findpw").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/review/party").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/plan/party").permitAll()
 
                                 .requestMatchers(
                                 "/api/party/**"
