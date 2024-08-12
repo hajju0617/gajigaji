@@ -89,6 +89,29 @@ public class PlanService {
             return ResultDto.resultDto(HttpStatus.OK, 1, GET_SUCCESS_MESSAGE, results);
         }
     }
+    //getPlanParty
+    public ResultDto<List<GetPlanRes>> getPlanParty(long planPartySeq, int limit) {
+        if (checkMapper.checkPlanPartySeq(planPartySeq) == null) {
+            return ResultDto.resultDto(HttpStatus.BAD_REQUEST, 2, NOT_FOUND_PARTY);
+        } else {
+            List<GetPlanResInterface> list = repository.findAllByPartyLimit(planPartySeq, limit);
+            List<GetPlanRes> results = new ArrayList<>();
+            for(GetPlanResInterface getPlanResInterface : list) {
+                GetPlanRes item = new GetPlanRes();
+                results.add(item);
+                item.setPlanSeq(getPlanResInterface.getPlanSeq());
+                item.setPlanPartySeq(getPlanResInterface.getPlanPartySeq());
+                item.setPlanStartDt(getPlanResInterface.getPlanStartDt());
+                item.setPlanStartTime(getPlanResInterface.getPlanStartTime());
+                item.setPlanCompleted(getPlanResInterface.getPlanCompleted());
+                item.setCdNm(getPlanResInterface.getCdGbNm());
+                item.setPlanTitle(getPlanResInterface.getPlanTitle());
+                item.setPlanContents(getPlanResInterface.getPlanContents());
+                item.setPlanLocation(getPlanResInterface.getPlanLocation());
+            }
+            return ResultDto.resultDto(HttpStatus.OK, 1, GET_SUCCESS_MESSAGE, results);
+        }
+    }
 
     public ResultDto<GetPlanRes> getPlan(long planSeq) {
         if (checkMapper.checkPlanSeq(planSeq) == null) {

@@ -20,7 +20,14 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-
+/*
+JSP
+요청시 저장 공간
+PageContext : JSP 내부에서만 사용
+Request : controller -> service -> JSP 전송 (Request는 일회용)
+Session
+Application
+ */
 
 @Configuration
 @RequiredArgsConstructor
@@ -59,6 +66,9 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.GET,  "/api/user/access-token","/api/review").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/user/findid").permitAll()
                                 .requestMatchers(HttpMethod.PATCH, "/findpw").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/review/party").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/review").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/plan/party").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/user/duplicated").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/mailauthCheck").permitAll()
 
