@@ -68,16 +68,31 @@ public class MyOAuth2UserService extends DefaultOAuth2UserService {
 //        SignInReq signInParam = new SignInReq();
 //        signInParam.setUserEmail(oAuth2UserInfo.getEmail());
 //        signInParam.setProviderType(signInProviderType.name());
+//        SimpleInfo simpleInfo = null;
+//        String providerType = userRequest.getClientRegistration().getRegistrationId();
+//        if (providerType.equals("kakao")) {
+//            simpleInfo = mapper.getSimpleUserInfo(oAuth2UserInfo.getId());
+//        } else {
+//            simpleInfo = mapper.getSimpleUserInfo(oAuth2UserInfo.getEmail());
+//        }
         SimpleInfo simpleInfo = mapper.getSimpleUserInfo(oAuth2UserInfo.getEmail());
 
-//        UserInfoRoles userInfoRoles = MyCommonUtils.convertToUserInfoRoles(userInfoList);
+
+//        SimpleInfo simpleInfo = mapper.getSimpleUserInfo(oAuth2UserInfo.getEmail());
+
+
 
 
         if(simpleInfo == null) {  // 회원가입 처리
             SignUpReq signUpParam = new SignUpReq();
             signUpParam.setProviderType(signInProviderType);
+//            if (signInProviderType.toString().equals("KAKAO")) {
+//                signUpParam.setUserEmail(oAuth2UserInfo.getId());
+//            } else {
+//                signUpParam.setUserEmail(oAuth2UserInfo.getEmail());
+//            }
             signUpParam.setUserEmail(oAuth2UserInfo.getEmail());
-            signUpParam.setUserName(oAuth2UserInfo.getName());
+            signUpParam.setUserNickname(oAuth2UserInfo.getName());
             signUpParam.setUserPic(oAuth2UserInfo.getProfilePicUrl());
             signUpParam.setUserRole("ROLE_USER");
 

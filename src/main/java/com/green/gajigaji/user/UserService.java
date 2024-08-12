@@ -65,7 +65,10 @@ public class UserService {
         if(mapper.duplicatedCheckNumber(p.getUserPhone()) == 1) {
             throw new CustomException(NUMBER_DUPLICATION_MESSAGE);
         }
-        if(mapper.duplicatedCheckNickname(p.getUserNickname()) == 1) {
+//        if(mapper.duplicatedCheckNickname(p.getUserNickname()) == 1) {
+//            throw new CustomException(NICKNAME_DUPLICATION_MESSAGE);
+//        }
+        if(userRepository.existsUserEntityByUserNickname(p.getUserNickname())) {
             throw new CustomException(NICKNAME_DUPLICATION_MESSAGE);
         }
         String saveFileName = customFileUtils.makeRandomFileName(userPic);
@@ -260,11 +263,11 @@ public class UserService {
     }
 
     public int logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        Cookie token = cookieUtils.getCookie(httpServletRequest, appProperties.getJwt().getRefreshTokenCookieName());
-        if(token == null) {
+        Cookie token = cookieUtils.getCookie(httpServletRequest, appProperties.getJwt().getRefreshTokenCookieName());   // request, refresh token
+        if(token == null) {     // token => name : refresh token, value : refresh token 값
             throw new CustomException(MISSING_REFRESH_TOKEN_MESSAGE);
         }
         cookieUtils.deleteCookie(httpServletResponse, appProperties.getJwt().getRefreshTokenCookieName());
-        return 1;
+        return SUCCESS;
     }
 }

@@ -37,6 +37,7 @@ spring:
             scope:
               - profile_nickname
               - profile_image
+              - account_email
             client-name: Kakao
           naver:
             client-id: ${SOCIAL.NAVER.CLIENT_ID}
@@ -122,6 +123,7 @@ app:
       - http://localhost:8080/oauth/redirect
       - http://192.168.0.144:5122/oauth/redirect
       - http://112.222.157.156:5122/oauth/redirect
+      - http://112.222.157.156:5122/sns
 
 management:
   endpoint:
@@ -160,6 +162,16 @@ spring:
     properties:
       hibernate:
         cache.use_second_level_cache: false
+
+app:
+  oauth2:
+    authorized-redirect-uris:
+      - http://localhost:3000/oauth/redirect
+      - http://localhost:8080/oauth/redirect
+      - http://192.168.0.144:5122/oauth/redirect
+      - http://112.222.157.156:5122/oauth/redirect
+      - http://112.222.157.156:5122/sns
+
 
 file:
   directory: ${PROD.FILE_DIRECTORY}
