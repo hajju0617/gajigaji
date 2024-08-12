@@ -24,12 +24,13 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.google.firebase:firebase-admin:6.8.1'
+
 
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.6.3'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     implementation 'org.springframework:spring-context-support:5.3.9'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
 
     implementation 'org.mindrot:jbcrypt:0.4'
@@ -38,6 +39,7 @@ dependencies {
     implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
 
     implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.5'

@@ -3,6 +3,8 @@ package com.green.gajigaji.party;
 import com.green.gajigaji.common.model.CustomFileUtils;
 import com.green.gajigaji.common.model.ResultDto;
 import com.green.gajigaji.party.model.*;
+import com.green.gajigaji.review.ReviewMapper;
+import com.green.gajigaji.review.model.GetReviewUserRes;
 import com.green.gajigaji.security.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +27,7 @@ public class PartyServiceImpl implements PartyService {
     //throws Exceoption은 PartyExceptionHandler의 Exception이 받음. return : 서버에러 입니다.
     //p의 partyLocation 값은 아래 "getPartyLocation" 주석을 참고하시오.
     public ResultDto<PostPartyRes> postParty(@Nullable MultipartFile partyPic, PostPartyReq p) throws Exception {
+
         p.setUserSeq(authenticationFacade.getLoginUserId());
         /** 일부러 에러를 터트려서 원하는 값을 return 함. (설명을 리턴 값 번호 + 에러가 발생한 이유로 정리함.)
          * exception 부분 마우스 올리면 추가 주석 나옴. (('CRUD 약자' + '번호' + '메소드명') + 설명 있음)

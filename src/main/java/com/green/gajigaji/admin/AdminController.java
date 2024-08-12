@@ -31,8 +31,10 @@ public class AdminController {
     @PatchMapping("/auth")
     @Operation(summary = "모임 생성 승인" , description =
             "<strong>  사이트 관리자가 모임 생성을 승인함 (현재는 모임장이 승인) <strong><p></p>" +
-                    "<p><strong> partySeq      </strong> : 모임PK (long) </p>" +
-                    "<p><strong> userSeq      </strong> : 관리자 유저PK (long) </p>")
+                    "<p><strong> partySeq      </strong> : 모임PK (long) </p> " +
+                    "<p><strong> num      </strong> : 상태값 (int) { 1 : 기본 값, 2 : 승인, 3 : 반려, 4 : 삭제 </p> " +
+                    "<p><strong> userEmail      </strong> : 모임장 email (String) </p> " +
+                    "<p><strong> text      </strong> : 메일에 보낼 내용 (String) </p> ")
     @ApiResponse(description =
             "<p> ResponseCode 응답 코드 </p>" +
                     "<p> 1 : 성공 </p>" +

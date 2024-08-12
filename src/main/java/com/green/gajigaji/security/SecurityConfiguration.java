@@ -3,19 +3,19 @@ package com.green.gajigaji.security;
 
 import com.green.gajigaji.common.model.AppProperties;
 import com.green.gajigaji.security.jwt.JwtAuthenticationAccessDeniedHandler;
-import com.green.gajigaji.security.jwt.JwtAuthenticationEntryPoint;
 import com.green.gajigaji.security.jwt.JwtAuthenticationFilter;
+import com.green.gajigaji.security.oauth2.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -34,13 +34,14 @@ Application
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;  // @Component로 빈등록을 하였기 때문에 DI가 된다.
+    private final JwtAuthenticationAccessDeniedHandler jwtAuthenticationAccessDeniedHandler;
     private final AppProperties appProperties;
     private final AuthenticationEntryPoint authenticationEntryPoint;
-    private final JwtAuthenticationAccessDeniedHandler jwtAuthenticationAccessDeniedHandler;
-//    private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
-//    private final OAuth2AuthenticationRequestBasedOnCookieRepository repository;
-//    private final OAuth2AuthenticationSuccessHandler  oAuth2AuthenticationSuccessHandler;
-//    private final MyOAuth2UserService myOAuth2UserService;
+    private final OAuth2AuthenticationCheckRedirectUriFilter oAuth2AuthenticationCheckRedirectUriFilter;
+    private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+    private final OAuth2AuthenticationRequestBasedOnCookieRepository repository;
+    private final MyOAuth2UserService myOAuth2UserService;
 
 
 
@@ -65,6 +66,11 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.GET,  "/api/user/access-token","/api/review").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/user/findid").permitAll()
                                 .requestMatchers(HttpMethod.PATCH, "/findpw").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/review/party").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/review").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/plan/party").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/user/duplicated").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/mailauthCheck").permitAll()
 
                                 .requestMatchers(
                                 "/api/party/**"
@@ -93,7 +99,18 @@ public class SecurityConfiguration {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint)
                                                          .accessDeniedHandler(jwtAuthenticationAccessDeniedHandler)
 
-                ).build();
+                )
+                .oauth2Login( oauth2 -> oauth2.authorizationEndpoint(
+                                        auth -> auth.baseUri( appProperties.getOauth2().getBaseUri())
+                                                .authorizationRequestRepository(repository)
+                )
+                .redirectionEndpoint( redirection -> redirection.baseUri("/*/oauth2/code/*"))
+                .userInfoEndpoint(userInfo -> userInfo.userService(myOAuth2UserService))
+                .successHandler(oAuth2AuthenticationSuccessHandler)
+                .failureHandler(oAuth2AuthenticationFailureHandler)
+                )
+                .addFilterBefore(oAuth2AuthenticationCheckRedirectUriFilter, OAuth2AuthorizationRequestRedirectFilter.class)
+                .build();
     }
 
     @Bean

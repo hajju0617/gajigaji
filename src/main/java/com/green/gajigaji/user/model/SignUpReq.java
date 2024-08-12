@@ -1,6 +1,7 @@
 package com.green.gajigaji.user.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.green.gajigaji.security.SignInProviderType;
 import com.green.gajigaji.user.jpa.UserEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -74,4 +75,7 @@ public class SignUpReq {
 
     @JsonIgnore
     private String userRole;
+
+    @JsonIgnore
+    private SignInProviderType ProviderType;
 }
