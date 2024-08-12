@@ -3,6 +3,7 @@ package com.green.gajigaji.party;
 
 import com.green.gajigaji.common.model.ResultDto;
 import com.green.gajigaji.party.model.*;
+import com.green.gajigaji.review.model.GetReviewPartyRes;
 import com.green.gajigaji.security.AuthenticationFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -184,5 +185,4 @@ public class PartyController {
     public ResultDto<Integer> updatePartyAuthGb2(@RequestParam(name ="partySeq") Long partySeq){
         return service.updatePartyAuthGb2(partySeq, authenticationFacade.getLoginUserId());
     }
-
 }

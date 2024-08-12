@@ -83,6 +83,21 @@ public class PlanController {
         return service.getPlanAll(planPartySeq);
     }
 
+    @GetMapping("/party")
+    @Operation(summary = "모임 상세보기용 모임 일정 조회" , description =
+            "<strong> 모임 상세보기용 모임 일정 조회<p></p>\n" +
+                    "<p><strong> planPartySeq</strong> : 모임 마스터 PK 값 (long) </p>\n"+
+                    "<p><strong> limit</strong> : 출력할 개수 (long) </p>\n")
+    @ApiResponse(description =
+            "<p> ResponseCode 응답 코드 </p> " +
+                    "<p>  1 : 성공 </p> " +
+                    "<p>  2 : 실패, ResultMsg </p> " +
+                    "<p>  99 : 알 수 없는 오류 발생 실패</p> ")
+    public ResultDto<List<GetPlanRes>> getPlanParty(@RequestParam(name = "plan_party_seq") long planPartySeq
+    , @RequestParam(defaultValue = "3") int limit){
+        return service.getPlanParty(planPartySeq, limit);
+    }
+
     @GetMapping("{plan_seq}")
     @Operation(summary = "모임 일정 상세 조회" , description =
             "<strong> 등록되어 있는 한 개의 일정 상세 출력 <p></p>\n" +

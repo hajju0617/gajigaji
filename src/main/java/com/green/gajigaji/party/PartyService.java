@@ -20,6 +20,4 @@ public interface PartyService {
  //   ResultDto<Integer> updatePartyAuthGb1(Long partySeq);
     ResultDto<Integer> updatePartyAuthGb2(Long partySeq, Long userSeq);
     ResultDto<List<GetPartyRes>> getParty();
-
-
 }

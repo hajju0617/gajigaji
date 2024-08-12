@@ -132,6 +132,38 @@
         </if>
     </select>
 
+    <select id="getReviewParty">
+        SELECT C.party_seq AS partySeq
+        , C.party_name AS partyName
+        , B.plan_contents AS planContents
+        , A.review_seq AS reviewSeq
+        , A.review_contents AS reviewContents
+        , A.review_rating AS reviewRating
+        , IFNULL(G.favCnt, 0) AS favCnt
+        , F.user_seq AS userSeq
+        , F.user_name AS userName
+        , F.user_pic AS userPic
+        , DATE_FORMAT(A.input_dt, '%Y-%m-%d') AS inputDt
+        FROM review_master A
+        JOIN plan_master B
+        ON A.review_plan_seq = B.plan_seq
+        JOIN party_master C
+        ON C.party_seq = B.plan_party_seq
+        JOIN plan_member D
+        ON A.review_plmember_seq = D.plmember_seq
+        JOIN party_member E
+        ON D.plmember_member_seq = E.member_seq
+        JOIN user_master F
+        ON E.member_user_seq = F.user_seq
+        LEFT JOIN (SELECT COUNT(review_fav_seq) AS favCnt, review_fav_review_seq
+        FROM review_fav
+        GROUP BY review_fav_review_seq) G
+        ON G.review_fav_review_seq = A.review_seq
+        WHERE C.party_seq = #{partySeq}
+        ORDER BY A.review_seq DESC
+        LIMIT #{limit}
+    </select>
+
     <select id="getPic">
         SELECT review_pic_review_seq as reviewPicReviewSeq
             , review_pic_file as reviewPicFile
@@ -162,7 +194,6 @@
         FROM party_member A JOIN user_master B ON A.member_user_seq = b.user_seq WHERE A.member_role = '1') F
         ON F.member_party_seq = E.party_seq
         WHERE 1 = 1
-        <if test="userSeq != 0"> AND D.user_seq = #{userSeq}</if>
         <if test="search == 1">
             AND (TRIM(REPLACE(E.party_name,' ','')) LIKE concat('%',#{searchData},'%')
             || F.USER_NAME LIKE concat('%',#{searchData},'%')
@@ -171,6 +202,48 @@
         <if test="search == 2"> AND TRIM(REPLACE(E.party_name,' ','')) LIKE concat('%',#{searchData},'%')</if>
         <if test="search == 3"> AND F.USER_NAME LIKE concat('%',#{searchData},'%')</if>
         <if test="search == 4"> AND D.user_name LIKE concat('%',#{searchData},'%')</if>
+    </select>
+
+    <select id="getTotalElementsByUser">
+        SELECT COUNT(*)
+        FROM review_master A
+        JOIN plan_member B
+        ON A.review_plmember_seq = B.plmember_seq
+        JOIN party_member C
+        ON B.plmember_member_seq = C.member_seq
+        JOIN user_master D
+        ON C.member_user_seq = D.user_seq
+        JOIN party_master E
+        ON C.member_party_seq = E.party_seq
+        LEFT JOIN (SELECT A.member_seq, B.USER_NAME, A.member_party_seq
+        FROM party_member A JOIN user_master B ON A.member_user_seq = b.user_seq WHERE A.member_role = '1') F
+        ON F.member_party_seq = E.party_seq
+        WHERE D.user_seq = #{userSeq}
+        <if test="search == 1">
+            AND (TRIM(REPLACE(E.party_name,' ','')) LIKE concat('%',#{searchData},'%')
+            || F.USER_NAME LIKE concat('%',#{searchData},'%')
+            || D.user_name LIKE concat('%',#{searchData},'%'))
+        </if>
+        <if test="search == 2"> AND TRIM(REPLACE(E.party_name,' ','')) LIKE concat('%',#{searchData},'%')</if>
+        <if test="search == 3"> AND F.USER_NAME LIKE concat('%',#{searchData},'%')</if>
+        <if test="search == 4"> AND D.user_name LIKE concat('%',#{searchData},'%')</if>
+    </select>
+
+    <select id="getTotalElementsByPartySeq">
+        SELECT COUNT(*)
+        FROM review_master A
+        JOIN plan_member B
+        ON A.review_plmember_seq = B.plmember_seq
+        JOIN party_member C
+        ON B.plmember_member_seq = C.member_seq
+        JOIN user_master D
+        ON C.member_user_seq = D.user_seq
+        JOIN party_master E
+        ON C.member_party_seq = E.party_seq
+        LEFT JOIN (SELECT A.member_seq, B.USER_NAME, A.member_party_seq
+        FROM party_member A JOIN user_master B ON A.member_user_seq = b.user_seq WHERE A.member_role = '1') F
+        ON F.member_party_seq = E.party_seq
+        WHERE E.party_seq = #{partySeq}
     </select>
 
     <update id="patchReview">

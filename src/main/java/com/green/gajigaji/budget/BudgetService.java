@@ -49,27 +49,32 @@ public class BudgetService {
         } else if (p.getBudgetAmount() <= 0) {
             return ResultDto.resultDto(HttpStatus.BAD_REQUEST, 2, "budgetAmount은 1 이상의 값을 입력하세요.");
         } else {
-            String saveFileName = customFileUtils.makeRandomFileName(budgetPic);
-            p.setBudgetPic(saveFileName);
+            PartyBudget partyBudget = new PartyBudget();
+
+            if(budgetPic != null && !budgetPic.isEmpty()){
+                String saveFileName = customFileUtils.makeRandomFileName(budgetPic);
+                p.setBudgetPic(saveFileName);
+                partyBudget.setBudgetPic(saveFileName);
+                String path = String.format("budget/%d", partyBudget.getBudgetSeq());
+                customFileUtils.makeFolders(path);
+                String target = String.format("%s/%s", path, saveFileName);
+                try {
+                    customFileUtils.transferTo(budgetPic, target);
+                } catch (Exception e) {
+                    throw new RuntimeException(PIC_SAVE_ERROR);
+                }
+            }
             PartyMaster partyMaster = partyRepository.getReferenceById(p.getBudgetPartySeq());
             PartyMember partyMember = memberRepository.getReferenceById(p.getBudgetMemberSeq());
-            PartyBudget partyBudget = new PartyBudget();
             partyBudget.setPartyMaster(partyMaster);
             partyBudget.setPartyMember(partyMember);
             partyBudget.setBudgetGb(p.getBudgetGb());
             partyBudget.setBudgetAmount(p.getBudgetAmount());
             partyBudget.setBudgetDt(p.getBudgetDt());
             partyBudget.setBudgetText(p.getBudgetText());
-            partyBudget.setBudgetPic(saveFileName);
+
             repository.save(partyBudget);
-            String path = String.format("budget/%d", partyBudget.getBudgetSeq());
-            customFileUtils.makeFolders(path);
-            String target = String.format("%s/%s", path, saveFileName);
-            try {
-                customFileUtils.transferTo(budgetPic, target);
-            } catch (Exception e) {
-                throw new RuntimeException(PIC_SAVE_ERROR);
-            }
+
             return ResultDto.resultDto(HttpStatus.OK, 1, POST_SUCCESS_MESSAGE);
         }
     }
@@ -85,18 +90,20 @@ public class BudgetService {
         } else if (p.getBudgetAmount() <= 0) {
             return ResultDto.resultDto(HttpStatus.BAD_REQUEST, 2, "budgetAmount은 1 이상의 값을 입력하세요.");
         } else {
-            String path = String.format("budget/%d", p.getBudgetSeq());
-            String saveFileName = customFileUtils.makeRandomFileName();
-            String target = String.format("%s/%s", path, saveFileName);
+            if(budgetPic != null && !budgetPic.isEmpty()){
+                String path = String.format("budget/%d", p.getBudgetSeq());
+                String saveFileName = customFileUtils.makeRandomFileName();
+                String target = String.format("%s/%s", path, saveFileName);
 
-            try {
-                customFileUtils.deleteFolder(path);
-                customFileUtils.makeFolders(path);
-                customFileUtils.transferTo(budgetPic, target);
-            } catch (Exception e) {
-                throw new RuntimeException(PIC_SAVE_ERROR);
+                try {
+                    customFileUtils.deleteFolder(path);
+                    customFileUtils.makeFolders(path);
+                    customFileUtils.transferTo(budgetPic, target);
+                } catch (Exception e) {
+                    throw new RuntimeException(PIC_SAVE_ERROR);
+                }
+                p.setBudgetPic(saveFileName);
             }
-            p.setBudgetPic(saveFileName);
             mapper.patchBudget(p);
             return ResultDto.resultDto(HttpStatus.OK, 1, PATCH_SUCCESS_MESSAGE);
         }

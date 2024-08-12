@@ -183,7 +183,8 @@
     A.update_dt AS updateDt,
     C.user_seq AS userSeq,
     C.user_name AS userName,
-    C.user_pic AS userPic
+    C.user_pic AS userPic,
+    C.user_email as userEmail
     FROM party_master A
     JOIN party_member B ON A.party_seq = B.member_party_seq
     JOIN user_master C ON B.member_user_seq = C.user_seq
@@ -217,7 +218,8 @@
         A.update_dt AS updateDt,
         C.user_seq AS userSeq,
         C.user_name AS userName,
-        C.user_pic AS userPic
+        C.user_pic AS userPic,
+        C.user_email as userEmail
         FROM party_master A
         JOIN party_member B ON A.party_seq = B.member_party_seq
         JOIN user_master C ON B.member_user_seq = C.user_seq

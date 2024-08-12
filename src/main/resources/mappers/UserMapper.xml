@@ -6,6 +6,7 @@
     <insert id="postSignUp" keyProperty="userSeq" useGeneratedKeys="true">
         INSERT INTO user_master
         SET user_email = #{userEmail}
+        , provider_type = #{providerType}
         , user_pw = #{userPw}
         , user_name = #{userName}
         , user_addr = #{userAddr}
@@ -17,7 +18,6 @@
         , user_intro = #{userIntro}
         , user_pic = #{userPic}
         , user_role = #{userRole}
-
     </insert>
 
     <select id="getSimpleUserInfo">

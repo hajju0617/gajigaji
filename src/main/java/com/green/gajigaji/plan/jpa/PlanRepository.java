@@ -16,7 +16,7 @@ public interface PlanRepository extends JpaRepository<PlanMaster, Long> {
             "AND pm.planCompleted = '1' ")
     void updatePlanByPlanSeq(Long planSeq);
 
-    @Query(value = "SELECT pm.planSeq AS planSeq, pm.planStartDt AS planStartDt, pm.planStartTime AS planStartTime, " +
+    @Query(value = "SELECT pm.planSeq AS planSeq, pm.partyMaster.partySeq as planPartySeq, pm.planStartDt AS planStartDt, pm.planStartTime AS planStartTime, " +
             "pm.planCompleted AS planCompleted, pm.planLocation AS planLocation, cd.cdGbNm AS cdGbNm, " +
             "pm.planTitle AS planTitle, pm.planContents AS planContents " +
             "FROM PlanMaster pm " +
@@ -25,4 +25,16 @@ public interface PlanRepository extends JpaRepository<PlanMaster, Long> {
             "WHERE pm.partyMaster.partySeq = :partySeq " +
             "AND cd.cdMain = 'PC'")
     List<GetPlanResInterface> findAllByParty(Long partySeq);
+
+    @Query(value = "SELECT pm.plan_seq AS planSeq, pm.plan_party_seq as planPartySeq, pm.plan_start_dt AS planStartDt, pm.plan_start_time AS planStartTime, " +
+            "pm.plan_completed AS planCompleted, pm.plan_location AS planLocation, cd.cd_Gb_Nm AS cdGbNm, " +
+            "pm.plan_title AS planTitle, pm.plan_contents AS planContents " +
+            "FROM plan_master pm " +
+            "JOIN common_cd cd " +
+            "ON pm.plan_completed = cd.cd_Gb " +
+            "WHERE pm.plan_party_seq = :partySeq " +
+            "AND cd.cd_main = 'PC' " +
+            "ORDER BY plan_seq DESC " +
+            "LIMIT :limit", nativeQuery = true)
+    List<GetPlanResInterface> findAllByPartyLimit(Long partySeq, int limit);
 }

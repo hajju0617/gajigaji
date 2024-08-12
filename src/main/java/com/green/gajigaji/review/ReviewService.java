@@ -3,11 +3,13 @@ package com.green.gajigaji.review;
 import com.green.gajigaji.common.CheckMapper;
 import com.green.gajigaji.common.model.CustomFileUtils;
 import com.green.gajigaji.common.exception.CustomException;
+import com.green.gajigaji.common.model.ResultDto;
 import com.green.gajigaji.review.exception.ReviewErrorCode;
 import com.green.gajigaji.review.model.*;
 import com.green.gajigaji.security.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -132,7 +134,7 @@ public class ReviewService {
             }
 
             GetReviewAllPageRes pageRes = new GetReviewAllPageRes(
-                    mapper.getTotalElements(p.getSearch(), p.getSearchData(), 0)
+                    mapper.getTotalElements(p.getSearch(), p.getSearchData())
                     , p.getSize()
                     , res
             );
@@ -161,11 +163,28 @@ public class ReviewService {
             }
 
             GetReviewUserPageRes pageRes = new GetReviewUserPageRes(
-                    mapper.getTotalElements(p.getSearch(), p.getSearchData(), p.getUserSeq())
+                    mapper.getTotalElementsByUser(p.getSearch(), p.getSearchData(), p.getUserSeq())
                     , p.getSize()
                     , res
             );
             return pageRes;
+        } catch (Exception e) {
+            throw new CustomException(ReviewErrorCode.UNIDENTIFIED_ERROR);
+        }
+    }
+    
+    // 모임pk별 조회, 비회원도 가능한 모임 상세조회라서 JWT필요없음
+    public List<GetReviewPartyRes> getPartyReview(long partySeq, int limit) {
+
+        try {
+            List<GetReviewPartyRes> list = mapper.getReviewParty(partySeq, limit);
+
+            for (GetReviewPartyRes idx : list) {
+                List<String> pics = mapper.getPicFiles(idx.getReviewSeq());
+                idx.setPics(pics);
+            }
+
+            return list;
         } catch (Exception e) {
             throw new CustomException(ReviewErrorCode.UNIDENTIFIED_ERROR);
         }
