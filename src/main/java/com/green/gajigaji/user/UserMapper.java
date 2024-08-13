@@ -35,5 +35,7 @@ public interface UserMapper {
     int setPassword(FindPasswordReq p);
     int emailExists(String userEmail);
 
+    String adminCheck(long userSeq);
+
 }
 

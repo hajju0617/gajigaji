@@ -161,6 +161,12 @@
         WHERE user_email = #{userEmail} AND provider_type = #{providerType};
     </select>
 
+    <select id="adminCheck">
+        SELECT user_role AS userRole
+        FROM user_master
+        WHERE user_seq = #{userSeq}
+    </select>
+
 
 
 
