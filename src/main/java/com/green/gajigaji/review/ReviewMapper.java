@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface ReviewMapper {
     int postReview(PostReviewReq p);
-    int postReviewPics(PostReviewPicDto p);
+    Integer postReviewPics(PostReviewPicDto p);
     int deleteReview(long reviewSeq);
     int deleteReviewPics(long reviewSeq);
     List<GetReviewAllRes> getReviewAll(GetReviewAllReq p);
@@ -27,5 +27,5 @@ public interface ReviewMapper {
     //JWT
     List<Long> checkAuthReviewSeq(long userSeq);
     List<Long> checkAuthPlmemberSeq(long userSeq);
-    int checkAuthUserSeq(long userSeq);
+    Integer checkAuthUserSeq(long userSeq);
 }

@@ -34,11 +34,9 @@ public class ReviewService {
             log.error("해당 userPk가 참가한 일정들의 일정참가자PK list에 등록하려는 유저의 일정참가자PK가 없거나, 토큰이 넘어오지 않았음.");
             throw new CustomException(ReviewErrorCode.NOT_FOUND_MESSAGE);
         }
-
-        if(chkMapper.checkPostedReview(p.getReviewPlanSeq(), p.getReviewPlmemberSeq()) == 1) {
+        if( chkMapper.checkPostedReview(p.getReviewPlanSeq(), p.getReviewPlmemberSeq()) != null) {
             throw new CustomException(ReviewErrorCode.DUPLICATED_REVIEW);
         }
-
         try {
             int result = mapper.postReview(p);
 
@@ -59,6 +57,7 @@ public class ReviewService {
                     .pics(ppic.getFileNames())
                     .build();
         } catch (Exception e) {
+            e.printStackTrace();
             throw new CustomException(ReviewErrorCode.UNIDENTIFIED_ERROR);
         }
     }
@@ -148,8 +147,8 @@ public class ReviewService {
         try {
             //JWT 예외처리
             long userPk = authenticationFacade.getLoginUserId();
-            int authChk = mapper.checkAuthUserSeq(userPk); // 유저 PK 존재하는지 체크, 성공 결과값 : 1
-            if(authChk != 1) {
+            Integer authChk = mapper.checkAuthUserSeq(userPk); // 유저 PK 존재하는지 체크, 성공 결과값 : 1
+            if(authChk == null) {
                 log.error("유저 PK가 존재하지 않거나, 토큰이 넘어오지 않음.");
                 throw new CustomException(ReviewErrorCode.NOT_FOUND_MESSAGE);
             }
@@ -204,9 +203,9 @@ public class ReviewService {
                 customFileUtils.transferTo(pic, target);
                 ppic.getFileNames().add(fileName);
             }
-            int result = mapper.postReviewPics(ppic);
+            Integer result = mapper.postReviewPics(ppic);
 
-            if (result == 0) {
+            if (result == null) {
                 log.error("Pics Post Result == 0");
                 throw new CustomException(ReviewErrorCode.REVIEW_PICS_POST_ERROR);
             }
@@ -222,8 +221,8 @@ public class ReviewService {
         try {
             //JWT 예외처리
             long userPk = authenticationFacade.getLoginUserId();
-            int authChk = mapper.checkAuthUserSeq(userPk); // 유저 PK 존재하는지 체크, 성공 결과값 : 1
-            if(authChk != 1) {
+            Integer authChk = mapper.checkAuthUserSeq(userPk); // 유저 PK 존재하는지 체크, 성공 결과값 : 1
+            if(authChk == null) {
                 log.error("유저 PK가 존재하지 않거나, 토큰이 넘어오지 않음.");
                 throw new CustomException(ReviewErrorCode.NOT_FOUND_MESSAGE);
             }
