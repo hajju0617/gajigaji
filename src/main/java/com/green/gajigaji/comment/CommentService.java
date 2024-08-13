@@ -1,6 +1,6 @@
 package com.green.gajigaji.comment;
 
-import com.green.gajigaji.comment.comment_common.CommentGetPage;
+import com.green.gajigaji.comment.model.CommentGetPage;
 import com.green.gajigaji.comment.model.*;
 import com.green.gajigaji.common.GlobalConst;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +44,6 @@ public class CommentService {
         List<CommentGetRes> list = mapper.getBoardComment(data);
         long totalElements = mapper.getTotalCount(data.getBoardSeq());
 
-        return new CommentGetPage(list, GlobalConst.COMMENT_PAGING_SIZE, totalElements);
+        return new CommentGetPage(list, data.getSize(), totalElements);
     }
 }

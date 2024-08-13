@@ -1,7 +1,7 @@
 package com.green.gajigaji.comment;
 
 
-import com.green.gajigaji.comment.comment_common.CommentGetPage;
+import com.green.gajigaji.comment.model.CommentGetPage;
 import com.green.gajigaji.comment.model.CommentDeleteReq;
 import com.green.gajigaji.comment.model.CommentGetReq;
 import com.green.gajigaji.comment.model.CommentPatchReq;
@@ -76,10 +76,11 @@ public class CommentController {
     "<strong> 커뮤니티 댓글 조회(페이징처리) </strong><p></p>" +
     "<p><strong> boardSeq </strong> : 게시글PK (long) </p>" +
     "<p><strong> page </strong> : 페이지 입력 (Integer) </p>")
-    public ResultDto<CommentGetPage> getComment(@RequestParam(name = "boardSeq") long boardSeq, Integer page) {
-        CommentGetReq data = new CommentGetReq(boardSeq, page, COMMENT_PAGING_SIZE);
-        CommentGetPage list = service.getBoardComment(data);
-        // List<CommentGetRes> list = service.getBoardComment(boardSeq);
+    public ResultDto<CommentGetPage> getComment(@RequestParam(name = "boardSeq") long boardSeq, Integer page, Integer size) {
+      CommentGetReq p = new CommentGetReq(page, size, boardSeq);
+
+      CommentGetPage list = service.getBoardComment(p);
+
         return ResultDto.<CommentGetPage>builder()
                 .status(HttpStatus.OK)
                 .code(1)
