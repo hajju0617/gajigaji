@@ -1,6 +1,5 @@
-package com.green.gajigaji.comment.comment_common;
+package com.green.gajigaji.comment.model;
 
-import com.green.gajigaji.comment.model.CommentGetRes;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,8 +13,12 @@ public class CommentGetPage {
     private long totalPage;
     private long totalElements;
     public CommentGetPage(List<CommentGetRes> list, Integer size, long totalElements) {
+       if(size != 0){
+           this.totalPage = (this.totalElements + size - 1) / size;} else
+           {
+               this.totalPage = 1;
+           }
         this.list = list;
         this.totalElements = totalElements;
-        this.totalPage = (this.totalElements + size - 1) / size;
     }
 }

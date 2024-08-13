@@ -225,6 +225,9 @@
         JOIN user_master C ON B.member_user_seq = C.user_seq
         WHERE
         B.member_user_seq = C.user_seq AND B.member_party_seq = A.party_seq AND B.member_role = 1
+        <if test="search != null or search == 0">
+            AND 1 = 1
+        </if>
         <if test="search != null and search == 1">
             AND party_name like concat('%',#{searchData},'%')
         </if>
@@ -233,6 +236,11 @@
         </if>
         <if test="search != null and search == 3">
             AND user_name like concat('%',#{searchData},'%')
+        </if>
+        <if test="search != null and search == 4">
+            AND party_name like concat('%',#{searchData},'%')
+            OR party_location like concat('%',#{searchData},'%')
+            OR user_name like concat('%',#{searchData},'%')
         </if>
         GROUP BY
         A.party_seq, A.party_name, A.party_genre, A.party_min_age, A.party_max_age, A.party_gender, A.party_maximum,
@@ -250,15 +258,22 @@
         ON B.member_user_seq = C.user_seq
 
         WHERE 1=1
-        <if test="partySeq != 0">
+        <if test="partySeq == 0">
             AND A.party_seq = #{partySeq}
         </if>
         <if test="search == 1">
             AND (TRIM(REPLACE(A.party_name,' ','')) LIKE CONCAT('%', #{searchData}, '%')
-            OR C.user_name LIKE CONCAT('%', #{searchData}, '%'))
         </if>
         <if test="search == 2">
-            AND TRIM(REPLACE(A.party_name,' ','')) LIKE CONCAT('%', #{searchData}, '%')
+            AND TRIM(REPLACE(A.party_location,' ','')) LIKE CONCAT('%', #{searchData}, '%')
+        </if>
+        <if test="search == 3">
+            AND TRIM(REPLACE(A.user_name,' ','')) LIKE CONCAT('%', #{searchData}, '%')
+        </if>
+        <if test="search == 4">
+            AND (TRIM(REPLACE(A.party_name,' ','')) LIKE CONCAT('%', #{searchData}, '%')
+            OR TRIM(REPLACE(A.party_location,' ','')) LIKE CONCAT('%', #{searchData}, '%')
+            OR TRIM(REPLACE(A.user_name,' ','')) LIKE CONCAT('%', #{searchData}, '%')
         </if>
     </select>
 

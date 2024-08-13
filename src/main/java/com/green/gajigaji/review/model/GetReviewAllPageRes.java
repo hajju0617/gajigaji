@@ -19,11 +19,8 @@ public class GetReviewAllPageRes {
 
     public GetReviewAllPageRes(long totalElements, int size, List<GetReviewAllRes> list) {
         this.totalElements = totalElements;
-        if(size != 0) {
-            this.totalPages = (this.totalElements + size - 1) / size;
-        } else {
-            this.totalPages = 1;
-        }
+        if(size != 0) {this.totalPages = (this.totalElements + size - 1) / size;}
+        else {this.totalPages = 1;}
         this.list = list;
     }
 }

@@ -75,7 +75,11 @@ public class PartyController {
 
     @GetMapping("/partyes")
     @Operation(summary = "모임들 불러오기/검색", description =
-            "<strong> 모임들을 불러옵니다</strong><p></p>")
+                            "<strong> search == 0 / searchData == 전체 모임 조회(party_seq)   </strong><p></p>" +
+                            "<strong> search == 1 / searchData == 모임 제목 검색(party_name)  </strong><p></p>" +
+                            "<strong> search == 2 / searchData == 지역명 검색(party_location) </strong><p></p>" +
+                            "<strong> search == 3 / searchData == 파티장 이름 검색(user_name) </strong><p></p>" +
+                            "<strong> search == 4 / searchData == 모임 제목(party_name) OR 지역명(party_location) OR 파티장이름 검색(user_name) </strong><p></p>")
     @ApiResponse(description =
             "<p> ResponseCode 응답 코드 </p>" +
                     "<p> 1 : 성공 </p>" +
