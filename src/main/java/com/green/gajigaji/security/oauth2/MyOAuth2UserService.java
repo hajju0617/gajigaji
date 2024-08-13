@@ -1,5 +1,6 @@
 package com.green.gajigaji.security.oauth2;
 
+import com.green.gajigaji.common.exception.CustomException;
 import com.green.gajigaji.security.MyUserDetails;
 import com.green.gajigaji.security.MyUserOAuth2Vo;
 import com.green.gajigaji.security.SignInProviderType;
@@ -9,6 +10,7 @@ import com.green.gajigaji.user.UserMapper;
 import com.green.gajigaji.user.model.SignInReq;
 import com.green.gajigaji.user.model.SignUpReq;
 import com.green.gajigaji.user.model.SimpleInfo;
+import com.green.gajigaji.user.model.SocialUserProfile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -75,15 +77,17 @@ public class MyOAuth2UserService extends DefaultOAuth2UserService {
 //        } else {
 //            simpleInfo = mapper.getSimpleUserInfo(oAuth2UserInfo.getEmail());
 //        }
-        SimpleInfo simpleInfo = mapper.getSimpleUserInfo(oAuth2UserInfo.getEmail());
-
 
 //        SimpleInfo simpleInfo = mapper.getSimpleUserInfo(oAuth2UserInfo.getEmail());
 
+        SocialUserProfile socialUserProfile = mapper.socialUserProfile(oAuth2UserInfo.getEmail()
+                                                                    , SignInProviderType.valueOf(signInProviderType.name()));
 
 
 
-        if(simpleInfo == null) {  // 회원가입 처리
+
+
+        if(socialUserProfile == null) {  // 회원가입 처리
             SignUpReq signUpParam = new SignUpReq();
             signUpParam.setProviderType(signInProviderType);
 //            if (signInProviderType.toString().equals("KAKAO")) {
@@ -98,16 +102,17 @@ public class MyOAuth2UserService extends DefaultOAuth2UserService {
 
             int result = mapper.postSignUp(signUpParam);
 
-            simpleInfo = new SimpleInfo();
-            simpleInfo.setUserSeq(signUpParam.getUserSeq());
-            simpleInfo.setUserName(signUpParam.getUserName());
-            simpleInfo.setUserPic(signUpParam.getUserPic());
-            simpleInfo.setUserRole(signUpParam.getUserRole());
+            socialUserProfile = new SocialUserProfile();
+            socialUserProfile.setUserSeq(signUpParam.getUserSeq());
+            socialUserProfile.setUserNickname(signUpParam.getUserName());
+            socialUserProfile.setUserPic(signUpParam.getUserPic());
+            socialUserProfile.setUserRole(signUpParam.getUserRole());
 
         } else {    // 이미 회원가입이 되어 있음
-            if(simpleInfo.getUserPic() == null
-                    || (simpleInfo.getUserPic().startsWith("http")
-                    && !simpleInfo .getUserPic().equals(oAuth2UserInfo.getProfilePicUrl()))) {
+            if(socialUserProfile.getUserPic() == null
+                    || (socialUserProfile.getUserPic().startsWith("http")
+                    && !socialUserProfile.getUserPic().equals(oAuth2UserInfo.getProfilePicUrl()))) {
+                socialUserProfile.setUserPic(oAuth2UserInfo.getProfilePicUrl());
 
             }
         }
@@ -115,7 +120,7 @@ public class MyOAuth2UserService extends DefaultOAuth2UserService {
 //        roles.add("ROLE_USER");     // 소셜 로그인은 그냥 하드코딩으로 처리 (소셜로그인으로 관리자와 같은 권한부여 x)
 
 
-        MyUserOAuth2Vo myUserOAuth2Vo = new MyUserOAuth2Vo(simpleInfo.getUserSeq(), simpleInfo.getUserRole(), simpleInfo.getUserName(), simpleInfo.getUserPic());
+        MyUserOAuth2Vo myUserOAuth2Vo = new MyUserOAuth2Vo(socialUserProfile.getUserSeq(), socialUserProfile.getUserRole(), socialUserProfile.getUserNickname(), socialUserProfile.getUserPic());
         MyUserDetails signInUser = new MyUserDetails();
         signInUser.setMyUser(myUserOAuth2Vo);
         return signInUser;

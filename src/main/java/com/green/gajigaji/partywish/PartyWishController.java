@@ -24,7 +24,6 @@ public class PartyWishController {
     @GetMapping
     @Operation(summary = "관심모임 찜" , description =
             "<strong > 관심 모임 찜 </strong> <p></p>" +
-            "<p><strong> wishUserSeq</strong> : 유저 PK (long) </p>" +
             "<p><strong> wishPartySeq</strong> : 모임 PK (long) </p>"
     )
     @ApiResponse(

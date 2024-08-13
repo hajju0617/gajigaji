@@ -1,9 +1,12 @@
 package com.green.gajigaji.party.jpa;
 
+import com.green.gajigaji.partywish.model.PartyWishGetListRes;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 public interface PartyRepository extends JpaRepository<PartyMaster, Long> {
     PartyMaster findPartyByPartySeq(Long partySeq);
@@ -18,5 +21,7 @@ public interface PartyRepository extends JpaRepository<PartyMaster, Long> {
             "WHERE p.partySeq = :partySeq")
     int updatePartyAuthGb(Long partySeq, int num);
     boolean existsByPartySeq(Long partySeq);
+
+
 
 }

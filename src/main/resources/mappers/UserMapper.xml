@@ -149,6 +149,17 @@
         FROM user_master
         WHERE user_email = #{userEmail}
     </select>
+    
+    <select id="socialUserProfile">
+        SELECT A.user_seq AS userSeq
+        , A.user_email AS userEmail
+        , A.provider_type AS providerType
+        , A.user_nickname AS userNickname
+        , A.user_pic AS userPic
+        , A.user_role AS userRole
+        FROM user_master A
+        WHERE user_email = #{userEmail} AND provider_type = #{providerType};
+    </select>
 
 
 

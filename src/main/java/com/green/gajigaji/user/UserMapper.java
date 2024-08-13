@@ -1,6 +1,7 @@
 package com.green.gajigaji.user;
 
 
+import com.green.gajigaji.security.SignInProviderType;
 import com.green.gajigaji.user.model.*;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -9,6 +10,8 @@ public interface UserMapper {
     int postSignUp(SignUpReq p);
 
     SimpleInfo getSimpleUserInfo(String userEmail);
+
+    SocialUserProfile socialUserProfile(String userEmail, SignInProviderType providerType);
 
     UserDetails getDetailUserInfo(long userSeq);
     String getUserPw(long userSeq);
