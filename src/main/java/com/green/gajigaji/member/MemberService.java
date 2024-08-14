@@ -1,10 +1,15 @@
 package com.green.gajigaji.member;
 
 
+import com.green.gajigaji.common.CheckMapper;
+import com.green.gajigaji.common.exception.CustomException;
 import com.green.gajigaji.common.model.ResultDto;
+import com.green.gajigaji.member.exception.MemberErrorCode;
 import com.green.gajigaji.member.model.GetMemberRes;
 import com.green.gajigaji.member.model.UpdateMemberReq;
 import com.green.gajigaji.member.model.UpdateMemberRes;
+import com.green.gajigaji.security.AuthenticationFacade;
+import com.green.gajigaji.user.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,6 +22,9 @@ import java.util.List;
 @Slf4j
 public class MemberService {
     private final MemberMapper mapper;
+    private final AuthenticationFacade authenticationFacade;
+    private final UserMapper userMapper;
+    private final CheckMapper checkMapper;
     /** "MemberExceptionHandler"는 "GlobalExceptionHandler"보다 순위가 높음. @Order(1) == 1순위임.
      * "MemberExceptionHandler"의 범위는 (basePackages = "com.green.gajigaji.join")이다.
      * "MemberExceptionHandler"는 (MsgException,MsgExceptionNull,ReturnDto,NullReqValue,RuntimeException,NullPointerException,Exception)의 '에러' 발생시
@@ -53,14 +61,31 @@ public class MemberService {
         return ResultDto.resultDto(HttpStatus.OK,1, "멤버 권한을 수정하였습니다.");
     }
 
-    //멤버 차단 (모임장이 멤버 권한을 수정함)
-    public ResultDto<UpdateMemberRes> updateMemberGb(Long memberPartySeq, Long memberUserSeq, Long memberLeaderUserSeq) {
-        //차단 당하는 사람 관련 에러 확인.
-
-        //차단 하는 사람 관련 에러 확인.
-
-        // 멤버의 권한을 수정함 ( memberRole,Gb = 0 )
-        mapper.updateMemberGb(memberPartySeq, memberUserSeq);
-        return ResultDto.resultDto(HttpStatus.OK,1, "해당 멤버를 차단하였습니다.");
+    //멤버 탈퇴 상태로 변경 (모임장이 멤버 권한을 수정함)
+    public ResultDto<UpdateMemberRes> updateMemberGb(long memberSeq, long memberPartySeq) {
+        //JWT 예외처리
+        long userPk = authenticationFacade.getLoginUserId();
+        if(userMapper.userExists(userPk) == 0) {
+            throw new CustomException(MemberErrorCode.NOT_FOUND_USER);
+        }
+        // 모임장인지 체크
+        Integer roleChk = checkMapper.checkMemberRole(memberPartySeq, userPk);
+        if(roleChk == null) {
+            throw new CustomException(MemberErrorCode.NOT_JOINED_USER); // 해당 모임에 없는 유저입니다 체크
+        } else if(roleChk == 1) {
+            if(checkMapper.checkMemberUserSeqByMemberSeq(memberSeq) == userPk) {
+                throw new CustomException(MemberErrorCode.NOT_ALLOWED_TO_PRESIDENT);
+            }
+            mapper.updateMemberGb(memberSeq);
+            return ResultDto.resultDto(HttpStatus.OK,1, "해당 유저를 탈퇴 상태로 변경하였습니다.");
+        } else if(roleChk == 3) {
+            throw new CustomException(MemberErrorCode.ALREADY_LEFT_USER); // 이미 탈퇴된 유저입니다.
+        } else {
+            if(checkMapper.checkMemberUserSeqByMemberSeq(memberSeq) != userPk) {
+                throw new CustomException(MemberErrorCode.NOT_MATCHED_USER); // 접속한 유저와 탈퇴하려는 유저의 pk가 다름
+            }
+            mapper.updateMemberGb(memberSeq);
+            return ResultDto.resultDto(HttpStatus.OK,1, "모임에서 탈퇴하였습니다.");
+        }
     }
 }

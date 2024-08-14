@@ -30,4 +30,7 @@ public interface CheckMapper {
     Integer checkPostedReview(long reviewPlanSeq, long reviewPlmemberSeq);
     Integer checkReview(long reviewSeq);
     Integer checkReviewPics(long reviewSeq);
+    Integer checkMemberRole(long memberPartySeq, long memberUserSeq);
+    Integer checkMemberUserSeqByMemberSeq(long memberSeq);
+    //Integer checkMemberExisted(long memberPartySeq, long memberUserSeq);
 }

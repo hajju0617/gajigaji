@@ -37,7 +37,7 @@ public class JoinService {
          * exception 부분 마우스 올리면 추가 주석 나옴. (('CRUD 약자' + '번호' + '메소드명') + 설명 있음)
          */
         // (특이사항) 해당 "check.exception"는 "joinMapper.deleteJoin(partySeq,p.getJoinUserSeq())"가 포함되어 있음.
-        // 차단당한 유저가 재가입을 희망할 경우 DB 무결성을 위해 해당 메소드가 필요함.
+        // 탈퇴 유저가 재가입을 희망할 경우 DB 무결성을 위해 해당 메소드가 필요함.
 
         // 모임 신청서 작성
         p.setJoinPartySeq(joinPartySeq);
