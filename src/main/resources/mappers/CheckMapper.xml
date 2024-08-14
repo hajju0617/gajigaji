@@ -124,4 +124,21 @@
         WHERE review_pic_review_seq = #{reviewSeq}
         LIMIT 1
     </select>
+    <select id="checkMemberRole">
+        SELECT member_role
+        FROM party_member
+        WHERE member_party_seq = #{memberPartySeq}
+        AND member_user_seq = #{memberUserSeq};
+    </select>
+    <select id="checkMemberUserSeq">
+        SELECT member_user_seq
+        FROM party_member
+        WHERE member_seq = #{memberSeq};
+    </select>
+    <select id="checkMemberExisted">
+        SELECT member_seq, member_gb
+        FROM party_member
+        WHERE member_user_seq = #{memberUserSeq}
+        AND member_party_seq = #{memberPartySeq}
+    </select>
 </mapper>

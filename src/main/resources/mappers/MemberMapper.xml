@@ -53,8 +53,7 @@
     </update>
     <update id="updateMemberGb">
         UPDATE party_member
-        SET member_gb = 0
-        , member_role = 0
+        SET member_gb = 2
         WHERE member_party_seq = #{memberPartySeq}
         AND  member_user_seq = #{memberUserSeq}
     </update>
