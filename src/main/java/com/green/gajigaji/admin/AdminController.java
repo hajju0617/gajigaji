@@ -49,6 +49,4 @@ public class AdminController {
                 .resultData(result)
                 .build();
     }
-
-
 }

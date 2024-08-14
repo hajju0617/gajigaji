@@ -358,7 +358,7 @@
 
     <update id="updatePartyAuthGb2">
         UPDATE party_master
-        SET party_auth_gb = 2
+        SET party_auth_gb = 4
         WHERE party_seq = #{partySeq}
     </update>
 </mapper>

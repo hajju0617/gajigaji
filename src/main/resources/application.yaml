@@ -123,7 +123,6 @@ app:
       - http://localhost:8080/oauth/redirect
       - http://192.168.0.144:5122/oauth/redirect
       - http://112.222.157.156:5122/oauth/redirect
-      - http://112.222.157.156:5122/sns
 
 management:
   endpoint:
@@ -170,7 +169,7 @@ app:
       - http://localhost:8080/oauth/redirect
       - http://192.168.0.144:5122/oauth/redirect
       - http://112.222.157.156:5122/oauth/redirect
-      - http://112.222.157.156:5122/sns
+
 
 
 file:

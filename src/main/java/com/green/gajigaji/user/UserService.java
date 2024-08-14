@@ -59,15 +59,12 @@ public class UserService {
         } else {
             throw new CustomException(BIRTHDATE_REGEX_MESSAGE);
         }
-        if(mapper.emailExists(p.getUserEmail()) == 1) {
+        if(userRepository.existsUserEntityByUserEmail(p.getUserEmail())) {
             throw new CustomException(EMAIL_DUPLICATION_MESSAGE);
         }
         if(mapper.duplicatedCheckNumber(p.getUserPhone()) == 1) {
             throw new CustomException(NUMBER_DUPLICATION_MESSAGE);
         }
-//        if(mapper.duplicatedCheckNickname(p.getUserNickname()) == 1) {
-//            throw new CustomException(NICKNAME_DUPLICATION_MESSAGE);
-//        }
         if(userRepository.existsUserEntityByUserNickname(p.getUserNickname())) {
             throw new CustomException(NICKNAME_DUPLICATION_MESSAGE);
         }
@@ -75,8 +72,6 @@ public class UserService {
         p.setUserPic(saveFileName);
         String hashPw = passwordEncoder.encode(p.getUserPw());
         p.setUserPw(hashPw);
-
-
 
         UserEntity userEntity = new UserEntity(p);
         userEntity.setUserBirth(CommonUser.convertToDate(p.getUserBirth()));
@@ -267,7 +262,7 @@ public class UserService {
         if(token == null) {     // token => name : refresh token, value : refresh token 값
             throw new CustomException(MISSING_REFRESH_TOKEN_MESSAGE);
         }
-        cookieUtils.deleteCookie(httpServletResponse, appProperties.getJwt().getRefreshTokenCookieName());
+        cookieUtils.deleteCookie(httpServletResponse, appProperties.getJwt().getRefreshTokenCookieName());  // refresh token
         return SUCCESS;
     }
 }
