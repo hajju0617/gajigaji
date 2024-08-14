@@ -3,16 +3,16 @@ package com.green.gajigaji.review;
 import com.green.gajigaji.common.CheckMapper;
 import com.green.gajigaji.common.model.CustomFileUtils;
 import com.green.gajigaji.common.exception.CustomException;
-import com.green.gajigaji.common.model.ResultDto;
 import com.green.gajigaji.review.exception.ReviewErrorCode;
 import com.green.gajigaji.review.model.*;
 import com.green.gajigaji.security.AuthenticationFacade;
+import com.green.gajigaji.user.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 @Service
@@ -21,6 +21,7 @@ import java.util.List;
 public class ReviewService {
     private final ReviewMapper mapper;
     private final CheckMapper chkMapper;
+    private final UserMapper userMapper;
     private final CustomFileUtils customFileUtils;
     private final AuthenticationFacade authenticationFacade;
     private String path = "review/";
@@ -29,10 +30,13 @@ public class ReviewService {
     public PostReviewRes postReview(List<MultipartFile> pics, PostReviewReq p){
         //JWT 예외처리
         long userPk = authenticationFacade.getLoginUserId();
+        if(userMapper.userExists(userPk) == 0) {
+            throw new CustomException(ReviewErrorCode.NOT_FOUND_USER);
+        }
         List<Long> list = mapper.checkAuthPlmemberSeq(userPk); // 해당 유저가 참가한 일정의 일정참가자 PK들을 list에 담아서 체크
         if(!list.contains(p.getReviewPlmemberSeq())) {
-            log.error("해당 userPk가 참가한 일정들의 일정참가자PK list에 등록하려는 유저의 일정참가자PK가 없거나, 토큰이 넘어오지 않았음.");
-            throw new CustomException(ReviewErrorCode.NOT_FOUND_MESSAGE);
+            log.error("해당 userPk가 참가한 일정들의 일정참가자PK list에 등록하려는 유저의 일정참가자PK가 없음.");
+            throw new CustomException(ReviewErrorCode.NOT_JOINED_USER);
         }
         if( chkMapper.checkPostedReview(p.getReviewPlanSeq(), p.getReviewPlmemberSeq()) != null) {
             throw new CustomException(ReviewErrorCode.DUPLICATED_REVIEW);
@@ -57,8 +61,8 @@ public class ReviewService {
                     .pics(ppic.getFileNames())
                     .build();
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new CustomException(ReviewErrorCode.UNIDENTIFIED_ERROR);
+//            e.printStackTrace();
+            throw new CustomException(ReviewErrorCode.REVIEW_POST_ERROR);
         }
     }
 
@@ -67,10 +71,13 @@ public class ReviewService {
         try {
             //JWT 예외처리
             long userPk = authenticationFacade.getLoginUserId();
+            if(userMapper.userExists(userPk) == 0) {
+                throw new CustomException(ReviewErrorCode.NOT_FOUND_USER);
+            }
             List<Long> list = mapper.checkAuthReviewSeq(userPk); // 해당 유저가 적은 리뷰의 PK들을 list에 담아서 체크
             if(!list.contains(p.getReviewSeq())) {
-                log.error("해당 userPk가 적은 리뷰들의 PK list에 수정하려는 리뷰의 PK가 없거나, 토큰이 넘어오지 않았음.");
-                throw new CustomException(ReviewErrorCode.NOT_FOUND_MESSAGE);
+                log.error("해당 userPk가 적은 리뷰들의 PK list에 수정하려는 리뷰의 PK가 없음");
+                throw new CustomException(ReviewErrorCode.NOT_POSTED_USER);
             }
 
             if(chkMapper.checkReview(p.getReviewSeq()) == null) { // 리뷰 있는지 체크
@@ -90,7 +97,7 @@ public class ReviewService {
             PostReviewPicDto ppic = postPics(p.getReviewSeq(), pics, path + p.getReviewSeq());
             return mapper.getPic(ppic.getReviewSeq());
         } catch(Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             log.error("Review Patch Error");
             throw new CustomException(ReviewErrorCode.REVIEW_PATCH_ERROR);
         }
@@ -98,29 +105,31 @@ public class ReviewService {
 
     @Transactional
     public int deleteReview(long reviewSeq) {
-        try {
-            //JWT 예외처리
-            long userPk = authenticationFacade.getLoginUserId();
-            List<Long> list = mapper.checkAuthReviewSeq(userPk); // 해당 유저가 적은 리뷰의 PK들을 list에 담아서 체크
-            if(!list.contains(reviewSeq)) {
-                log.error("해당 userPk가 적은 리뷰들의 PK list에 삭제하려는 리뷰의 PK가 없거나, 토큰이 넘어오지 않았음.");
-                throw new CustomException(ReviewErrorCode.NOT_FOUND_MESSAGE);
-            }
-
-            if(chkMapper.checkReview(reviewSeq) == null) {
-                throw new CustomException(ReviewErrorCode.NOT_FOUND_REVIEW);
-            }
-            mapper.deleteReviewPics(reviewSeq);
-            mapper.deleteReviewFavs(reviewSeq);
-            int result = mapper.deleteReview(reviewSeq);
-            if(result == 0) {
-                log.error("Review Delete Result == 0");
-                throw new CustomException(ReviewErrorCode.REVIEW_DELETE_ERROR);
-            }
-            return result;
-        }catch (Exception e) {
-            throw new CustomException(ReviewErrorCode.UNIDENTIFIED_ERROR);
+        //JWT 예외처리
+        long userPk = authenticationFacade.getLoginUserId();
+        if(userMapper.userExists(userPk) == 0) {
+            throw new CustomException(ReviewErrorCode.NOT_FOUND_USER);
         }
+        if(!userMapper.adminCheck(userPk).equals("ROLE_ADMIN")) {
+            List<Long> list = mapper.checkAuthReviewSeq(userPk); // 해당 유저가 적은 리뷰의 PK들을 list에 담아서 체크
+            if (!list.contains(reviewSeq)) {
+                log.error("해당 userPk가 적은 리뷰들의 PK list에 삭제하려는 리뷰의 PK가 없음.");
+                throw new CustomException(ReviewErrorCode.NOT_POSTED_USER);
+            }
+        }
+
+        if(chkMapper.checkReview(reviewSeq) == null) {
+            throw new CustomException(ReviewErrorCode.NOT_FOUND_REVIEW);
+        }
+        mapper.deleteReviewPics(reviewSeq);
+        mapper.deleteReviewFavs(reviewSeq);
+        int result = mapper.deleteReview(reviewSeq);
+        if(result == 0) {
+            log.error("Review Delete Result == 0");
+            throw new CustomException(ReviewErrorCode.REVIEW_DELETE_ERROR);
+        }
+
+        return result;
     }
 
     public GetReviewAllPageRes getReviewAll(GetReviewAllReq p) {
@@ -147,11 +156,14 @@ public class ReviewService {
         try {
             //JWT 예외처리
             long userPk = authenticationFacade.getLoginUserId();
-            Integer authChk = mapper.checkAuthUserSeq(userPk); // 유저 PK 존재하는지 체크, 성공 결과값 : 1
-            if(authChk == null) {
-                log.error("유저 PK가 존재하지 않거나, 토큰이 넘어오지 않음.");
-                throw new CustomException(ReviewErrorCode.NOT_FOUND_MESSAGE);
+            if(userMapper.userExists(userPk) == 0) {
+                throw new CustomException(ReviewErrorCode.NOT_FOUND_USER);
             }
+//            Integer authChk = mapper.checkAuthUserSeq(userPk); // 유저 PK 존재하는지 체크, 성공 결과값 : 1
+//            if(authChk == null) {
+//                log.error("유저 PK가 존재하지 않음");
+//                throw new CustomException(ReviewErrorCode.NOT_FOUND_MESSAGE);
+//            }
             p.setUserSeq(userPk);
 
             List<GetReviewUserRes> res = mapper.getReviewUser(p);
@@ -221,11 +233,14 @@ public class ReviewService {
         try {
             //JWT 예외처리
             long userPk = authenticationFacade.getLoginUserId();
-            Integer authChk = mapper.checkAuthUserSeq(userPk); // 유저 PK 존재하는지 체크, 성공 결과값 : 1
-            if(authChk == null) {
-                log.error("유저 PK가 존재하지 않거나, 토큰이 넘어오지 않음.");
-                throw new CustomException(ReviewErrorCode.NOT_FOUND_MESSAGE);
+            if(userMapper.userExists(userPk) == 0) {
+                throw new CustomException(ReviewErrorCode.NOT_FOUND_USER);
             }
+//            Integer authChk = mapper.checkAuthUserSeq(userPk); // 유저 PK 존재하는지 체크, 성공 결과값 : 1
+//            if(authChk == null) {
+//                log.error("유저 PK가 존재하지 않거나, 토큰이 넘어오지 않음.");
+//                throw new CustomException(ReviewErrorCode.NOT_FOUND_MESSAGE);
+//            }
             p.setReviewFavUserSeq(userPk);
 
             if(chkMapper.checkReview(p.getReviewFavReviewSeq()) == null) {
