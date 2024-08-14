@@ -128,12 +128,12 @@
         SELECT member_role
         FROM party_member
         WHERE member_party_seq = #{memberPartySeq}
-        AND member_user_seq = #{memberUserSeq};
+        AND member_user_seq = #{memberUserSeq}
     </select>
-    <select id="checkMemberUserSeq">
+    <select id="checkMemberUserSeqByMemberSeq">
         SELECT member_user_seq
         FROM party_member
-        WHERE member_seq = #{memberSeq};
+        WHERE member_seq = #{memberSeq}
     </select>
     <select id="checkMemberExisted">
         SELECT member_seq, member_gb

@@ -8,7 +8,6 @@ import com.green.gajigaji.member.exception.MemberErrorCode;
 import com.green.gajigaji.member.model.GetMemberRes;
 import com.green.gajigaji.member.model.UpdateMemberReq;
 import com.green.gajigaji.member.model.UpdateMemberRes;
-import com.green.gajigaji.review.exception.ReviewErrorCode;
 import com.green.gajigaji.security.AuthenticationFacade;
 import com.green.gajigaji.user.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Member;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -75,7 +73,7 @@ public class MemberService {
         if(roleChk == null) {
             throw new CustomException(MemberErrorCode.NOT_JOINED_USER); // 해당 모임에 없는 유저입니다 체크
         } else if(roleChk == 1) {
-            if(checkMapper.checkMemberUserSeq(memberSeq) == userPk) {
+            if(checkMapper.checkMemberUserSeqByMemberSeq(memberSeq) == userPk) {
                 throw new CustomException(MemberErrorCode.NOT_ALLOWED_TO_PRESIDENT);
             }
             mapper.updateMemberGb(memberSeq);
@@ -83,7 +81,7 @@ public class MemberService {
         } else if(roleChk == 3) {
             throw new CustomException(MemberErrorCode.ALREADY_LEFT_USER); // 이미 탈퇴된 유저입니다.
         } else {
-            if(checkMapper.checkMemberUserSeq(memberSeq) != userPk) {
+            if(checkMapper.checkMemberUserSeqByMemberSeq(memberSeq) != userPk) {
                 throw new CustomException(MemberErrorCode.NOT_MATCHED_USER); // 접속한 유저와 탈퇴하려는 유저의 pk가 다름
             }
             mapper.updateMemberGb(memberSeq);
