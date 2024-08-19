@@ -18,6 +18,7 @@
         INNER JOIN user_master C
         ON B.member_user_seq = C.user_seq
         WHERE comment_board_seq = #{boardSeq}
+        ORDER BY comment_seq DESC
         limit #{startIdx}, #{size}
     </select>
 

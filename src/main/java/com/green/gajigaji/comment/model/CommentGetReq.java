@@ -14,6 +14,11 @@ public class CommentGetReq  {
     private Integer page;
     private int startIdx;
 
+
+
+
+    //   private int startIdx;
+
     public CommentGetReq(Integer page, Integer size, long boardSeq) {
         this.page = page;
         this.size = size;
@@ -25,10 +30,12 @@ public class CommentGetReq  {
         this.boardSeq = boardSeq;
     }
 
+
+
     //  public CommentGetReq(long boardSeq, Integer page, Integer size) {
-   //     super(page, size);
-    //    this.boardSeq = boardSeq;
-   // }
+     //   super(page, size);
+     //   this.boardSeq = boardSeq;
+    //}
 }
 
 

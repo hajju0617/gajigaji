@@ -13,5 +13,5 @@ public interface CommentMapper {
     int deleteBoardComment(CommentDeleteReq p);
     int patchBoardComment(CommentPatchReq p);
     List<CommentGetRes> getBoardComment(CommentGetReq data);
-    long getTotalCount(long CommentBoardSeq);
+    long getTotalCount(long boardSeq);
 }
