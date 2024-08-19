@@ -17,7 +17,7 @@
         , party_intro = #{partyIntro}
         , party_join_form = #{partyJoinForm}
         , party_pic = #{partyPic}
-        , party_auth_gb = 0
+        , party_auth_gb = 1
     </insert>
     <insert id="postMemberForPostParty">
         INSERT INTO party_member

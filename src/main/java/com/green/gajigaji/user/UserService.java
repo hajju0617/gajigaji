@@ -120,8 +120,8 @@ public class UserService {
         log.info("appProperties.getJwt().getRefreshTokenCookieName() : {}", appProperties.getJwt().getRefreshTokenCookieName());
         cookieUtils.setCookie(res, appProperties.getJwt().getRefreshTokenCookieName(), refreshToken, refreshTokenMaxAge);
 
-        return SignInRes.builder()                      // 프론트쪽 요청
-                .userNickname(userInfo.getUserNickname())
+        return SignInRes.builder()                              // 프론트쪽 요청이 있어서 반환값 많음
+                .userNickname(userInfo.getUserNickname())       // 소셜 로그인시 프론트에서 하드코딩 처리
                 .userPic(userInfo.getUserPic())
                 .userSeq(userInfo.getUserSeq())
                 .userBirth(userInfo.getUserBirth())
