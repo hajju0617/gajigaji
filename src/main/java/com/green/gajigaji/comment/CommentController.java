@@ -77,7 +77,7 @@ public class CommentController {
     "<p><strong> boardSeq </strong> : 게시글PK (long) </p>" +
     "<p><strong> page </strong> : 페이지 입력 (Integer) </p>")
     public ResultDto<CommentGetPage> getComment(@RequestParam(name = "boardSeq") long boardSeq, Integer page, Integer size) {
-      CommentGetReq p = new CommentGetReq(page, size, boardSeq);
+      CommentGetReq p = new CommentGetReq(page, size,boardSeq);
 
       CommentGetPage list = service.getBoardComment(p);
 
