@@ -51,6 +51,16 @@ public class BudgetService {
         } else {
             PartyBudget partyBudget = new PartyBudget();
 
+            PartyMaster partyMaster = partyRepository.getReferenceById(p.getBudgetPartySeq());
+            PartyMember partyMember = memberRepository.getReferenceById(p.getBudgetMemberSeq());
+            partyBudget.setPartyMaster(partyMaster);
+            partyBudget.setPartyMember(partyMember);
+            partyBudget.setBudgetGb(p.getBudgetGb());
+            partyBudget.setBudgetAmount(p.getBudgetAmount());
+            partyBudget.setBudgetDt(p.getBudgetDt());
+            partyBudget.setBudgetText(p.getBudgetText());
+            repository.save(partyBudget);
+
             if(budgetPic != null && !budgetPic.isEmpty()){
                 String saveFileName = customFileUtils.makeRandomFileName(budgetPic);
                 p.setBudgetPic(saveFileName);
@@ -64,17 +74,7 @@ public class BudgetService {
                     throw new RuntimeException(PIC_SAVE_ERROR);
                 }
             }
-            PartyMaster partyMaster = partyRepository.getReferenceById(p.getBudgetPartySeq());
-            PartyMember partyMember = memberRepository.getReferenceById(p.getBudgetMemberSeq());
-            partyBudget.setPartyMaster(partyMaster);
-            partyBudget.setPartyMember(partyMember);
-            partyBudget.setBudgetGb(p.getBudgetGb());
-            partyBudget.setBudgetAmount(p.getBudgetAmount());
-            partyBudget.setBudgetDt(p.getBudgetDt());
-            partyBudget.setBudgetText(p.getBudgetText());
-
             repository.save(partyBudget);
-
             return ResultDto.resultDto(HttpStatus.OK, 1, POST_SUCCESS_MESSAGE);
         }
     }
@@ -94,7 +94,6 @@ public class BudgetService {
                 String path = String.format("budget/%d", p.getBudgetSeq());
                 String saveFileName = customFileUtils.makeRandomFileName();
                 String target = String.format("%s/%s", path, saveFileName);
-
                 try {
                     customFileUtils.deleteFolder(path);
                     customFileUtils.makeFolders(path);
