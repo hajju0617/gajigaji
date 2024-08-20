@@ -82,9 +82,11 @@ class PartyMasterBudgetServiceTest {
 
     @Test
     void getBudgetMember() {
+
     }
 
     @Test
     void getBudgetMonthly() {
+
     }
 }

@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -23,12 +24,13 @@ public class SignInRes {
     private String userNickname;
 
     private String userAddr;
+
     @Schema(example = "2000-01-01", description = "유저 생년월일")
-    private String userBirth;
+    private Date userBirth;
 
     @Schema(example = "남자(2) / 여자(1)", description = "유저 성별")
     private int userGender;
-    private String userGenderNm;
+//    private String userGenderNm;
 
     private String userPhone;
     @Schema(example = "asdfqwer123.jpg", description = "유저 프로필 사진")

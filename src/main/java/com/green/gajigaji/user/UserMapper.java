@@ -13,7 +13,7 @@ public interface UserMapper {
 
     SocialUserProfile socialUserProfile(String userEmail, SignInProviderType providerType);
 
-    UserDetails getDetailUserInfo(long userSeq);
+    UserData getDetailUserInfo(long userSeq);
     String getUserPw(long userSeq);
 
     int patchPassword(UpdatePasswordReq p);
@@ -29,7 +29,7 @@ public interface UserMapper {
 
     int updateUserInfo(UpdateUserInfoReq p);
 
-    String findUserId(FindUserReq p);
+    String findUserId(FindIdReq p);
 
     void checkAuthNum(String email);
     int setPassword(FindPasswordReq p);

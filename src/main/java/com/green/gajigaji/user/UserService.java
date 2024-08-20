@@ -14,7 +14,6 @@ import com.green.gajigaji.security.jwt.JwtTokenProviderV2;
 import com.green.gajigaji.user.jpa.UserEntity;
 import com.green.gajigaji.user.usercommon.CommonUser;
 import com.green.gajigaji.user.model.*;
-import com.green.gajigaji.user.usercommon.UserErrorMessage;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,7 +23,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -99,18 +100,20 @@ public class UserService {
         return userEntity.getUserSeq();
     }
 
+//    SimpleInfo userInfo = mapper.getSimpleUserInfo(p.getUserEmail());
     public SignInRes postSignIn(HttpServletResponse res, SignInReq p) {
-        SimpleInfo userInfo = mapper.getSimpleUserInfo(p.getUserEmail());
 
-        if(userInfo == null || !(p.getUserEmail().equals(userInfo.getUserEmail())) || !(passwordEncoder.matches(p.getUserPw(), userInfo.getUserPw()))) {
+        UserEntity userEntity = userRepository.getUserEntityByUserEmail(p.getUserEmail());
+
+        if(userEntity == null || !(p.getUserEmail().equals(userEntity.getUserEmail())) || !(passwordEncoder.matches(p.getUserPw(), userEntity.getUserPw()))) {
             throw new CustomException(INCORRECT_ID_PW);
         }
 
         MyUser myUser = MyUser.builder()
-                .userId(userInfo.getUserSeq())
-                .role(userInfo.getUserRole())
+                .userId(userEntity.getUserSeq())
+                .role(userEntity.getUserRole())
                 .build();
-        log.info("userInfo.getUserRole() : {}", userInfo.getUserRole());
+        log.info("userInfo.getUserRole() : {}", userEntity.getUserRole());
 
         String accessToken = jwtTokenProvider.generateAccessToken(myUser);
         String refreshToken = jwtTokenProvider.generateRefreshToken(myUser);
@@ -121,18 +124,18 @@ public class UserService {
         cookieUtils.setCookie(res, appProperties.getJwt().getRefreshTokenCookieName(), refreshToken, refreshTokenMaxAge);
 
         return SignInRes.builder()                              // 프론트쪽 요청이 있어서 반환값 많음
-                .userNickname(userInfo.getUserNickname())       // 소셜 로그인시 프론트에서 하드코딩 처리
-                .userPic(userInfo.getUserPic())
-                .userSeq(userInfo.getUserSeq())
-                .userBirth(userInfo.getUserBirth())
-                .userName(userInfo.getUserName())
-                .userGender(userInfo.getUserGender())
-                .userEmail(userInfo.getUserEmail())
-                .userAddr(userInfo.getUserAddr())
-                .userPhone(userInfo.getUserPhone())
-                .userGenderNm(userInfo.getUserGenderNm())
+                .userNickname(userEntity.getUserNickname())       // 소셜 로그인시 프론트에서 하드코딩 처리
+                .userPic(userEntity.getUserPic())
+                .userSeq(userEntity.getUserSeq())
+                .userBirth(userEntity.getUserBirth())
+                .userName(userEntity.getUserName())
+                .userGender(userEntity.getUserGender())
+                .userEmail(userEntity.getUserEmail())
+                .userAddr(userEntity.getUserAddr())
+                .userPhone(userEntity.getUserPhone())
+                .userGender(userEntity.getUserGender())
                 .accessToken(accessToken)
-                .userRole(userInfo.getUserRole())
+                .userRole(userEntity.getUserRole())
                 .build();
     }
 
@@ -147,7 +150,8 @@ public class UserService {
             throw new CustomException(EXPIRED_TOKEN);
         }
 
-        org.springframework.security.core.userdetails.UserDetails auth = jwtTokenProvider.getUserDetailsFromToken(refreshToken);
+        UserDetails auth = jwtTokenProvider.getUserDetailsFromToken(refreshToken);
+
 
 
         MyUser myUser = ((MyUserDetails)auth).getMyUser();
@@ -193,12 +197,12 @@ public class UserService {
         return mapper.deleteUser(userPk);
     }
 
-    public UserDetails getDetailUserInfo() {
+    public UserData getDetailUserInfo() {
         long userPk = authenticationFacade.getLoginUserId();
-        UserDetails userDetails = mapper.getDetailUserInfo(userPk);
-        log.info("userEntity : {}", userDetails);
+        UserData userData = mapper.getDetailUserInfo(userPk);
+        log.info("userEntity : {}", userData);
 
-        return userDetails;
+        return userData;
     }
 
     public int duplicatedCheck(String str, int num) {   // 1 : 이메일, 2 : 닉네임
@@ -249,8 +253,10 @@ public class UserService {
         return result;
     }
 
-    public String findUserId(FindUserReq p) {
-        String userEmail = mapper.findUserId(p);
+    public String findUserId(FindIdReq p) {
+//        String userEmail = mapper.findUserId(p);
+        Date userBirth = CommonUser.convertToDate(p.getUserBirth());
+        String userEmail = userRepository.findUserId(p.getUserName(), p.getUserPhone(), userBirth);
         if(userEmail == null) {
             throw new CustomException(NOT_FOUND_MESSAGE);
         }

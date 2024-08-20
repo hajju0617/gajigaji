@@ -20,13 +20,9 @@ public class CommentGetReq  {
     //   private int startIdx;
 
     public CommentGetReq(Integer page, Integer size, long boardSeq) {
-        this.page = page;
-        this.size = size;
-        if(page != 0 && size != 0) {
-            this.startIdx = this.page - 1 < 0 ? 0 : (this.page - 1) * this.size;
-        } else {
-            startIdx = 0;
-        }
+        this.page = page == null ? 1 : page;
+        this.size = size == null ? 15 : size;
+        this.startIdx = this.page - 1 < 0 ? 0 : (this.page - 1) * this.size;
         this.boardSeq = boardSeq;
     }
 

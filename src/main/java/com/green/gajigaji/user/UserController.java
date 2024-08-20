@@ -9,15 +9,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Nullable;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -174,9 +171,9 @@ public class UserController {
                             "<p>  2 : 실패 </p> " +
                             "<p>  3 : 에러 </p> "
     )
-    public ResultDto<UserDetails> getDetailUserInfo() {
-        UserDetails result = service.getDetailUserInfo();
-        return ResultDto.<UserDetails>builder()
+    public ResultDto<UserData> getDetailUserInfo() {
+        UserData result = service.getDetailUserInfo();
+        return ResultDto.<UserData>builder()
                 .status(HttpStatus.OK).code(SUCCESS)
                 .resultMsg(SUCCESS_MESSAGE).resultData(result).build();
     }
@@ -262,7 +259,7 @@ public class UserController {
                             "<p>  2 : 실패 -> (비회원가입 or 아이디 틀림 or 비밀번호 틀림) </p> " +
                             "<p>  3 : 에러 </p> "
     )
-    public ResultDto<String> findUserId(@RequestBody FindUserReq p) {
+    public ResultDto<String> findUserId(@RequestBody FindIdReq p) {
             String result = service.findUserId(p);
             return ResultDto.<String>builder()
                     .status(HttpStatus.OK).code(SUCCESS)
