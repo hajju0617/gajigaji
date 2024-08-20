@@ -256,6 +256,7 @@ public class UserService {
     public String findUserId(FindIdReq p) {
 //        String userEmail = mapper.findUserId(p);
         Date userBirth = CommonUser.convertToDate(p.getUserBirth());
+
         String userEmail = userRepository.findUserId(p.getUserName(), p.getUserPhone(), userBirth);
         if(userEmail == null) {
             throw new CustomException(NOT_FOUND_MESSAGE);
