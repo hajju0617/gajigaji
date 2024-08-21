@@ -58,7 +58,7 @@ public class BoardService {
         for (String fileName : fileNames) {
             mapper.deleteBoardPics(p.getBoardSeq(), fileName);
         }
-        return mapper.deleteBoard(p.getBoardSeq(), p.getBoardMemberSeq(), p.getBoardPartySeq());
+       return mapper.deleteBoard(p.getBoardSeq(), p.getBoardMemberSeq(), p.getBoardPartySeq());
     }
 
 
