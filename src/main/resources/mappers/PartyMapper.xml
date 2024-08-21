@@ -71,7 +71,7 @@
         A.party_min_age AS partyMinAge,
         A.party_max_age AS partyMaxAge,
         A.party_gender AS partyGender,
-        (SELECT COUNT(*) FROM party_member WHERE member_party_seq = A.party_seq) AS partyNowMem,
+        (SELECT COUNT(*) FROM party_member WHERE member_party_seq = A.party_seq and member_gb != 2) AS partyNowMem,
         A.party_maximum AS partyMaximum,
         A.party_join_gb AS partyJoinGb,
         A.party_intro AS partyIntro,
@@ -118,7 +118,7 @@
         WHERE B.member_party_seq = A.party_seq AND B.member_role = 1) AS userName,
         A.party_name AS partyName,
         A.party_auth_gb AS partyAuthGb,
-        (SELECT COUNT(*) FROM party_member WHERE member_party_seq = A.party_seq) AS partyNowMem,
+        (SELECT COUNT(*) FROM party_member WHERE member_party_seq = A.party_seq and member_gb != 2) AS partyNowMem,
         A.party_maximum AS partyMaximum,
         A.party_pic AS partyPic
         FROM party_master A
