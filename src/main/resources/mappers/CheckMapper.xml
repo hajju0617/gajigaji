@@ -141,4 +141,10 @@
         WHERE member_user_seq = #{memberUserSeq}
         AND member_party_seq = #{memberPartySeq}
     </select>
+    <select id="checkJoinApplicationForm">
+        SELECT 1
+        FROM party_join
+        WHERE join_party_seq = #{joinPartySeq}
+        AND join_user_seq = #{joinUserSeq}
+    </select>
 </mapper>

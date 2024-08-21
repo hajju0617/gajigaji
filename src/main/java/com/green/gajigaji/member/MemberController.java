@@ -55,7 +55,8 @@ public class MemberController {
             "<strong> 멤버의 역할을 수정합니다. (memberRole 1 = 모임장, 2= 모임원)</strong><p></p>" +
                     "<p><strong> memberPartySeq      </strong> : 모임 PK (long) </p>" +
                     "<p><strong> memberUserSeq      </strong> : 수정할 멤버 PK (long) </p>" +
-                    "<p><strong> memberRole      </strong> : 멤버역할 (int) </p>" )
+                    "<p><strong> memberRole      </strong> : 멤버역할 (int) </p>" +
+    "<p>사용하고 싶으면 문의하세요. 모임장 지정 후 기존 모임장은 일반유저로 변경하는 로직 추가 필요함.</p>")
     @ApiResponse(description =
             "<p> ResponseCode 응답 코드 </p>" +
                     "<p> 1 : 성공 </p>" +
@@ -74,8 +75,8 @@ public class MemberController {
             "<p> ResponseCode 응답 코드 </p>" +
                     "<p> 1 : 성공 </p>" +
                     "<p> 2 : 실패 </p>")
-    public ResultDto<UpdateMemberRes> updateMemberGb(@RequestBody long memberSeq
-    , @RequestBody long memberPartySeq) {
+    public ResultDto<UpdateMemberRes> updateMemberGb(@RequestParam long memberSeq
+    , @RequestParam long memberPartySeq) {
         return service.updateMemberGb(memberSeq, memberPartySeq);
     }
 }

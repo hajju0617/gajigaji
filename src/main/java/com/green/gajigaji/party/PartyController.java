@@ -180,13 +180,12 @@ public class PartyController {
     @PatchMapping("/authGb2")
     @Operation(summary = "모임 삭제(휴먼,복구 기능은 X)" , description =
             "<strong>  모임 상태를 삭제로 변경함 (DB에 정보는 남아있음) <strong><p></p>" +
-                    "<p><strong> partySeq      </strong> : 모임PK (long) </p>" +
-                    "<p><strong> userSeq      </strong> : 모임장 유저PK (long) </p>")
+                    "<p><strong> partySeq      </strong> : 모임PK (long) </p>")
     @ApiResponse(description =
             "<p> ResponseCode 응답 코드 </p>" +
                     "<p> 1 : 성공 </p>" +
                     "<p> 2 : 실패 </p>")
     public ResultDto<Integer> updatePartyAuthGb2(@RequestParam(name ="partySeq") Long partySeq){
-        return service.updatePartyAuthGb2(partySeq, authenticationFacade.getLoginUserId());
+        return service.updatePartyAuthGb2(partySeq);
     }
 }

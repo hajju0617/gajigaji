@@ -18,6 +18,6 @@ public interface PartyService {
     ResultDto<GetPartyRes2> getPartyLeader(GetPartyReq2 p);
     ResultDto<Integer> updateParty(@Nullable MultipartFile partyPic, UpdatePartyReq p) throws Exception;
  //   ResultDto<Integer> updatePartyAuthGb1(Long partySeq);
-    ResultDto<Integer> updatePartyAuthGb2(Long partySeq, Long userSeq);
+    ResultDto<Integer> updatePartyAuthGb2(Long partySeq);
     ResultDto<List<GetPartyRes>> getParty();
 }

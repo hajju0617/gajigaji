@@ -39,15 +39,31 @@ public class MemberService {
 
     //모임의 멤버들의 정보 불러오기
     public ResultDto<List<GetMemberRes>> getMember(Long memberPartySeq) {
-        /** 일부러 에러를 터트려서 원하는 값을 return 함. (설명을 리턴 값 번호 + 에러가 발생한 이유로 정리함.)
-         * exception 부분 마우스 올리면 추가 주석 나옴. (('CRUD 약자' + '번호' + '메소드명') + 설명 있음) */
+        //JWT 예외처리
+        long userPk = authenticationFacade.getLoginUserId();
+        if(userMapper.userExists(userPk) == 0) {
+            throw new CustomException(MemberErrorCode.NOT_FOUND_USER);
+        }
 
+        Integer roleChk = checkMapper.checkMemberRole(memberPartySeq, userPk);
+        if(roleChk == null) {
+            throw new CustomException(MemberErrorCode.NOT_JOINED_USER); // 해당 모임에 없는 유저입니다 체크
+        }
         // 멤버 정보들 return
         return ResultDto.resultDto(HttpStatus.OK,1, " 멤버들의 정보를 불러왔습니다.", mapper.getMember(memberPartySeq));
     }
 
     //모임의 멤버 한명의 정보 불러오기
     public ResultDto<GetMemberRes> getMemberDetail(Long memberPartySeq, Long memberUserSeq) {
+        //JWT 예외처리
+        long userPk = authenticationFacade.getLoginUserId();
+        if(userMapper.userExists(userPk) == 0) {
+            throw new CustomException(MemberErrorCode.NOT_FOUND_USER);
+        }
+        Integer roleChk = checkMapper.checkMemberRole(memberPartySeq, userPk);
+        if(roleChk == null) {
+            throw new CustomException(MemberErrorCode.NOT_JOINED_USER); // 해당 모임에 없는 유저입니다 체크
+        }
         // 멤버 한명 정보들 return
         return ResultDto.resultDto(HttpStatus.OK,1, "멤버 한명의 정보를 불러왔습니다."
                 , mapper.getMemberDetail(memberPartySeq, memberUserSeq));
@@ -55,6 +71,20 @@ public class MemberService {
 
     //멤버 역할 수정(3차때 사용)
     public ResultDto<UpdateMemberRes> updateMember(Long memberPartySeq, UpdateMemberReq p) {
+        //JWT 예외처리
+        long userPk = authenticationFacade.getLoginUserId();
+        if(userMapper.userExists(userPk) == 0) {
+            throw new CustomException(MemberErrorCode.NOT_FOUND_USER);
+        }
+        Integer roleChk = checkMapper.checkMemberRole(memberPartySeq, userPk);
+        if(roleChk == null) {
+            throw new CustomException(MemberErrorCode.NOT_JOINED_USER); // 해당 모임에 없는 유저입니다 체크
+        }
+
+        if(checkMapper.checkMemberRole(memberPartySeq, userPk) != 1) {
+            throw new CustomException(MemberErrorCode.NOT_ALLOWED);
+        }
+
         // 멤버 역할 수정
         p.setMemberPartySeq(memberPartySeq);
         mapper.updateMember(p);
