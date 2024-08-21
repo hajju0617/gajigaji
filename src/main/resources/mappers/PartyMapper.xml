@@ -262,7 +262,7 @@
             AND A.party_seq = #{partySeq}
         </if>
         <if test="search == 1">
-            AND (TRIM(REPLACE(A.party_name,' ','')) LIKE CONCAT('%', #{searchData}, '%')
+            AND TRIM(REPLACE(A.party_name,' ','')) LIKE CONCAT('%', #{searchData}, '%')
         </if>
         <if test="search == 2">
             AND TRIM(REPLACE(A.party_location,' ','')) LIKE CONCAT('%', #{searchData}, '%')
@@ -271,7 +271,7 @@
             AND TRIM(REPLACE(A.user_name,' ','')) LIKE CONCAT('%', #{searchData}, '%')
         </if>
         <if test="search == 4">
-            AND (TRIM(REPLACE(A.party_name,' ','')) LIKE CONCAT('%', #{searchData}, '%')
+            AND TRIM(REPLACE(A.party_name,' ','')) LIKE CONCAT('%', #{searchData}, '%')
             OR TRIM(REPLACE(A.party_location,' ','')) LIKE CONCAT('%', #{searchData}, '%')
             OR TRIM(REPLACE(A.user_name,' ','')) LIKE CONCAT('%', #{searchData}, '%')
         </if>
