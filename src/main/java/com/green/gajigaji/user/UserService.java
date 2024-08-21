@@ -6,6 +6,7 @@ import com.green.gajigaji.common.exception.CustomException;
 import com.green.gajigaji.common.model.AppProperties;
 import com.green.gajigaji.common.model.CookieUtils;
 import com.green.gajigaji.common.model.CustomFileUtils;
+import com.green.gajigaji.member.jpa.MemberRepository;
 import com.green.gajigaji.security.AuthenticationFacade;
 import com.green.gajigaji.security.MyUser;
 import com.green.gajigaji.security.MyUserDetails;
@@ -46,6 +47,7 @@ public class UserService {
     private final AppProperties appProperties;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
 
 
     @Transactional
@@ -197,6 +199,7 @@ public class UserService {
             throw new CustomException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
 
+        memberRepository.updatePartyMemberGb(userPk);
         return userRepository.deactivateUser(userPk);
     }
 
@@ -210,15 +213,23 @@ public class UserService {
     }
 
     public int duplicatedCheck(String str, int num) {   // 1 : 이메일, 2 : 닉네임
-        switch (num) {
-            case 1 -> num = mapper.emailExists(str);
-            case 2 -> num = mapper.duplicatedCheckNickname(str);
+//        switch (num) {
+//            case 1 -> num = mapper.emailExists(str);
+//            case 2 -> num = mapper.duplicatedCheckNickname(str);
+//            default -> throw new CustomException(INPUT_VALIDATION_MESSAGE);
+//        }
+//        if(num == SUCCESS) {
+//            throw new CustomException(IS_DUPLICATE);
+//        }
+        boolean isAlreadyUsed = switch (num) {
+            case 1 -> userRepository.existsUserEntityByUserEmail(str);
+            case 2 -> userRepository.existsUserEntityByUserNickname(str);
             default -> throw new CustomException(INPUT_VALIDATION_MESSAGE);
-        }
-        if(num == SUCCESS) {
+        };
+        if (isAlreadyUsed) {
             throw new CustomException(IS_DUPLICATE);
         }
-        return num;
+        return 1;
     }
 
     @Transactional

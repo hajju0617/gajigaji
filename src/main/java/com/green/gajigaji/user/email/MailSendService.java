@@ -152,22 +152,6 @@ public class MailSendService {
         } catch (JsonProcessingException e) {
             throw new CustomException(UserErrorMessage.TRY_AGAIN_MESSAGE);
         }
-//        redisUtil.setDataExpire(Integer.toString(authNumber),toMail/*받는 사람 이메일*/,60);
-//
-//        LocalTime oneMinuteLater = now.plusMinutes(1);
-//        String timeStr = now.toString();
-//        try {
-//            Thread.sleep(60 * 1000); // 1분 = 60초 = 60 * 1000 밀리초
-//            LocalTime current = LocalTime.now();
-//            if (current.isAfter(oneMinuteLater) || current.equals(oneMinuteLater)) {
-//                log.info("current : {}", current);
-//                log.info("oneMinuteLater : {}", oneMinuteLater);
-//                System.out.println("인증 번호 유효시간 초과");
-//                timeCheck = true;
-//            }
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
     }
 
     public void handlePartyRequest(String email, String text) {

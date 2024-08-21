@@ -15,7 +15,9 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     boolean existsUserEntityByUserEmail(String userEmail);
 
+
     UserEntity findUserEntityByUserEmail(String userEmail);
+    UserEntity findUserEntityByUserSeq(Long userSeq);
 
     @Query("SELECT u.userEmail " +
            "FROM userMaster u " +
@@ -35,7 +37,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             "WHERE u.userSeq = :userSeq AND u.userState = 1")
     int deactivateUser(Long userSeq);
 
-    UserEntity findUserEntityByUserSeq(Long userSeq);
+
+
 
 
 
