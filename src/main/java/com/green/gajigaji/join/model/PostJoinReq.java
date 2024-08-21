@@ -12,6 +12,7 @@ public class PostJoinReq {
     @JsonIgnore
     @Schema(example = "1", description = "모임 PK")
     private Long joinPartySeq;
+    @JsonIgnore
     @Schema(example = "2", description = "유저 PK")
     private Long joinUserSeq;
     @Schema(example = "00년생, 홍길동입니다.", description = "가입 신청문")

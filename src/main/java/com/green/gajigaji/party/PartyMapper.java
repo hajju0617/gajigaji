@@ -2,6 +2,8 @@ package com.green.gajigaji.party;
 
 import com.green.gajigaji.party.model.*;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.lang.Nullable;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -24,6 +26,7 @@ public interface PartyMapper {
     long getTotalElements(int search, String searchData, long partySeq);
 
     int updateParty(UpdatePartyReq p);
+    int updatePartyRejected(UpdatePartyReq p);
 //    int updatePartyAuthGb1(Long partySeq, Long userSeq);
     void updatePartyAuthGb2(Long partySeq);
 }

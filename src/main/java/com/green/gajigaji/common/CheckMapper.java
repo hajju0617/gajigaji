@@ -32,5 +32,9 @@ public interface CheckMapper {
     Integer checkReviewPics(long reviewSeq);
     Integer checkMemberRole(long memberPartySeq, long memberUserSeq);
     Integer checkMemberUserSeqByMemberSeq(long memberSeq);
+    Integer checkJoinApplicationForm(long joinPartySeq, long joinUserSeq);
+    Integer checkPartyAuthGb(long partySeq);
+    Integer checkPartyNumberOfPeople(long partySeq);
+    Integer checkPartyMaximumNumberOfPeople(long partySeq);
     //Integer checkMemberExisted(long memberPartySeq, long memberUserSeq);
 }

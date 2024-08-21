@@ -1,11 +1,13 @@
 package com.green.gajigaji.party;
 
+import com.green.gajigaji.common.CheckMapper;
+import com.green.gajigaji.common.exception.CustomException;
 import com.green.gajigaji.common.model.CustomFileUtils;
 import com.green.gajigaji.common.model.ResultDto;
+import com.green.gajigaji.member.exception.MemberErrorCode;
 import com.green.gajigaji.party.model.*;
-import com.green.gajigaji.review.ReviewMapper;
-import com.green.gajigaji.review.model.GetReviewUserRes;
 import com.green.gajigaji.security.AuthenticationFacade;
+import com.green.gajigaji.user.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,13 +24,19 @@ public class PartyServiceImpl implements PartyService {
     private final PartyMapper mapper;
     private final CustomFileUtils customFileUtils;
     private final AuthenticationFacade authenticationFacade;
+    private final UserMapper userMapper;
+    private final CheckMapper checkMapper;
 
     //모임 신청 + 모임장 등록 (모임을 신청한 유저를 모임장으로 등록함)
     //throws Exceoption은 PartyExceptionHandler의 Exception이 받음. return : 서버에러 입니다.
     //p의 partyLocation 값은 아래 "getPartyLocation" 주석을 참고하시오.
     public ResultDto<PostPartyRes> postParty(@Nullable MultipartFile partyPic, PostPartyReq p) throws Exception {
-
-        p.setUserSeq(authenticationFacade.getLoginUserId());
+        //JWT 예외처리
+        long userPk = authenticationFacade.getLoginUserId();
+        if(userMapper.userExists(userPk) == 0) {
+            throw new CustomException(MemberErrorCode.NOT_FOUND_USER);
+        }
+        p.setUserSeq(userPk);
         /** 일부러 에러를 터트려서 원하는 값을 return 함. (설명을 리턴 값 번호 + 에러가 발생한 이유로 정리함.)
          * exception 부분 마우스 올리면 추가 주석 나옴. (('CRUD 약자' + '번호' + '메소드명') + 설명 있음)
          */
@@ -105,6 +113,11 @@ public class PartyServiceImpl implements PartyService {
 
     //나의 모임들 불러오기(내가 모임장인 모임은 제외)
     public ResultDto<GetPartyRes2> getPartyMine(GetPartyReq2 p) {
+        //JWT 예외처리
+        long userPk = authenticationFacade.getLoginUserId();
+        if(userMapper.userExists(userPk) == 0) {
+            throw new CustomException(MemberErrorCode.NOT_FOUND_USER);
+        }
 
         // 총 페이지, 모임 수 계산
         int TotalElements = mapper.getPartyMineCount(p.getUserSeq());
@@ -119,6 +132,11 @@ public class PartyServiceImpl implements PartyService {
 
     //내가 모임장인 모임들 불러오기
     public ResultDto<GetPartyRes2> getPartyLeader(GetPartyReq2 p) {
+        //JWT 예외처리
+        long userPk = authenticationFacade.getLoginUserId();
+        if(userMapper.userExists(userPk) == 0) {
+            throw new CustomException(MemberErrorCode.NOT_FOUND_USER);
+        }
 
         // 총 페이지, 모임 수 계산
         int TotalElements = mapper.getPartyLeaderCount(p.getUserSeq());
@@ -127,12 +145,22 @@ public class PartyServiceImpl implements PartyService {
         // return 할 모임 정보 정리
         List<GetPartyRes2List> list = mapper.getPartyLeader(p);
         GetPartyRes2 res2 = new GetPartyRes2(TotalElements, TotalPages, list);
-        return ResultDto.resultDto(HttpStatus.OK, 1, "나의 모임들을 불러왔습니다.(내가 모임장인 것은 제외)", res2);
+        return ResultDto.resultDto(HttpStatus.OK, 1, "나의 모임들을 불러왔습니다.(내가 모임장인 것만)", res2);
     }
 
     //모임 정보 수정
     public ResultDto<Integer> updateParty(@Nullable MultipartFile partyPic, UpdatePartyReq p) throws Exception {
-        p.setUserSeq(authenticationFacade.getLoginUserId());
+        //JWT 예외처리
+        long userPk = authenticationFacade.getLoginUserId();
+        if(userMapper.userExists(userPk) == 0) {
+            throw new CustomException(MemberErrorCode.NOT_FOUND_USER);
+        }
+        p.setUserSeq(userPk);
+
+        Integer roleChk = checkMapper.checkMemberRole(p.getPartySeq(), userPk);
+        if (roleChk == null || roleChk != 1) {
+            throw new CustomException(MemberErrorCode.NOT_ALLOWED); // 모임장이 아님
+        }
 
         if (partyPic != null && !partyPic.isEmpty()) {
             // 랜덤 이름, 파일 위치 설정
@@ -147,6 +175,9 @@ public class PartyServiceImpl implements PartyService {
 
             // 모임 정보 수정
             p.setPartyPic(saveFileName);
+        }
+        if(checkMapper.checkPartyAuthGb(p.getPartySeq()) == 3) {
+            return ResultDto.resultDto(HttpStatus.OK, 1, "모임을 재신청하였습니다.", mapper.updatePartyRejected(p));
         }
         return ResultDto.resultDto(HttpStatus.OK, 1, "모임을 수정하였습니다.", mapper.updateParty(p));
     }
@@ -165,8 +196,20 @@ public class PartyServiceImpl implements PartyService {
 //    }
 
     //모임 삭제 (활성화 -> 휴먼으로 모임의 상태만 변경함.)
-    public ResultDto<Integer> updatePartyAuthGb2(Long partySeq, Long userSeq) {
+    public ResultDto<Integer> updatePartyAuthGb2(Long partySeq) {
         // 모임 상태 변경 (PartyAuthGb = 2)
+        //JWT 예외처리
+        //JWT 예외처리
+        long userPk = authenticationFacade.getLoginUserId();
+        if(userMapper.userExists(userPk) == 0) {
+            throw new CustomException(MemberErrorCode.NOT_FOUND_USER);
+        }
+
+        Integer roleChk = checkMapper.checkMemberRole(partySeq, userPk);
+        if (roleChk == null || roleChk != 1) {
+            throw new CustomException(MemberErrorCode.NOT_ALLOWED); // 모임장이 아님
+        }
+
         mapper.updatePartyAuthGb2(partySeq);
         return ResultDto.resultDto(HttpStatus.OK, 1, "모임을 삭제(휴먼) 하였습니다.");
     }
