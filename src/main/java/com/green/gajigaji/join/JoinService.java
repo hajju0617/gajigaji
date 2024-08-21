@@ -38,13 +38,12 @@ public class JoinService {
         if(userMapper.userExists(userPk) == 0) {
             throw new CustomException(JoinErrorCode.NOT_FOUND_USER);
         }
+        p.setJoinPartySeq(joinPartySeq);
+        p.setJoinUserSeq(userPk);
         //모임 맥시멈 인원수와 현재 인원 비교
         if(checkMapper.checkPartyNumberOfPeople(p.getJoinPartySeq()) >= checkMapper.checkPartyMaximumNumberOfPeople(p.getJoinPartySeq())) {
             throw new CustomException(JoinErrorCode.PARTY_MEMBER_FULL);
         }
-
-        p.setJoinPartySeq(joinPartySeq);
-        p.setJoinUserSeq(userPk);
         mapper.postJoin(p);
         return ResultDto.resultDto(HttpStatus.OK,1, " 모임 가입신청을 하였습니다");
     }
