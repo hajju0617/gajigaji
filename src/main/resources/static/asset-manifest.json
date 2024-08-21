@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.4c5e729c.css",
-    "main.js": "/static/js/main.0f789a1d.js",
+    "main.css": "/static/css/main.c6f2accf.css",
+    "main.js": "/static/js/main.c3471c61.js",
     "static/media/notfound.png": "/static/media/notfound.870ec589d3ede19f43f8.png",
     "static/media/cate4.png": "/static/media/cate4.deb958c87276a2bcbec2.png",
     "static/media/cate3.png": "/static/media/cate3.2a9ceabe8f2558aef769.png",
@@ -9,17 +9,20 @@
     "static/media/cate5.png": "/static/media/cate5.6b608fc018e04416a55b.png",
     "static/media/cate1.png": "/static/media/cate1.35ad6ab129a965661f79.png",
     "static/media/banner1.png": "/static/media/banner1.2816a9fe2a703feb983a.png",
+    "static/media/banner2.png": "/static/media/banner2.106d770cfdaa55ee62ac.png",
     "static/media/cate7.png": "/static/media/cate7.0190619580163bbf9deb.png",
     "static/media/cate8.png": "/static/media/cate8.8e3ab841818f2d4689e3.png",
     "static/media/cate6.png": "/static/media/cate6.a772e700c45293236315.png",
     "static/media/meetinga.png": "/static/media/meetinga.6ff36b3c427551ea6391.png",
+    "static/media/chrome_888846.png": "/static/media/chrome_888846.fb03012f7168f90e8c56.png",
+    "static/media/free-icon-kakao-talk-3991999.png": "/static/media/free-icon-kakao-talk-3991999.44a397d76cb4ffd7c230.png",
     "static/media/logo2.png": "/static/media/logo2.07b8a838d6ace8988654.png",
     "index.html": "/index.html",
-    "main.4c5e729c.css.map": "/static/css/main.4c5e729c.css.map",
-    "main.0f789a1d.js.map": "/static/js/main.0f789a1d.js.map"
+    "main.c6f2accf.css.map": "/static/css/main.c6f2accf.css.map",
+    "main.c3471c61.js.map": "/static/js/main.c3471c61.js.map"
   },
   "entrypoints": [
-    "static/css/main.4c5e729c.css",
-    "static/js/main.0f789a1d.js"
+    "static/css/main.c6f2accf.css",
+    "static/js/main.c3471c61.js"
   ]
 }
