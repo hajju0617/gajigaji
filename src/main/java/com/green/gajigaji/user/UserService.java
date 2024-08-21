@@ -28,6 +28,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static com.green.gajigaji.common.GlobalConst.*;
 import static com.green.gajigaji.user.usercommon.UserErrorMessage.*;
@@ -103,7 +104,7 @@ public class UserService {
 //    SimpleInfo userInfo = mapper.getSimpleUserInfo(p.getUserEmail());
     public SignInRes postSignIn(HttpServletResponse res, SignInReq p) {
 
-        UserEntity userEntity = userRepository.getUserEntityByUserEmail(p.getUserEmail());
+        UserEntity userEntity = userRepository.findUserEntityByUserEmail(p.getUserEmail());
 
         if(userEntity == null || !(p.getUserEmail().equals(userEntity.getUserEmail())) || !(passwordEncoder.matches(p.getUserPw(), userEntity.getUserPw()))) {
             throw new CustomException(INCORRECT_ID_PW);
@@ -165,25 +166,26 @@ public class UserService {
 
     public int patchPassword(UpdatePasswordReq p) {
         p.setUserSeq(authenticationFacade.getLoginUserId());
-//        UserEntity user = mapper.getDetailUserInfo(p.getUserSeq());
-        String userPw = mapper.getUserPw(p.getUserSeq());
-
-
+//        String userPw = mapper.getUserPw(p.getUserSeq());
+        String userPw = userRepository.findUserPwByUserSeq(p.getUserSeq());
 
         if (!(passwordEncoder.matches(p.getUserPw(), userPw)) || !(p.getUserNewPw().equals(p.getUserPwCheck()))) {
             throw new CustomException(PASSWORD_CHECK_MESSAGE);
         }
         String newPassword = passwordEncoder.encode(p.getUserNewPw());
-        p.setUserNewPw(newPassword);
-//        p.setUserSeq(user.getUserSeq());
-        return mapper.patchPassword(p);
+//        p.setUserNewPw(newPassword);
+
+        UserEntity user = userRepository.findById(p.getUserSeq()).orElseThrow(() -> new CustomException(NOT_FOUND_MESSAGE));
+        user.setUserPw(newPassword);
+        userRepository.save(user);
+        return 1;
     }
 
     @Transactional
     public int deleteUser() {
         long userPk = authenticationFacade.getLoginUserId();
-        int result = mapper.userExists(userPk);
-        if(result == 0) {
+
+        if (!userRepository.existsUserEntityByUserSeq(userPk)) {
             throw new CustomException(NOT_FOUND_MESSAGE);
         }
         try {
@@ -194,15 +196,17 @@ public class UserService {
         } catch (Exception e) {
             throw new CustomException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
-        return mapper.deleteUser(userPk);
+
+        return userRepository.deactivateUser(userPk);
     }
 
     public UserData getDetailUserInfo() {
         long userPk = authenticationFacade.getLoginUserId();
-        UserData userData = mapper.getDetailUserInfo(userPk);
-        log.info("userEntity : {}", userData);
+//        UserData userData = mapper.getDetailUserInfo(userPk);
+        UserEntity userEntity = userRepository.findUserEntityByUserSeq(userPk);
+        log.info("userEntity : {}", userEntity);
 
-        return userData;
+        return new UserData(userEntity);
     }
 
     public int duplicatedCheck(String str, int num) {   // 1 : 이메일, 2 : 닉네임

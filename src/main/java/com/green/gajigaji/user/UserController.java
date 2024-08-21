@@ -127,13 +127,7 @@ public class UserController {
     }
 
     @PatchMapping()
-    @Operation(summary = "유저 탈퇴" , description =
-            "<strong > 유저 탈퇴 </strong> <p></p>" +
-            "<p><strong> userEmail</strong> : 유저 이메일 (long) </p>" +
-            "<p><strong> userPw</strong> : 유저 비밀번호 (String) </p>" +
-            "<p><strong> userNewPw</strong> : 유저 새로운 비밀번호 (String) </p>" +
-            "<p><strong> userPwCheck</strong> : 유저 새로운 비밀번호 확인 (String) </p>"
-    )
+    @Operation(summary = "유저 탈퇴")
     @ApiResponse(
             description =
                     "<p> ResponseCode 응답 코드 </p> " +

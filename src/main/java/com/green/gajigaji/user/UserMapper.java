@@ -21,10 +21,8 @@ public interface UserMapper {
     int deleteUser(long userSeq);
     int userExists(long userSeq);
 
-    int duplicatedCheckNickname(String userNickname);
     int duplicatedCheckNumber(String userPhone);
     int checkEmail(String userEmail);
-
     void updateUserPic(UpdateUserPicReq p);
 
     int updateUserInfo(UpdateUserInfoReq p);
@@ -32,7 +30,9 @@ public interface UserMapper {
     String findUserId(FindIdReq p);
 
     void checkAuthNum(String email);
+
     int setPassword(FindPasswordReq p);
+    int duplicatedCheckNickname(String userNickname);
     int emailExists(String userEmail);
 
     String adminCheck(long userSeq);

@@ -7,6 +7,7 @@ import com.green.gajigaji.security.SignInProviderType;
 import com.green.gajigaji.security.oauth2.userinfo.OAuth2UserInfo;
 import com.green.gajigaji.security.oauth2.userinfo.OAuth2UserInfoFactory;
 import com.green.gajigaji.user.UserMapper;
+import com.green.gajigaji.user.UserRepository;
 import com.green.gajigaji.user.model.SignInReq;
 import com.green.gajigaji.user.model.SignUpReq;
 import com.green.gajigaji.user.model.SimpleInfo;
@@ -44,6 +45,7 @@ import java.util.List;
 public class MyOAuth2UserService extends DefaultOAuth2UserService {
     private final UserMapper mapper;
     private final OAuth2UserInfoFactory oAuth2UserInfoFactory;
+    private final UserRepository userRepository;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
