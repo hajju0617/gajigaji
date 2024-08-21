@@ -106,7 +106,7 @@ public class UserService {
 //    SimpleInfo userInfo = mapper.getSimpleUserInfo(p.getUserEmail());
     public SignInRes postSignIn(HttpServletResponse res, SignInReq p) {
 
-        UserEntity userEntity = userRepository.findUserEntityByUserEmail(p.getUserEmail());
+        UserEntity userEntity = userRepository.findUserEntityByUserEmailAndProviderType(p.getUserEmail(), SignInProviderType.LOCAL);
 
         if(userEntity == null || !(p.getUserEmail().equals(userEntity.getUserEmail())) || !(passwordEncoder.matches(p.getUserPw(), userEntity.getUserPw()))) {
             throw new CustomException(INCORRECT_ID_PW);

@@ -1,5 +1,6 @@
 package com.green.gajigaji.user;
 
+import com.green.gajigaji.security.SignInProviderType;
 import com.green.gajigaji.user.jpa.UserEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,7 +17,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     boolean existsUserEntityByUserEmail(String userEmail);
 
 
-    UserEntity findUserEntityByUserEmail(String userEmail);
+    UserEntity findUserEntityByUserEmailAndProviderType(String userEmail, SignInProviderType providerType);
     UserEntity findUserEntityByUserSeq(Long userSeq);
 
     @Query("SELECT u.userEmail " +
