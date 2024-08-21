@@ -16,6 +16,7 @@
         FROM party_member A
         JOIN user_master B ON A.member_user_seq = B.user_seq
         WHERE member_party_seq = #{memberPartySeq}
+        AND member_gb != 2
 
 <!--        SELECT-->
 <!--            member_seq AS memberSeq, member_user_seq AS memberUserSeq-->

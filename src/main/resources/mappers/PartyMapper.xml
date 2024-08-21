@@ -17,7 +17,7 @@
         , party_intro = #{partyIntro}
         , party_join_form = #{partyJoinForm}
         , party_pic = #{partyPic}
-        , party_auth_gb = 0
+        , party_auth_gb = 1
     </insert>
     <insert id="postMemberForPostParty">
         INSERT INTO party_member
@@ -172,7 +172,7 @@
     A.party_min_age AS partyMinAge,
     A.party_max_age AS partyMaxAge,
     A.party_gender AS partyGender,
-    (SELECT COUNT(*) FROM party_member WHERE member_party_seq = A.party_seq) AS partyNowMem,
+    (SELECT COUNT(*) FROM party_member WHERE member_party_seq = A.party_seq and member_gb != 2) AS partyNowMem,
     A.party_maximum AS partyMaximum,
     A.party_join_gb AS partyJoinGb,
     A.party_intro AS partyIntro,
@@ -207,7 +207,7 @@
         A.party_min_age AS partyMinAge,
         A.party_max_age AS partyMaxAge,
         A.party_gender AS partyGender,
-        (SELECT COUNT(*) FROM party_member WHERE member_party_seq = A.party_seq) AS partyNowMem,
+        (SELECT COUNT(*) FROM party_member WHERE member_party_seq = A.party_seq and member_gb != 2) AS partyNowMem,
         A.party_maximum AS partyMaximum,
         A.party_join_gb AS partyJoinGb,
         A.party_intro AS partyIntro,
@@ -344,6 +344,26 @@
         </if>
         WHERE party_seq = #{partySeq}
     </update>
+
+    <update id="updatePartyRejected">
+        UPDATE party_master
+        SET
+        party_name = #{partyName}
+        , party_genre = #{partyGenre}
+        , party_location = #{partyLocation}
+        , party_min_age = #{partyMinAge}
+        , party_max_age = #{partyMaxAge}
+        , party_gender = #{partyGender}
+        , party_maximum = #{partyMaximum}
+        , party_intro = #{partyIntro}
+        , party_join_form = #{partyJoinForm}
+        , party_auth_gb = 1
+        <if test="partyPic !=null">
+            ,party_pic = #{partyPic}
+        </if>
+        WHERE party_seq = #{partySeq}
+    </update>
+
     <update id="updatePartyAuthGb1">
         UPDATE party_master
         SET party_auth_gb = 2

@@ -176,6 +176,9 @@ public class PartyServiceImpl implements PartyService {
             // 모임 정보 수정
             p.setPartyPic(saveFileName);
         }
+        if(checkMapper.checkPartyAuthGb(p.getPartySeq()) == 3) {
+            return ResultDto.resultDto(HttpStatus.OK, 1, "모임을 재신청하였습니다.", mapper.updatePartyRejected(p));
+        }
         return ResultDto.resultDto(HttpStatus.OK, 1, "모임을 수정하였습니다.", mapper.updateParty(p));
     }
 

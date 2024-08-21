@@ -38,6 +38,11 @@ public class JoinService {
         if(userMapper.userExists(userPk) == 0) {
             throw new CustomException(JoinErrorCode.NOT_FOUND_USER);
         }
+        //모임 맥시멈 인원수와 현재 인원 비교
+        if(checkMapper.checkPartyNumberOfPeople(p.getJoinPartySeq()) >= checkMapper.checkPartyMaximumNumberOfPeople(p.getJoinPartySeq())) {
+            throw new CustomException(JoinErrorCode.PARTY_MEMBER_FULL);
+        }
+
         p.setJoinPartySeq(joinPartySeq);
         p.setJoinUserSeq(userPk);
         mapper.postJoin(p);
@@ -99,6 +104,11 @@ public class JoinService {
             throw new CustomException(JoinErrorCode.NOT_ALLOWED);
         }
         p.setJoinPartySeq(joinPartySeq);
+
+        //모임 맥시멈 인원수와 현재 인원 비교
+        if(checkMapper.checkPartyNumberOfPeople(p.getJoinPartySeq()) >= checkMapper.checkPartyMaximumNumberOfPeople(p.getJoinPartySeq())) {
+            throw new CustomException(JoinErrorCode.PARTY_MEMBER_FULL);
+        }
 
         if(p.getJoinGb() < 1 || p.getJoinGb() > 2) {
             throw new CustomException(JoinErrorCode.BAD_REQUEST_JOIN_GB);

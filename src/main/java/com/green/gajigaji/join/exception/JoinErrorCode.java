@@ -14,7 +14,8 @@ public enum JoinErrorCode implements ErrorCode {
     NOT_FOUND_USER(HttpStatus.NOT_FOUND, "존재하지 않는 유저", FAILURE),
     NOT_ALLOWED(HttpStatus.BAD_REQUEST, "권한이 없습니다.", FAILURE),
     NOT_YOUR_APPLICATION_FORM(HttpStatus.BAD_REQUEST, "본인의 신청서가 아닙니다.", FAILURE),
-    BAD_REQUEST_JOIN_GB(HttpStatus.BAD_REQUEST, "신청 구분이 잘못되었습니다.(정상값 / 1:승인, 2:거절)", FAILURE);
+    BAD_REQUEST_JOIN_GB(HttpStatus.BAD_REQUEST, "신청 구분이 잘못되었습니다.(정상값 / 1:승인, 2:거절)", FAILURE),
+    PARTY_MEMBER_FULL(HttpStatus.BAD_REQUEST, "멤버 정원이 찼습니다.", FAILURE);
 
     private final HttpStatus httpStatus;
     private final String message;

@@ -147,4 +147,22 @@
         WHERE join_party_seq = #{joinPartySeq}
         AND join_user_seq = #{joinUserSeq}
     </select>
+    <select id="checkPartyAuthGb">
+        SELECT party_auth_gb
+        FROM party_master
+        WHERE party_seq = #{partySeq}
+    </select>
+    <select id="checkPartyNumberOfPeople">
+        SELECT COUNT(B.member_party_seq) as numberOfPeople
+        FROM party_master A
+        JOIN party_member B
+        ON A.party_seq = B.member_party_seq
+        WHERE A.party_seq = #{partySeq}
+        AND B.member_gb != 2
+    </select>
+    <select id="checkPartyMaximumNumberOfPeople">
+        SELECT party_maximum
+        FROM party_master
+        WHERE party_seq = #{partySeq}
+    </select>
 </mapper>
