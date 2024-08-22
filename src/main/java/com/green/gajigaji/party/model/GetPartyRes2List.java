@@ -16,4 +16,7 @@ public class GetPartyRes2List {
 
     private String partyPic;
 
+    private long userSeq;
+    private String userPic;
+
 }
