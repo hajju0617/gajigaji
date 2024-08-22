@@ -168,6 +168,20 @@
     </select>
 
 
+    <select id="existingPartiesCreatedByUser">
+    SELECT COUNT(member_seq) FROM party_member A
+    JOIN user_master B
+    ON A.member_user_seq = B.user_seq
+    JOIN party_master C
+    ON A.member_party_seq = C.party_seq
+    WHERE user_seq = #{userSeq} AND member_gb = 1 AND member_role = 1
+    AND (
+    party_auth_gb = 1 OR party_auth_gb = 2
+    )
+    </select>
+
+
+
 
 
 
