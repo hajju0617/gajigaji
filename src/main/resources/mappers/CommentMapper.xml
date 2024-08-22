@@ -50,5 +50,14 @@
         comment_seq = #{commentSeq}
         AND comment_member_seq = #{commentMemberSeq}
     </delete>
-
+    <select id="getCommentListBoard">
+        SELECT comment_seq AS commentSeq
+        , comment_board_seq AS commentBoardSeq
+        , comment_member_seq AS commentMemberSeq
+        , comment_contents AS commentContents
+        , input_dt AS inputDt
+        , update_dt AS updateDt
+        FROM party_board_comment
+        WHERE comment_board_seq = #{boardSeq}
+    </select>
 </mapper>
