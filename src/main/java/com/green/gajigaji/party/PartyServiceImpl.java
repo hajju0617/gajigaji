@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -196,6 +197,7 @@ public class PartyServiceImpl implements PartyService {
 //    }
 
     //모임 삭제 (활성화 -> 휴먼으로 모임의 상태만 변경함.)
+    @Transactional
     public ResultDto<Integer> updatePartyAuthGb2(Long partySeq) {
         // 모임 상태 변경 (PartyAuthGb = 2)
         //JWT 예외처리
@@ -211,6 +213,7 @@ public class PartyServiceImpl implements PartyService {
         }
 
         mapper.updatePartyAuthGb2(partySeq);
+        mapper.updateWhenDeleteParty(partySeq);
         return ResultDto.resultDto(HttpStatus.OK, 1, "모임을 삭제(휴먼) 하였습니다.");
     }
 }
