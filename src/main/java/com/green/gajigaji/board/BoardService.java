@@ -2,6 +2,9 @@ package com.green.gajigaji.board;
 
 
 import com.green.gajigaji.board.model.*;
+import com.green.gajigaji.comment.CommentMapper;
+import com.green.gajigaji.comment.model.CommentDeleteReq;
+import com.green.gajigaji.comment.model.CommentGetRes;
 import com.green.gajigaji.common.model.CustomFileUtils;
 import io.jsonwebtoken.io.IOException;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +25,7 @@ import java.util.List;
 public class BoardService {
     private final BoardMapper mapper;
     private final CustomFileUtils customFileUtils;
+    private final CommentMapper commentMapper ;
 
 
     public BoardPostRes postBoard(List<MultipartFile> pics, BoardPostReq p) {
@@ -57,6 +61,15 @@ public class BoardService {
         List<String> fileNames = mapper.getFileNamesByBoardSeq(p.getBoardSeq());
         for (String fileName : fileNames) {
             mapper.deleteBoardPics(p.getBoardSeq(), fileName);
+        }
+
+        List<CommentGetRes> list = commentMapper.getCommentListBoard(p.getBoardSeq()) ;
+        for(int i = 0 ; i < list.size() ; i++){
+            CommentDeleteReq req = new CommentDeleteReq();
+            req.setCommentSeq(list.get(i).getCommentSeq()) ;
+            req.setCommentMemberSeq(list.get(i).getCommentMemberSeq()) ;
+            int deleteCommentList = commentMapper.deleteBoardComment(req) ;
+            log.info("deleteCommentList: {}", deleteCommentList) ;
         }
        return mapper.deleteBoard(p.getBoardSeq(), p.getBoardMemberSeq(), p.getBoardPartySeq());
     }

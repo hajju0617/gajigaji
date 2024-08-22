@@ -37,5 +37,8 @@ public interface UserMapper {
 
     String adminCheck(long userSeq);
 
+    int existingPartiesCreatedByUser(long userSeq);
+    int deleteRejectedPartiesOnExit(long userSeq);
+
 }
 
