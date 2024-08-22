@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.2da8e245.css",
-    "main.js": "/static/js/main.f57c34c1.js",
+    "main.css": "/static/css/main.babffad7.css",
+    "main.js": "/static/js/main.9799b064.js",
     "static/media/notfound.png": "/static/media/notfound.870ec589d3ede19f43f8.png",
     "static/media/cate4.png": "/static/media/cate4.deb958c87276a2bcbec2.png",
     "static/media/cate3.png": "/static/media/cate3.2a9ceabe8f2558aef769.png",
@@ -18,11 +18,11 @@
     "static/media/free-icon-kakao-talk-3991999.png": "/static/media/free-icon-kakao-talk-3991999.44a397d76cb4ffd7c230.png",
     "static/media/logo2.png": "/static/media/logo2.07b8a838d6ace8988654.png",
     "index.html": "/index.html",
-    "main.2da8e245.css.map": "/static/css/main.2da8e245.css.map",
-    "main.f57c34c1.js.map": "/static/js/main.f57c34c1.js.map"
+    "main.babffad7.css.map": "/static/css/main.babffad7.css.map",
+    "main.9799b064.js.map": "/static/js/main.9799b064.js.map"
   },
   "entrypoints": [
-    "static/css/main.2da8e245.css",
-    "static/js/main.f57c34c1.js"
+    "static/css/main.babffad7.css",
+    "static/js/main.9799b064.js"
   ]
 }
