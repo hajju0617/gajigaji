@@ -180,6 +180,18 @@
     )
     </select>
 
+    <update id="deleteRejectedPartiesOnExit">
+        UPDATE party_master A
+        JOIN party_member B
+        ON A.party_seq = B.member_party_seq
+        AND B.member_role = 1
+        SET A.party_auth_gb = 4
+        WHERE (A.party_auth_gb = 1 OR A.party_auth_gb = 3)
+        AND B.member_user_seq = #{userSeq};
+    </update>
+    
+
+
 
 
 

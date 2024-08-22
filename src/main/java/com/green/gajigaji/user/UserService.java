@@ -202,6 +202,7 @@ public class UserService {
         }
 
         memberRepository.updatePartyMemberGb(userPk);
+        mapper.deleteRejectedPartiesOnExit(userPk);
         return userRepository.deactivateUser(userPk);
     }
 
@@ -215,14 +216,6 @@ public class UserService {
     }
 
     public int duplicatedCheck(String str, int num) {   // 1 : 이메일, 2 : 닉네임
-//        switch (num) {
-//            case 1 -> num = mapper.emailExists(str);
-//            case 2 -> num = mapper.duplicatedCheckNickname(str);
-//            default -> throw new CustomException(INPUT_VALIDATION_MESSAGE);
-//        }
-//        if(num == SUCCESS) {
-//            throw new CustomException(IS_DUPLICATE);
-//        }
         boolean isAlreadyUsed = switch (num) {
             case 1 -> userRepository.existsUserEntityByUserEmail(str);
             case 2 -> userRepository.existsUserEntityByUserNickname(str);
