@@ -380,4 +380,10 @@
         SET party_auth_gb = 4
         WHERE party_seq = #{partySeq}
     </update>
+
+    <update id="updateWhenDeleteParty">
+        UPDATE party_member
+        SET member_gb = 2
+        WHERE member_party_seq = #{memberPartySeq}
+    </update>
 </mapper>
