@@ -19,4 +19,6 @@ public class GetPartyRes2 {
     @Schema(example = "모임 데이터값", description = "모임 데이터값")
     private final List<GetPartyRes2List> list;
 
+
+
 }
