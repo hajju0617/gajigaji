@@ -15,6 +15,7 @@ public class GetPartyRes2List {
     private int partyMaximum;
 
     private String partyPic;
+    private long memberSeq;
 
     private long userSeq;
     private String userPic;

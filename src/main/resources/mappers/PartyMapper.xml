@@ -126,7 +126,8 @@
         A.party_auth_gb AS partyAuthGb,
         (SELECT COUNT(*) FROM party_member WHERE member_party_seq = A.party_seq and member_gb != 2) AS partyNowMem,
         A.party_maximum AS partyMaximum,
-        A.party_pic AS partyPic
+        A.party_pic AS partyPic,
+        B.member_seq as memberSeq
         FROM party_master A
         JOIN party_member B ON A.party_seq = B.member_party_seq
         JOIN user_master C ON B.member_user_seq = C.user_seq
