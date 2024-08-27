@@ -10,6 +10,10 @@
 |<img src="https://github.com/user-attachments/assets/bd4b881f-0627-4a8f-8239-2819641b7ea2" width="180" height="240">|<img src="https://github.com/user-attachments/assets/b95951a6-3f67-4b25-96de-29b81b3746c7" width="180" height="240">|<img src="https://github.com/user-attachments/assets/03cf335b-9988-4d08-b8e8-04126c9fb457" width="180" height="240">|<img src="https://github.com/user-attachments/assets/38d83670-c36d-451d-bf9a-7f78631c0fe7" width="180" height="240">|
 
 - 공용코드 : common
+##### 김범준 (중간 발표 이후 중도이탈)
+- party
+- member
+- join
 ##### 김영록
 - review
 - ranking
@@ -26,14 +30,6 @@
 - partywish
 - admin
 
-
-tmp - party, member, join
-
-
-
-🌿 시연 영상
-
-🌿 기술 스택
-
-🌿 느낌점 (후기)
-
+### 🌿 발표 PPT
+- 중간 발표 : https://www.canva.com/design/DAGLFpAlfAg/5Zs2MbhWYEQNA-TYUNGg6Q/edit
+- 최종 발표 : https://www.canva.com/design/DAGOX4lYCDE/SHGLRkVIZF51cJ9HeQDD1A/edit
