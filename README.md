@@ -11,25 +11,30 @@ URL : http://112.222.157.156:5122
 |<img src="https://github.com/user-attachments/assets/bd4b881f-0627-4a8f-8239-2819641b7ea2" width="180" height="240">|<img src="https://github.com/user-attachments/assets/b95951a6-3f67-4b25-96de-29b81b3746c7" width="180" height="240">|<img src="https://github.com/user-attachments/assets/03cf335b-9988-4d08-b8e8-04126c9fb457" width="180" height="240">|<img src="https://github.com/user-attachments/assets/38d83670-c36d-451d-bf9a-7f78631c0fe7" width="180" height="240">|
 
 - 공용코드 : common
-##### 김범준 (중간 발표 이후 중도이탈)
-- party
-- member
-- join
-##### 김영록
-- review
-- ranking
-##### 송예림 (초기 팀장)
-- budget
-- plan
-- planjoin
-##### 이재문
-- board
-- comment
 ##### 하주원 (최종 팀장)
 - user
 - security
 - partywish
 - admin
+
+##### 김범준 (중간 발표 이후 중도이탈)
+- party
+- member
+- join
+  
+##### 김영록
+- review
+- ranking
+  
+##### 송예림 (초기 팀장)
+- budget
+- plan
+- planjoin
+  
+##### 이재문
+- board
+- comment
+
 
 ### 🌿 발표 PPT
 - 중간 발표 : https://www.canva.com/design/DAGLFpAlfAg/5Zs2MbhWYEQNA-TYUNGg6Q/edit
